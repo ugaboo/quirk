@@ -39,7 +39,6 @@ END:
 }
 
 bool Parser::is_definition(unique_ptr<ast::Stmt>& result) {
-    // L0:
     if (is_function(result)) {
         goto END;
     }
@@ -53,7 +52,7 @@ END:
 
 bool Parser::are_statements(vector<unique_ptr<ast::Stmt>>& result) {
     unique_ptr<ast::Stmt> s;
-    // L0:
+
     if (is_stmt_row(result)) {
         goto END;
     }
@@ -67,7 +66,6 @@ END:
 }
 
 bool Parser::is_compound(unique_ptr<ast::Stmt>& result) {
-    // L0:
     if (is_if(result)) {
         goto END;
     }
@@ -81,7 +79,7 @@ END:
 
 bool Parser::is_stmt_row(vector<unique_ptr<ast::Stmt>>& result) {
     unique_ptr<ast::Stmt> s;
-    // L0:
+
     if (is_small(s)) {
         result.push_back(move(s));
         goto L2;
@@ -116,7 +114,6 @@ END:
 }
 
 bool Parser::is_stmt_col(vector<unique_ptr<ast::Stmt>>& result) {
-    // L0:
     if (scanner.get_token() == Token::NewLine) {
         scanner.move();
         goto L1;
@@ -144,7 +141,6 @@ END:
 }
 
 bool Parser::is_small(unique_ptr<ast::Stmt>& result) {
-    // L0:
     if (is_call_or_asg(result)) {
         goto END;
     }
@@ -168,7 +164,7 @@ END:
 
 bool Parser::is_call_or_asg(unique_ptr<ast::Stmt>& result) {
     unique_ptr<ast::Expr> desig, type, expr;
-    // L0:
+
     if (is_designator(desig)) {
         auto func_call = dynamic_cast<ast::CallExprStmt*>(desig.get());
         if (func_call != nullptr) {
@@ -210,7 +206,6 @@ END:
 }
 
 bool Parser::is_type(unique_ptr<ast::Expr>& result) {
-    // L0:
     if (scanner.get_token() == Token::Name) {
         result = make_unique<ast::NameLiteral>(get_context());
         scanner.move();
@@ -223,7 +218,7 @@ END:
 
 bool Parser::is_return(unique_ptr<ast::Stmt>& result) {
     unique_ptr<ast::Expr> expr;
-    // L0:
+
     if (scanner.get_token() == Token::KwReturn) {
         scanner.move();
         goto L1;
@@ -241,7 +236,7 @@ END:
 
 bool Parser::are_expressions(vector<unique_ptr<ast::Expr>>& result) {
     unique_ptr<ast::Expr> expr;
-    // L0:
+
     if (is_expression(expr)) {
         result.push_back(move(expr));
         goto L2;
@@ -264,7 +259,6 @@ END:
 }
 
 bool Parser::is_expression(unique_ptr<ast::Expr>& result) {
-    // L0:
     if (is_or(result)) {
         goto END;
     }
@@ -275,7 +269,7 @@ END:
 
 bool Parser::is_or(unique_ptr<ast::Expr>& result) {
     unique_ptr<ast::Expr> right;
-    // L0:
+
     if (is_and(result)) {
         goto L2;
     }
@@ -298,7 +292,7 @@ END:
 
 bool Parser::is_and(unique_ptr<ast::Expr>& result) {
     unique_ptr<ast::Expr> right;
-    // L0:
+
     if (is_not(result)) {
         goto L2;
     }
@@ -320,7 +314,6 @@ END:
 }
 
 bool Parser::is_not(unique_ptr<ast::Expr>& result) {
-    // L0:
     if (scanner.get_token() == Token::KwNot) {
         scanner.move();
         goto L1;
@@ -342,7 +335,7 @@ END:
 bool Parser::is_comparison(unique_ptr<ast::Expr>& result) {
     ast::BinaryExpr::Kind kind;
     unique_ptr<ast::Expr> right;
-    // L0:
+
     if (is_bor(result)) {
         goto L2;
     }
@@ -363,7 +356,6 @@ END:
 }
 
 bool Parser::is_relation(ast::BinaryExpr::Kind& result) {
-    // L0:
     if (scanner.get_token() == Token::Less) {
         result = ast::BinaryExpr::Kind::Less;
         scanner.move();
@@ -401,7 +393,7 @@ END:
 
 bool Parser::is_bor(unique_ptr<ast::Expr>& result) {
     unique_ptr<ast::Expr> right;
-    // L0:
+
     if (is_bxor(result)) {
         goto L2;
     }
@@ -424,7 +416,7 @@ END:
 
 bool Parser::is_bxor(unique_ptr<ast::Expr>& result) {
     unique_ptr<ast::Expr> right;
-    // L0:
+
     if (is_band(result)) {
         goto L2;
     }
@@ -447,7 +439,7 @@ END:
 
 bool Parser::is_band(unique_ptr<ast::Expr>& result) {
     unique_ptr<ast::Expr> right;
-    // L0:
+
     if (is_shift(result)) {
         goto L2;
     }
@@ -471,7 +463,7 @@ END:
 bool Parser::is_shift(unique_ptr<ast::Expr>& result) {
     ast::BinaryExpr::Kind kind;
     unique_ptr<ast::Expr> right;
-    // L0:
+
     if (is_arith(result)) {
         goto L2;
     }
@@ -501,7 +493,7 @@ END:
 bool Parser::is_arith(unique_ptr<ast::Expr>& result) {
     ast::BinaryExpr::Kind kind;
     unique_ptr<ast::Expr> right;
-    // L0:
+
     if (is_term(result)) {
         goto L2;
     }
@@ -531,7 +523,7 @@ END:
 bool Parser::is_term(unique_ptr<ast::Expr>& result) {
     ast::BinaryExpr::Kind kind;
     unique_ptr<ast::Expr> right;
-    // L0:
+
     if (is_factor(result)) {
         goto L2;
     }
@@ -570,7 +562,7 @@ END:
 
 bool Parser::is_factor(unique_ptr<ast::Expr>& result) {
     ast::UnaryExpr::Kind kind;
-    // L0:
+
     if (is_power(result)) {
         goto END;
     }
@@ -602,7 +594,7 @@ END:
 
 bool Parser::is_power(unique_ptr<ast::Expr>& result) {
     unique_ptr<ast::Expr> exp;
-    // L0:
+
     if (is_designator(result)) {
         goto L1;
     }
@@ -624,7 +616,6 @@ END:
 }
 
 bool Parser::is_designator(unique_ptr<ast::Expr>& result) {
-    // L0:
     if (is_atom(result)) {
         goto L1;
     }
@@ -639,7 +630,6 @@ END:
 }
 
 bool Parser::is_atom(unique_ptr<ast::Expr>& result) {
-    // L0:
     if (is_list(result)) {
         goto END;
     }
@@ -695,7 +685,7 @@ END:
 
 bool Parser::is_selector(unique_ptr<ast::Expr>& result) {
     vector<unique_ptr<ast::Expr>> args, keys;
-    // L0:
+
     if (scanner.get_token() == Token::LeftParenthesis) {
         scanner.move();
         goto L1;
@@ -747,7 +737,7 @@ END:
 
 bool Parser::is_list(unique_ptr<ast::Expr>& result) {
     vector<unique_ptr<ast::Expr>> exprs;
-    // L0:
+
     if (scanner.get_token() == Token::LeftBracket) {
         scanner.move();
         goto L1;
@@ -774,7 +764,7 @@ bool Parser::is_function(unique_ptr<ast::Stmt>& result) {
     vector<unique_ptr<ast::ParameterDef>> params;
     unique_ptr<ast::Expr> ret_type_expr;
     vector<unique_ptr<ast::Stmt>> stmts;
-    // L0:
+
     if (scanner.get_token() == Token::KwDef) {
         scanner.move();
         goto L1;
@@ -833,7 +823,7 @@ END:
 
 bool Parser::are_parameters(vector<unique_ptr<ast::ParameterDef>>& result) {
     unique_ptr<ast::ParameterDef> param;
-    // L0:
+
     if (is_parameter(param)) {
         result.push_back(move(param));
         goto L2;
@@ -858,7 +848,7 @@ END:
 bool Parser::is_parameter(unique_ptr<ast::ParameterDef>& result) {
     ast::Context context;
     unique_ptr<ast::Expr> type;
-    // L0:
+
     if (scanner.get_token() == Token::Name) {
         context = get_context();
         scanner.move();
@@ -888,7 +878,7 @@ bool Parser::is_if(unique_ptr<ast::Stmt>& result) {
 
     vector<Branch> branches;
     Statements else_stmts;
-    // L0:
+
     if (scanner.get_token() == Token::KwIf) {
         branches.emplace_back();
         scanner.move();
@@ -941,7 +931,7 @@ END:
 bool Parser::is_while(unique_ptr<ast::Stmt>& result) {
     unique_ptr<ast::Expr> condition;
     vector<unique_ptr<ast::Stmt>> body;
-    // L0:
+
     if (scanner.get_token() == Token::KwWhile) {
         scanner.move();
         goto L1;
@@ -969,7 +959,6 @@ END:
 }
 
 bool Parser::is_suite(vector<unique_ptr<ast::Stmt>>& result) {
-    // L0:
     if (is_stmt_row(result)) {
         goto END;
     }
@@ -984,7 +973,7 @@ END:
 bool Parser::is_structure(unique_ptr<ast::Stmt>& result) {
     ast::Context context;
     vector<unique_ptr<ast::FieldDef>> fields;
-    // L0:
+
     if (scanner.get_token() == Token::KwStruct) {
         scanner.move();
         goto L1;
@@ -1014,7 +1003,6 @@ END:
 }
 
 bool Parser::are_fields(vector<unique_ptr<ast::FieldDef>>& result) {
-    // L0:
     if (is_field_row(result)) {
         goto END;
     }
@@ -1028,7 +1016,7 @@ END:
 
 bool Parser::is_field_row(vector<unique_ptr<ast::FieldDef>>& result) {
     unique_ptr<ast::FieldDef> field;
-    // L0:
+
     if (is_field(field)) {
         result.push_back(move(field));
         goto L2;
@@ -1063,7 +1051,6 @@ END:
 }
 
 bool Parser::is_field_col(vector<unique_ptr<ast::FieldDef>>& result) {
-    // L0:
     if (scanner.get_token() == Token::NewLine) {
         scanner.move();
         goto L1;
@@ -1094,7 +1081,7 @@ bool Parser::is_field(unique_ptr<ast::FieldDef>& result) {
     ast::Context context;
     unique_ptr<ast::Expr> type;
     unique_ptr<ast::Expr> init_expr;
-    // L0:
+
     if (scanner.get_token() == Token::Name) {
         context = get_context();
         scanner.move();
