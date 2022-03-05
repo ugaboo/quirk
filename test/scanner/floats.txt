@@ -1,0 +1,5 @@
+[1:1] Float '3.14'
+[1:6] Float '10.'
+[1:10] Float '.001'
+[1:14] NewLine
+[2:1] EndMarker

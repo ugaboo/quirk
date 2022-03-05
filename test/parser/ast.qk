@@ -1,0 +1,82 @@
+_ = []
+[1, 2, 3, 4, 5] = [
+    some_name,
+    18446744073709551615,
+    3.14,
+    True,
+    False,
+    None
+]
+
+x: Int = 42
+y = 101
+z: Float
+
+foo()
+bar(1, 2, 3)
+arr[1, 2] = obj.field
+
+[
+    +1,
+    -1,
+    ~1,
+    1 ** 2,
+    1 * 2,
+    1 / 2,
+    1 % 2,
+    1 // 2,
+    1 + 2,
+    1 - 2,
+    1 << 2,
+    1 >> 2,
+    1 & 2,
+    1 ^ 2,
+    1 | 2,
+    1 < 2,
+    1 > 2,
+    1 == 2,
+    1 <= 2,
+    1 >= 2,
+    1 != 2
+] = [
+    not True,
+    True and False,
+    True or False
+]
+
+_ = 1 + 2 + 3
+_ = 1 + (2 + 3)
+
+if x == 0:
+    x = x + 1
+elif x == 1:
+    x = x - 2
+elif x == -1:
+    x = x + 1
+else:
+    x = 0
+    continue
+
+while x > 0:
+    x = x - 1
+    break
+
+def foo():
+    pass
+
+def bar(x: Int, y: Float):
+    pass
+
+def baz(x: Int) -> Int:
+    x = x * 2
+    return x + 1
+
+struct S:
+    pass
+
+struct Vec2:
+    x: Float
+    y: Float
+
+struct Zero:
+    value = 0.0

@@ -1,0 +1,33 @@
+[1:1] KwDef 'def'
+[1:5] Name 'f'
+[1:6] LeftParenthesis '('
+[1:7] RightParenthesis ')'
+[1:8] Colon ':'
+[1:10] NewLine
+[2:5] Indent
+[2:5] KwIf 'if'
+[2:8] KwTrue 'True'
+[2:12] Colon ':'
+[2:14] NewLine
+[3:9] Indent
+[3:9] KwIf 'if'
+[3:12] KwTrue 'True'
+[3:16] Colon ':'
+[3:18] NewLine
+[4:13] Indent
+[4:13] KwIf 'if'
+[4:16] KwTrue 'True'
+[4:20] Colon ':'
+[4:22] NewLine
+[5:17] Indent
+[5:17] KwReturn 'return'
+[5:24] Name 'b'
+[5:26] NewLine
+[6:9] Dedent
+[6:9] Dedent
+[6:9] KwReturn 'return'
+[6:16] Name 'a'
+[6:18] NewLine
+[8:1] Dedent
+[8:1] Dedent
+[8:1] EndMarker

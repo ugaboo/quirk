@@ -1,0 +1,7 @@
+﻿def f():
+    if True:
+        if True:
+            if True:
+                return b
+        return a
+    

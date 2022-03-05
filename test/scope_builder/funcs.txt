@@ -1,0 +1,16 @@
+1    FuncDefStmt: 'foo' -> Function 64
+2        body: 
+3            CallExprStmt:
+4                designator:
+5                    NameLiteral: 'bar' -> Function 65
+6                args: <empty>
+7    CallExprStmt:
+8        designator:
+9            NameLiteral: 'foo' -> Function 64
+10       args: <empty>
+11   FuncDefStmt: 'bar' -> Function 65
+12       body: <empty>
+13   CallExprStmt:
+14       designator:
+15           NameLiteral: 'foo' -> Function 64
+16       args: <empty>

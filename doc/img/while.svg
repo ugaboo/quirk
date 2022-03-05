@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="379.48563"
+   height="38.395809"
+   version="1.1"
+   id="svg44"
+   sodipodi:docname="while.svg"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview46"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="true"
+     inkscape:snap-text-baseline="true"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:zoom="9.4280904"
+     inkscape:cx="270.94564"
+     inkscape:cy="18.031223"
+     inkscape:window-width="1500"
+     inkscape:window-height="930"
+     inkscape:window-x="-7"
+     inkscape:window-y="-7"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg44">
+    <sodipodi:guide
+       position="183.74635,14.500001"
+       orientation="0,-1"
+       id="guide48" />
+    <inkscape:grid
+       type="xygrid"
+       id="grid50"
+       originx="13.346346"
+       originy="2.8958083" />
+  </sodipodi:namedview>
+  <defs
+     id="defs4">
+    <style
+       type="text/css"
+       id="style2">
+    @namespace &quot;http://www.w3.org/2000/svg&quot;;
+    .line                 {fill: none; stroke: #332900; stroke-width: 1;}
+    .bold-line            {stroke: #141000; shape-rendering: crispEdges; stroke-width: 2;}
+    .thin-line            {stroke: #1F1800; shape-rendering: crispEdges}
+    .filled               {fill: #332900; stroke: none;}
+    text.terminal         {font-family: Verdana, Sans-serif;
+                            font-size: 12px;
+                            fill: #141000;
+                            font-weight: bold;
+                          }
+    text.nonterminal      {font-family: Verdana, Sans-serif;
+                            font-size: 12px;
+                            fill: #1A1400;
+                            font-weight: normal;
+                          }
+    text.regexp           {font-family: Verdana, Sans-serif;
+                            font-size: 12px;
+                            fill: #1F1800;
+                            font-weight: normal;
+                          }
+    rect, circle, polygon {fill: #332900; stroke: #332900;}
+    rect.terminal         {fill: #FFDB4D; stroke: #332900; stroke-width: 1;}
+    rect.nonterminal      {fill: #FFEC9E; stroke: #332900; stroke-width: 1;}
+    rect.text             {fill: none; stroke: none;}
+    polygon.regexp        {fill: #FFF4C7; stroke: #332900; stroke-width: 1;}
+  </style>
+  </defs>
+  <polygon
+     points="1,13 1,21 9,17 "
+     id="polygon6"
+     transform="translate(13.346346,2.8958083)" />
+  <polygon
+     points="9,13 9,21 17,17 "
+     id="polygon8"
+     transform="translate(13.346346,2.8958083)" />
+  <rect
+     x="44.346344"
+     y="5.8958082"
+     width="56"
+     height="32"
+     rx="10"
+     id="rect10" />
+  <rect
+     x="42.346344"
+     y="3.8958082"
+     width="56"
+     height="32"
+     class="terminal"
+     rx="10"
+     id="rect12" />
+  <text
+     class="terminal"
+     x="52.346344"
+     y="23.895809"
+     id="text14">while</text>
+  <a
+     xlink:href="#expression"
+     xlink:title="expression"
+     id="a22"
+     transform="translate(13.346346,2.8958083)">
+    <rect
+       x="107"
+       y="3"
+       width="90"
+       height="32"
+       id="rect16" />
+    <rect
+       x="105"
+       y="1"
+       width="90"
+       height="32"
+       class="nonterminal"
+       id="rect18" />
+    <text
+       class="nonterminal"
+       x="115"
+       y="21"
+       id="text20">expression</text>
+  </a>
+  <rect
+     x="230.34634"
+     y="5.8958082"
+     width="24"
+     height="32"
+     rx="10"
+     id="rect24" />
+  <rect
+     x="228.34634"
+     y="3.8958082"
+     width="24"
+     height="32"
+     class="terminal"
+     rx="10"
+     id="rect26" />
+  <text
+     class="terminal"
+     x="238.34634"
+     y="23.895809"
+     id="text28">:</text>
+  <a
+     xlink:href="#suite"
+     xlink:title="suite"
+     id="a36"
+     transform="translate(13.346346,2.8958083)">
+    <rect
+       x="261"
+       y="3"
+       width="50"
+       height="32"
+       id="rect30" />
+    <rect
+       x="259"
+       y="1"
+       width="50"
+       height="32"
+       class="nonterminal"
+       id="rect32" />
+    <text
+       class="nonterminal"
+       x="269"
+       y="21"
+       id="text34">suite</text>
+  </a>
+  <path
+     class="line"
+     d="m 30.346346,19.895808 h 2 m 0,0 h 10 m 56,0 h 10.000004 m 0,0 h 10 m 90,0 h 10 m 0,0 h 10 m 24,0 h 10 m 0,0 h 10 m 50,0 h 10 m 3,0 h -3"
+     id="path38" />
+  <polygon
+     points="337,13 337,21 329,17 "
+     id="polygon40"
+     transform="translate(13.346346,2.8958083)" />
+  <polygon
+     points="321,13 321,21 329,17 "
+     id="polygon42"
+     transform="translate(13.346346,2.8958083)" />
+  <text
+     xml:space="preserve"
+     style="font-size:13.3333px;line-height:1;font-family:sans-serif"
+     x="3.3463457"
+     y="23.895809"
+     id="text2178"><tspan
+       sodipodi:role="line"
+       id="tspan2176"
+       x="3.3463459"
+       y="23.895809"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Verdana, Sans-serif;-inkscape-font-specification:'Verdana, Sans-serif';text-align:center;text-anchor:middle">0</tspan><tspan
+       sodipodi:role="line"
+       x="3.3463457"
+       y="37.229107"
+       id="tspan2180"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Verdana, Sans-serif;-inkscape-font-specification:'Verdana, Sans-serif';text-align:center;text-anchor:middle" /></text>
+  <text
+     xml:space="preserve"
+     style="font-size:13.3333px;line-height:1;font-family:sans-serif"
+     x="368.34634"
+     y="23.895809"
+     id="text2178-7"><tspan
+       sodipodi:role="line"
+       x="368.34634"
+       y="23.895809"
+       id="tspan2180-7"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Verdana, Sans-serif;-inkscape-font-specification:'Verdana, Sans-serif';text-align:center;text-anchor:middle">end</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:13.3333px;line-height:1;font-family:sans-serif"
+     x="109.34634"
+     y="9.8958082"
+     id="text2178-4"><tspan
+       sodipodi:role="line"
+       id="tspan2176-0"
+       x="109.34634"
+       y="9.8958082"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Verdana, Sans-serif;-inkscape-font-specification:'Verdana, Sans-serif';text-align:center;text-anchor:middle">1</tspan><tspan
+       sodipodi:role="line"
+       x="109.34634"
+       y="23.596638"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Verdana, Sans-serif;-inkscape-font-specification:'Verdana, Sans-serif';text-align:center;text-anchor:middle"
+       id="tspan306">●</tspan><tspan
+       sodipodi:role="line"
+       x="109.34634"
+       y="36.929935"
+       id="tspan2180-9"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Verdana, Sans-serif;-inkscape-font-specification:'Verdana, Sans-serif';text-align:center;text-anchor:middle" /></text>
+  <text
+     xml:space="preserve"
+     style="font-size:13.3333px;line-height:1;font-family:sans-serif"
+     x="219.34634"
+     y="9.8958082"
+     id="text2178-4-7"><tspan
+       sodipodi:role="line"
+       id="tspan2176-0-5"
+       x="219.34634"
+       y="9.8958082"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Verdana, Sans-serif;-inkscape-font-specification:'Verdana, Sans-serif';text-align:center;text-anchor:middle">2</tspan><tspan
+       sodipodi:role="line"
+       x="219.34634"
+       y="23.596638"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Verdana, Sans-serif;-inkscape-font-specification:'Verdana, Sans-serif';text-align:center;text-anchor:middle"
+       id="tspan306-9">●</tspan><tspan
+       sodipodi:role="line"
+       x="219.34634"
+       y="36.929935"
+       id="tspan2180-9-4"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Verdana, Sans-serif;-inkscape-font-specification:'Verdana, Sans-serif';text-align:center;text-anchor:middle" /></text>
+  <text
+     xml:space="preserve"
+     style="font-size:13.3333px;line-height:1;font-family:sans-serif"
+     x="263.34634"
+     y="9.8958082"
+     id="text2178-4-2"><tspan
+       sodipodi:role="line"
+       id="tspan2176-0-0"
+       x="263.34634"
+       y="9.8958082"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Verdana, Sans-serif;-inkscape-font-specification:'Verdana, Sans-serif';text-align:center;text-anchor:middle">3</tspan><tspan
+       sodipodi:role="line"
+       x="263.34634"
+       y="23.596638"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Verdana, Sans-serif;-inkscape-font-specification:'Verdana, Sans-serif';text-align:center;text-anchor:middle"
+       id="tspan306-2">●</tspan><tspan
+       sodipodi:role="line"
+       x="263.34634"
+       y="36.929935"
+       id="tspan2180-9-9"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Verdana, Sans-serif;-inkscape-font-specification:'Verdana, Sans-serif';text-align:center;text-anchor:middle" /></text>
+</svg>

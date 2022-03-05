@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="284.48563"
+   height="167"
+   version="1.1"
+   id="svg50"
+   sodipodi:docname="factor.svg"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview52"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="true"
+     inkscape:snap-text-baseline="true"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:zoom="8.3431953"
+     inkscape:cx="135.85922"
+     inkscape:cy="59.80922"
+     inkscape:window-width="1500"
+     inkscape:window-height="930"
+     inkscape:window-x="-7"
+     inkscape:window-y="-7"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg50">
+    <sodipodi:guide
+       position="101.08252,146.5"
+       orientation="0,-1"
+       id="guide54" />
+    <inkscape:grid
+       type="xygrid"
+       id="grid56"
+       originx="13.346346"
+       originy="-0.5" />
+  </sodipodi:namedview>
+  <defs
+     id="defs4">
+    <style
+       type="text/css"
+       id="style2">
+    @namespace &quot;http://www.w3.org/2000/svg&quot;;
+    .line                 {fill: none; stroke: #332900; stroke-width: 1;}
+    .bold-line            {stroke: #141000; shape-rendering: crispEdges; stroke-width: 2;}
+    .thin-line            {stroke: #1F1800; shape-rendering: crispEdges}
+    .filled               {fill: #332900; stroke: none;}
+    text.terminal         {font-family: Verdana, Sans-serif;
+                            font-size: 12px;
+                            fill: #141000;
+                            font-weight: bold;
+                          }
+    text.nonterminal      {font-family: Verdana, Sans-serif;
+                            font-size: 12px;
+                            fill: #1A1400;
+                            font-weight: normal;
+                          }
+    text.regexp           {font-family: Verdana, Sans-serif;
+                            font-size: 12px;
+                            fill: #1F1800;
+                            font-weight: normal;
+                          }
+    rect, circle, polygon {fill: #332900; stroke: #332900;}
+    rect.terminal         {fill: #FFDB4D; stroke: #332900; stroke-width: 1;}
+    rect.nonterminal      {fill: #FFEC9E; stroke: #332900; stroke-width: 1;}
+    rect.text             {fill: none; stroke: none;}
+    polygon.regexp        {fill: #FFF4C7; stroke: #332900; stroke-width: 1;}
+  </style>
+  </defs>
+  <polygon
+     points="1,21 9,17 1,13 "
+     id="polygon6"
+     transform="translate(13.346346,-0.5)" />
+  <polygon
+     points="9,21 17,17 9,13 "
+     id="polygon8"
+     transform="translate(13.346346,-0.5)" />
+  <a
+     xlink:href="#power"
+     xlink:title="power"
+     id="a16"
+     transform="translate(13.346346,-0.5)">
+    <rect
+       x="51"
+       y="3"
+       width="58"
+       height="32"
+       id="rect10" />
+    <rect
+       x="49"
+       y="1"
+       width="58"
+       height="32"
+       class="nonterminal"
+       id="rect12" />
+    <text
+       class="nonterminal"
+       x="59"
+       y="21"
+       id="text14">power</text>
+  </a>
+  <rect
+     x="84.346344"
+     y="46.5"
+     width="30"
+     height="32"
+     rx="10"
+     id="rect18" />
+  <rect
+     x="82.346344"
+     y="44.5"
+     width="30"
+     height="32"
+     class="terminal"
+     rx="10"
+     id="rect20" />
+  <text
+     class="terminal"
+     x="92.346344"
+     y="64.5"
+     id="text22">+</text>
+  <rect
+     x="84.346344"
+     y="90.5"
+     width="26"
+     height="32"
+     rx="10"
+     id="rect24" />
+  <rect
+     x="82.346344"
+     y="88.5"
+     width="26"
+     height="32"
+     class="terminal"
+     rx="10"
+     id="rect26" />
+  <text
+     class="terminal"
+     x="92.346344"
+     y="108.5"
+     id="text28">-</text>
+  <rect
+     x="84.346344"
+     y="134.5"
+     width="30"
+     height="32"
+     rx="10"
+     id="rect30" />
+  <rect
+     x="82.346344"
+     y="132.5"
+     width="30"
+     height="32"
+     class="terminal"
+     rx="10"
+     id="rect32" />
+  <text
+     class="terminal"
+     x="92.346344"
+     y="152.5"
+     id="text34">~</text>
+  <a
+     xlink:href="#factor"
+     xlink:title="factor"
+     id="a42"
+     transform="translate(13.346346,-0.5)">
+    <rect
+       x="141"
+       y="47"
+       width="56"
+       height="32"
+       id="rect36" />
+    <rect
+       x="139"
+       y="45"
+       width="56"
+       height="32"
+       class="nonterminal"
+       id="rect38" />
+    <text
+       class="nonterminal"
+       x="149"
+       y="65"
+       id="text40">factor</text>
+  </a>
+  <path
+     class="line"
+     d="m 30.346346,16.5 h 2 m 20,0 h 10 m 58.000004,0 h 10 m 0,0 h 88 m -186.000004,0 h 20 m 166.000004,0 h 20 m -206.000004,0 q 10,0 10,10 m 186.000004,0 q 0,-10 10,-10 m -196.000004,10 v 24 m 186.000004,0 v -24 m -186.000004,24 q 0,10 10,10 m 166.000004,0 q 10,0 10,-10 m -156.000004,10 h 10 m 30.000004,0 h 10 m -70.000004,0 h 20 m 50.000004,0 h 20 m -90.000004,0 q 10,0 10,10 m 70.000004,0 q 0,-10 10,-10 m -80.000004,10 v 24 m 70.000004,0 v -24 m -70.000004,24 q 0,10 10,10 m 50.000004,0 q 10,0 10,-10 m -60.000004,10 h 10 m 26.000004,0 h 10 m 0,0 h 4 m -60.000004,-10 v 20 m 70.000004,0 v -20 m -70.000004,20 v 24 m 70.000004,0 v -24 m -70.000004,24 q 0,10 10,10 m 50.000004,0 q 10,0 10,-10 m -60.000004,10 h 10 m 30.000004,0 h 10 m 20,-88 h 10 m 56,0 h 10 m 23,-44 h -3"
+     id="path44" />
+  <polygon
+     points="243,21 235,17 243,13 "
+     id="polygon46"
+     transform="translate(13.346346,-0.5)" />
+  <polygon
+     points="227,21 235,17 227,13 "
+     id="polygon48"
+     transform="translate(13.346346,-0.5)" />
+  <text
+     xml:space="preserve"
+     style="font-size:13.3333px;line-height:1;font-family:sans-serif"
+     x="3.3463457"
+     y="20.5"
+     id="text2178"><tspan
+       sodipodi:role="line"
+       id="tspan2176"
+       x="3.3463457"
+       y="20.5"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Verdana, Sans-serif;-inkscape-font-specification:'Verdana, Sans-serif';text-align:center;text-anchor:middle">0</tspan><tspan
+       sodipodi:role="line"
+       x="3.3463457"
+       y="33.833298"
+       id="tspan2180"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Verdana, Sans-serif;-inkscape-font-specification:'Verdana, Sans-serif';text-align:center;text-anchor:middle" /></text>
+  <text
+     xml:space="preserve"
+     style="font-size:13.3333px;line-height:1;font-family:sans-serif"
+     x="273.34634"
+     y="20.5"
+     id="text2178-7"><tspan
+       sodipodi:role="line"
+       x="273.34634"
+       y="20.5"
+       id="tspan2180-7"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Verdana, Sans-serif;-inkscape-font-specification:'Verdana, Sans-serif';text-align:center;text-anchor:middle">end</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:13.3333px;line-height:1;font-family:sans-serif"
+     x="143.34634"
+     y="50.5"
+     id="text2178-4"><tspan
+       sodipodi:role="line"
+       id="tspan2176-0"
+       x="143.34634"
+       y="50.5"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Verdana, Sans-serif;-inkscape-font-specification:'Verdana, Sans-serif';text-align:center;text-anchor:middle">1</tspan><tspan
+       sodipodi:role="line"
+       x="143.34634"
+       y="64.200829"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Verdana, Sans-serif;-inkscape-font-specification:'Verdana, Sans-serif';text-align:center;text-anchor:middle"
+       id="tspan306">●</tspan><tspan
+       sodipodi:role="line"
+       x="143.34634"
+       y="77.534126"
+       id="tspan2180-9"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Verdana, Sans-serif;-inkscape-font-specification:'Verdana, Sans-serif';text-align:center;text-anchor:middle" /></text>
+</svg>

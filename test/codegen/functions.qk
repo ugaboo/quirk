@@ -1,0 +1,8 @@
+def foo():
+    pass
+
+def bar() -> Int:
+    return 0
+
+def baz(a: Int, b: Float) -> Float:
+    return 0.0

@@ -1,0 +1,7 @@
+def foo() -> Int:
+    return 42
+
+def bar():
+    return
+
+return 0 # TODO: SyntaxError: 'return' outside function

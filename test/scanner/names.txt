@@ -1,0 +1,5 @@
+[1:1] Name 'Id'
+[1:4] Name '_x'
+[1:7] Name 'RAL123_color6'
+[1:20] NewLine
+[2:1] EndMarker

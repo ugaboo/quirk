@@ -1,0 +1,51 @@
+module ::= (stmt_list | definition)* 'ENDMARKER'
+
+definition ::= function | structure
+
+stmt_list ::= stmt_row | compound
+stmt_row ::= (small | 'pass') (';' (small | 'pass'))* 'NEWLINE'
+stmt_col ::= 'NEWLINE' 'INDENT' (stmt_list)+ 'DEDENT'
+
+small ::= call_or_asg | return | 'break' | 'continue'
+call_or_asg ::= designator (':' type)? ('=' expression)?
+type ::= 'NAME'
+
+return ::= 'return' (expression)?
+
+compound ::= if | while
+if ::= 'if' expression ':' suite ('elif' expression ':' suite)* ('else' ':' suite)?
+while ::= 'while' expression ':' suite
+
+suite ::= stmt_row | stmt_col
+
+function ::= 'def' 'NAME' '(' (parameters)? ')' ('->' type)? ':' suite
+parameters ::= parameter (',' parameter)*
+parameter ::= 'NAME' (':' type)?
+
+expressions ::= expression (',' expression)*
+expression ::= or
+or ::= and ('or' and)*
+and ::= not ('and' not)*
+not ::= ('not' not) | comparison
+comparison ::= bor (relation bor)*
+bor ::= bxor ('|' bxor)*
+relation ::= '<' | '>' | '==' | '<=' | '>=' | '!='
+bxor ::= band ('^' band)*
+band ::= shift ('&' shift)*
+shift ::= arith (('<<' | '>>') arith)*
+arith ::= term (('-' | '+') term)*
+term ::= factor (('*' | '/' | '%' | '//') factor)*
+factor ::= power | (('+' | '-' | '~') factor)
+power ::= designator ('**' factor)?
+designator ::= atom (selector)*
+selector ::= ('(' expressions? ')')
+           | ('[' expressions ']')
+           | ('.' 'NAME')
+atom ::= list | 'NAME' | 'NUMBER' | 'True' | 'False' | 'None'
+list ::= '[' expressions? ']'
+
+structure ::= 'struct' 'NAME' ':' field_list
+field_list ::= field_row | field_col
+field_row ::= (field | pass) (';' (field | pass))* 'NEWLINE'
+field_col ::= 'NEWLINE' 'INDENT' field_row field_row* 'DEDENT'
+field ::= 'NAME' (':' type)? ('=' expression)?

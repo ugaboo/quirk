@@ -1,0 +1,30 @@
+1    StructDefStmt: 'Empty' -> Structure 88
+2        fields: <empty>
+3    StructDefStmt: 'Vec2' -> Structure 89
+4        fields: 
+5            FieldDef: 'x' -> Field 92
+6                type:
+7                    NameLiteral: 'Float'
+8            FieldDef: 'y' -> Field 93
+9                type:
+10                   NameLiteral: 'Float'
+11   StructDefStmt: 'Rect' -> Structure 90
+12       fields: 
+13           FieldDef: 'w' -> Field 94
+14               init:
+15                   IntLiteral: 0
+16           FieldDef: 'h' -> Field 95
+17               init:
+18                   IntLiteral: 0
+19   StructDefStmt: 'Point' -> Structure 91
+20       fields: 
+21           FieldDef: 'x' -> Field 96
+22               type:
+23                   NameLiteral: 'Int'
+24               init:
+25                   IntLiteral: 0
+26           FieldDef: 'y' -> Field 97
+27               type:
+28                   NameLiteral: 'Int'
+29               init:
+30                   IntLiteral: 0

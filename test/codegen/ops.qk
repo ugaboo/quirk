@@ -1,0 +1,4 @@
+i1: Int = 42
+f1: Float = 2.0
+
+x: Int = i1 // f1

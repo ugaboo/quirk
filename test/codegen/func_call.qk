@@ -1,0 +1,6 @@
+def foo(x: Int) -> Int:
+    return x
+
+foo(101)
+
+y = foo(42)
