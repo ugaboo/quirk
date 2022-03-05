@@ -2,6 +2,8 @@
 
 namespace quirk::ast {
 
+uint64_t quirk::ast::ProgObj::last_id = 0;
+
 void AsgStmt::accept(Visitor* visitor) {
     return visitor->visit(this);
 }
