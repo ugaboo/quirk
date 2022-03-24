@@ -5,6 +5,7 @@
 #include "compilation_error.h"
 #include "fmt/core.h"
 #include "magic_enum.hpp"
+#include "utils.h"
 
 using namespace std;
 using namespace quirk;
@@ -24,48 +25,24 @@ string format_lexeme(Scanner& scan) {
     return str;
 }
 
-void dump(Scanner& scan, string filename) {
-    ofstream out(filename);
-
-    out << format_lexeme(scan) << endl;
-    while (scan.get_token() != Token::EndMarker) {
-        scan.move();
-        out << format_lexeme(scan) << endl;
-    }
-}
-
-bool compare(Scanner& scan, string filename) {
-    ifstream in(filename);
-    if (!in) {
-        return false;
-    }
-    string line;
-    for (int i = 1; getline(in, line); i++) {
-        if (*line.rbegin() == '\r') {
-            line.erase(line.length() - 1, 1);
-        }
-        auto lex = format_lexeme(scan);
-        if (line != lex) {
-            fmt::print("file '{}'\n", filename);
-            fmt::print("expected: {}\n", line);
-            fmt::print("received: {}\n", lex);
-            return false;
-        }
-        scan.move();
-    }
-    return true;
-}
-
 bool test() {
-    string folder = string(TEST_DIR) + "scanner/";
+    string folder = TEST_DIR "scanner/";
     vector<string> names = {
         "names", "keywords", "indents", "indents2", "simple_lexemes", "new_lines", "integers", "floats",
     };
 
     for (auto name : names) {
         Scanner scan(folder + name + ".qk");
-        // dump(scan, folder + name + ".txt");
-        if (!compare(scan, folder + name + ".txt")) {
+
+        stringstream output;
+        do {
+            output << format_lexeme(scan) << endl;
+            scan.move();
+        } while (scan.get_token() != Token::EndMarker);
+
+        ifstream file(folder + name + ".txt");
+
+        if (!diff(file, output)) {
             return false;
         }
     }
@@ -74,7 +51,7 @@ bool test() {
 
 bool tab_error() {
     try {
-        Scanner scan(string(TEST_DIR) + "scanner/tab_error.qk");
+        Scanner scan(TEST_DIR "scanner/tab_error.qk");
         while (scan.get_token() != Token::EndMarker) {
             scan.move();
         }
@@ -89,7 +66,7 @@ bool tab_error() {
 
 bool dedent_doesnt_match() {
     try {
-        Scanner scan(string(TEST_DIR) + "scanner/dedent_doesnt_match.qk");
+        Scanner scan(TEST_DIR "scanner/dedent_doesnt_match.qk");
         while (scan.get_token() != Token::EndMarker) {
             scan.move();
         }

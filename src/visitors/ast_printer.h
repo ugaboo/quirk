@@ -7,7 +7,6 @@ using std::unique_ptr;
 
 class AstPrinter : public ast::Visitor {
     std::ostream& out;
-    int ln = 1;
     int indent = 0;
 
 public:

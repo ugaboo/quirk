@@ -17,7 +17,7 @@
 [4:25] GreaterOrEqual '>='
 [4:33] Equal '=='
 [4:41] NotEqual '!='
-[5:14] NewLine
+[5:13] NewLine
 [6:1] LeftParenthesis '('
 [6:9] RightParenthesis ')'
 [6:17] LeftBracket '['

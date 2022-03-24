@@ -9,7 +9,7 @@ using std::string;
 using std::vector;
 
 bool empty() {
-    Reader reader(string(TEST_DIR) + "reader/empty.qk");
+    Reader reader(TEST_DIR "reader/empty.qk");
     if (reader.get_letter() != '\n') {
         fmt::print("FAILED: empty file");
         return false;
@@ -28,7 +28,7 @@ bool empty() {
 }
 
 bool bom() {
-    Reader reader(string(TEST_DIR) + "reader/bom.qk");
+    Reader reader(TEST_DIR "reader/bom.qk");
 
     auto expected = U"this file contains byte order mark\n";
     for (auto ptr = expected; *ptr != '\0'; ptr++) {
@@ -42,7 +42,7 @@ bool bom() {
 }
 
 bool unicode() {
-    Reader reader(string(TEST_DIR) + "reader/кириллица.qk");
+    Reader reader(TEST_DIR "reader/кириллица.qk");
 
     auto expected = U"текст на русском языке 😎";
     for (auto ptr = expected; *ptr != '\0'; ptr++) {
@@ -56,13 +56,14 @@ bool unicode() {
 }
 
 bool ln_col() {
+    string folder = TEST_DIR "reader/";
     auto files = {
-        "reader/ln_col_unix.qk",
-        "reader/ln_col_win.qk",
-        "reader/tab.qk",
+        "ln_col_unix",
+        "ln_col_win",
+        "tab",
     };
     for (auto filename : files) {
-        Reader reader(string(TEST_DIR) + filename);
+        Reader reader(folder + filename + ".qk");
 
         uint32_t letter;
         do {
@@ -86,7 +87,7 @@ bool ln_col() {
 }
 
 bool slice() {
-    Reader reader(string(TEST_DIR) + "reader/slice.qk");
+    Reader reader(TEST_DIR "reader/slice.qk");
 
     auto is_id = [&]() { return reader.get_letter() >= 'a' && reader.get_letter() <= 'z'; };
 

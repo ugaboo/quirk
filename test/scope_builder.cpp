@@ -4,6 +4,7 @@
 #include <string>
 #include "fmt/core.h"
 #include "parser.h"
+#include "utils.h"
 
 #include "visitors/ast_printer.h"
 #include "visitors/scope_builder.h"
@@ -12,7 +13,7 @@ using namespace std;
 using namespace quirk;
 
 bool test() {
-    string folder = string(TEST_DIR) + "scope_builder/";
+    string folder = TEST_DIR "scope_builder/";
     vector<string> names = {"ops", "funcs", "structs"};
 
     for (auto name : names) {
@@ -25,30 +26,21 @@ bool test() {
         ScopeBuilder builder;
         builder.visit(m.get());
 
-        // ofstream fout(folder + name + ".txt", ios_base::binary | ios_base::out);
-        // AstPrinter printer(fout);
-        // printer.visit(m.get());
-
-        stringstream sout;
-        AstPrinter printer(sout);
+        stringstream output;
+        AstPrinter printer(output);
         printer.visit(m.get());
 
-        ifstream fin(folder + name + ".txt");
+        ifstream file(folder + name + ".txt");
 
-        string expected, received;
-        while (getline(fin, expected) && getline(sout, received)) {
-            if (expected != received) {
-                fmt::print("expected: {}\n", expected);
-                fmt::print("received: {}\n", received);
-                return false;
-            }
+        if (!diff(file, output)) {
+            return false;
         }
     }
     return true;
 }
 
 bool test_errors() {
-    string folder = string(TEST_DIR) + "scope_builder/";
+    string folder = TEST_DIR "scope_builder/";
     vector<string> names = {"error1", "error2"};
 
     for (auto name : names) {

@@ -1,53 +1,53 @@
-1    AsgStmt:
-2        lvalue:
-3            NameLiteral: 'x' -> Global Variable 41
-4        rvalue:
-5            IntLiteral: 0
-6    AsgStmt:
-7        lvalue:
-8            NameLiteral: 'y' -> Global Variable 42
-9        rvalue:
-10           NameLiteral: 'x' -> Global Variable 41
-11   AsgStmt:
-12       lvalue:
-13           NameLiteral: 'z' -> Global Variable 43
-14       rvalue:
-15           BinaryExpr: Add
-16               NameLiteral: 'x' -> Global Variable 41
-17               NameLiteral: 'y' -> Global Variable 42
-18   AsgStmt:
-19       lvalue:
-20           NameLiteral: 'w' -> Global Variable 44
-21       rvalue:
-22           UnaryExpr: Minus
-23               NameLiteral: 'z' -> Global Variable 43
-24   AsgStmt:
-25       lvalue:
-26           NameLiteral: 'vec' -> Global Variable 45
-27       rvalue:
-28           ListLiteral:
-29               NameLiteral: 'x' -> Global Variable 41
-30               NameLiteral: 'y' -> Global Variable 42
-31               NameLiteral: 'z' -> Global Variable 43
-32   AsgStmt:
-33       lvalue:
-34           NameLiteral: 'a' -> Global Variable 46
-35       rvalue:
-36           SubscriptExpr:
-37               designator:
-38                   NameLiteral: 'vec' -> Global Variable 45
-39               keys:
-40                   NameLiteral: 'x' -> Global Variable 41
-41   FuncDefStmt: 'sqrt' -> Function 47
-42       params:
-43           ParameterDef: 'x' -> Parameter 48
-44               type:
-45                   NameLiteral: 'Float' -> Float64Type
-46       body: 
-47           ReturnStmt
-48               NameLiteral: 'x' -> Parameter 48
-49   CallExprStmt:
-50       designator:
-51           NameLiteral: 'sqrt' -> Function 47
-52       args:
-53           IntLiteral: 1
+AsgStmt:
+    lvalue:
+        NameLiteral: 'x' -> Global Variable 41
+    rvalue:
+        IntLiteral: 0
+AsgStmt:
+    lvalue:
+        NameLiteral: 'y' -> Global Variable 42
+    rvalue:
+        NameLiteral: 'x' -> Global Variable 41
+AsgStmt:
+    lvalue:
+        NameLiteral: 'z' -> Global Variable 43
+    rvalue:
+        BinaryExpr: Add
+            NameLiteral: 'x' -> Global Variable 41
+            NameLiteral: 'y' -> Global Variable 42
+AsgStmt:
+    lvalue:
+        NameLiteral: 'w' -> Global Variable 44
+    rvalue:
+        UnaryExpr: Minus
+            NameLiteral: 'z' -> Global Variable 43
+AsgStmt:
+    lvalue:
+        NameLiteral: 'vec' -> Global Variable 45
+    rvalue:
+        ListLiteral:
+            NameLiteral: 'x' -> Global Variable 41
+            NameLiteral: 'y' -> Global Variable 42
+            NameLiteral: 'z' -> Global Variable 43
+AsgStmt:
+    lvalue:
+        NameLiteral: 'a' -> Global Variable 46
+    rvalue:
+        SubscriptExpr:
+            designator:
+                NameLiteral: 'vec' -> Global Variable 45
+            keys:
+                NameLiteral: 'x' -> Global Variable 41
+FuncDefStmt: 'sqrt' -> Function 47
+    params:
+        ParameterDef: 'x' -> Parameter 48
+            type:
+                NameLiteral: 'Float' -> Float64Type
+    body: 
+        ReturnStmt
+            NameLiteral: 'x' -> Parameter 48
+CallExprStmt:
+    designator:
+        NameLiteral: 'sqrt' -> Function 47
+    args:
+        IntLiteral: 1

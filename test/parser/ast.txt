@@ -1,258 +1,258 @@
-1    AsgStmt:
-2        lvalue:
-3            NameLiteral: '_'
-4        rvalue:
-5            ListLiteral: <empty>
-6    AsgStmt:
-7        lvalue:
-8            ListLiteral:
-9                IntLiteral: 1
-10               IntLiteral: 2
-11               IntLiteral: 3
-12               IntLiteral: 4
-13               IntLiteral: 5
-14       rvalue:
-15           ListLiteral:
-16               NameLiteral: 'some_name'
-17               IntLiteral: 18446744073709551615
-18               FloatLiteral: 3.14
-19               BoolLiteral: true
-20               BoolLiteral: false
-21               NoneLiteral
-22   AsgStmt:
-23       lvalue:
-24           NameLiteral: 'x'
-25       type:
-26           NameLiteral: 'Int'
-27       rvalue:
-28           IntLiteral: 42
-29   AsgStmt:
-30       lvalue:
-31           NameLiteral: 'y'
-32       rvalue:
-33           IntLiteral: 101
-34   AsgStmt:
-35       lvalue:
-36           NameLiteral: 'z'
-37       type:
-38           NameLiteral: 'Float'
-39   CallExprStmt:
-40       designator:
-41           NameLiteral: 'foo'
-42       args: <empty>
-43   CallExprStmt:
-44       designator:
-45           NameLiteral: 'bar'
-46       args:
-47           IntLiteral: 1
-48           IntLiteral: 2
-49           IntLiteral: 3
-50   AsgStmt:
-51       lvalue:
-52           SubscriptExpr:
-53               designator:
-54                   NameLiteral: 'arr'
-55               keys:
-56                   IntLiteral: 1
-57                   IntLiteral: 2
-58       rvalue:
-59           MemberAccessExpr:
-60               designator:
-61                   NameLiteral: 'obj'
-62               selector:
-63                   NameLiteral: 'field'
-64   AsgStmt:
-65       lvalue:
-66           ListLiteral:
-67               UnaryExpr: Plus
-68                   IntLiteral: 1
-69               UnaryExpr: Minus
-70                   IntLiteral: 1
-71               UnaryExpr: BitNot
-72                   IntLiteral: 1
-73               BinaryExpr: Power
-74                   IntLiteral: 1
-75                   IntLiteral: 2
-76               BinaryExpr: Mul
-77                   IntLiteral: 1
-78                   IntLiteral: 2
-79               BinaryExpr: Div
-80                   IntLiteral: 1
-81                   IntLiteral: 2
-82               BinaryExpr: Mod
-83                   IntLiteral: 1
-84                   IntLiteral: 2
-85               BinaryExpr: IntDiv
-86                   IntLiteral: 1
-87                   IntLiteral: 2
-88               BinaryExpr: Add
-89                   IntLiteral: 1
-90                   IntLiteral: 2
-91               BinaryExpr: Sub
-92                   IntLiteral: 1
-93                   IntLiteral: 2
-94               BinaryExpr: LeftShift
-95                   IntLiteral: 1
-96                   IntLiteral: 2
-97               BinaryExpr: RightShift
-98                   IntLiteral: 1
-99                   IntLiteral: 2
-100              BinaryExpr: BitAnd
-101                  IntLiteral: 1
-102                  IntLiteral: 2
-103              BinaryExpr: BitXor
-104                  IntLiteral: 1
-105                  IntLiteral: 2
-106              BinaryExpr: BitOr
-107                  IntLiteral: 1
-108                  IntLiteral: 2
-109              BinaryExpr: Less
-110                  IntLiteral: 1
-111                  IntLiteral: 2
-112              BinaryExpr: Greater
-113                  IntLiteral: 1
-114                  IntLiteral: 2
-115              BinaryExpr: Equal
-116                  IntLiteral: 1
-117                  IntLiteral: 2
-118              BinaryExpr: LessOrEqual
-119                  IntLiteral: 1
-120                  IntLiteral: 2
-121              BinaryExpr: GreaterOrEqual
-122                  IntLiteral: 1
-123                  IntLiteral: 2
-124              BinaryExpr: NotEqual
-125                  IntLiteral: 1
-126                  IntLiteral: 2
-127      rvalue:
-128          ListLiteral:
-129              UnaryExpr: Not
-130                  BoolLiteral: true
-131              BinaryExpr: And
-132                  BoolLiteral: true
-133                  BoolLiteral: false
-134              BinaryExpr: Or
-135                  BoolLiteral: true
-136                  BoolLiteral: false
-137  AsgStmt:
-138      lvalue:
-139          NameLiteral: '_'
-140      rvalue:
-141          BinaryExpr: Add
-142              BinaryExpr: Add
-143                  IntLiteral: 1
-144                  IntLiteral: 2
-145              IntLiteral: 3
-146  AsgStmt:
-147      lvalue:
-148          NameLiteral: '_'
-149      rvalue:
-150          BinaryExpr: Add
-151              IntLiteral: 1
-152              BinaryExpr: Add
-153                  IntLiteral: 2
-154                  IntLiteral: 3
-155  IfStmt:
-156      condition:
-157          BinaryExpr: Equal
-158              NameLiteral: 'x'
-159              IntLiteral: 0
-160      body: 
-161          AsgStmt:
-162              lvalue:
-163                  NameLiteral: 'x'
-164              rvalue:
-165                  BinaryExpr: Add
-166                      NameLiteral: 'x'
-167                      IntLiteral: 1
-168      condition:
-169          BinaryExpr: Equal
-170              NameLiteral: 'x'
-171              IntLiteral: 1
-172      body: 
-173          AsgStmt:
-174              lvalue:
-175                  NameLiteral: 'x'
-176              rvalue:
-177                  BinaryExpr: Sub
-178                      NameLiteral: 'x'
-179                      IntLiteral: 2
-180      condition:
-181          BinaryExpr: Equal
-182              NameLiteral: 'x'
-183              UnaryExpr: Minus
-184                  IntLiteral: 1
-185      body: 
-186          AsgStmt:
-187              lvalue:
-188                  NameLiteral: 'x'
-189              rvalue:
-190                  BinaryExpr: Add
-191                      NameLiteral: 'x'
-192                      IntLiteral: 1
-193      else: 
-194          AsgStmt:
-195              lvalue:
-196                  NameLiteral: 'x'
-197              rvalue:
-198                  IntLiteral: 0
-199          ContinueStmt
-200  WhileStmt:
-201      condition:
-202          BinaryExpr: Greater
-203              NameLiteral: 'x'
-204              IntLiteral: 0
-205      body: 
-206          AsgStmt:
-207              lvalue:
-208                  NameLiteral: 'x'
-209              rvalue:
-210                  BinaryExpr: Sub
-211                      NameLiteral: 'x'
-212                      IntLiteral: 1
-213          BreakStmt
-214  FuncDefStmt: 'foo'
-215      body: <empty>
-216  FuncDefStmt: 'bar'
-217      params:
-218          ParameterDef: 'x'
-219              type:
-220                  NameLiteral: 'Int'
-221          ParameterDef: 'y'
-222              type:
-223                  NameLiteral: 'Float'
-224      body: <empty>
-225  FuncDefStmt: 'baz'
-226      params:
-227          ParameterDef: 'x'
-228              type:
-229                  NameLiteral: 'Int'
-230      ret:
-231          NameLiteral: 'Int'
-232      body: 
-233          AsgStmt:
-234              lvalue:
-235                  NameLiteral: 'x'
-236              rvalue:
-237                  BinaryExpr: Mul
-238                      NameLiteral: 'x'
-239                      IntLiteral: 2
-240          ReturnStmt
-241              BinaryExpr: Add
-242                  NameLiteral: 'x'
-243                  IntLiteral: 1
-244  StructDefStmt: 'S'
-245      fields: <empty>
-246  StructDefStmt: 'Vec2'
-247      fields: 
-248          FieldDef: 'x'
-249              type:
-250                  NameLiteral: 'Float'
-251          FieldDef: 'y'
-252              type:
-253                  NameLiteral: 'Float'
-254  StructDefStmt: 'Zero'
-255      fields: 
-256          FieldDef: 'value'
-257              init:
-258                  FloatLiteral: 0
+AsgStmt:
+    lvalue:
+        NameLiteral: '_'
+    rvalue:
+        ListLiteral: <empty>
+AsgStmt:
+    lvalue:
+        ListLiteral:
+            IntLiteral: 1
+            IntLiteral: 2
+            IntLiteral: 3
+            IntLiteral: 4
+            IntLiteral: 5
+    rvalue:
+        ListLiteral:
+            NameLiteral: 'some_name'
+            IntLiteral: 18446744073709551615
+            FloatLiteral: 3.14
+            BoolLiteral: true
+            BoolLiteral: false
+            NoneLiteral
+AsgStmt:
+    lvalue:
+        NameLiteral: 'x'
+    type:
+        NameLiteral: 'Int'
+    rvalue:
+        IntLiteral: 42
+AsgStmt:
+    lvalue:
+        NameLiteral: 'y'
+    rvalue:
+        IntLiteral: 101
+AsgStmt:
+    lvalue:
+        NameLiteral: 'z'
+    type:
+        NameLiteral: 'Float'
+CallExprStmt:
+    designator:
+        NameLiteral: 'foo'
+    args: <empty>
+CallExprStmt:
+    designator:
+        NameLiteral: 'bar'
+    args:
+        IntLiteral: 1
+        IntLiteral: 2
+        IntLiteral: 3
+AsgStmt:
+    lvalue:
+        SubscriptExpr:
+            designator:
+                NameLiteral: 'arr'
+            keys:
+                IntLiteral: 1
+                IntLiteral: 2
+    rvalue:
+        MemberAccessExpr:
+            designator:
+                NameLiteral: 'obj'
+            selector:
+                NameLiteral: 'field'
+AsgStmt:
+    lvalue:
+        ListLiteral:
+            UnaryExpr: Plus
+                IntLiteral: 1
+            UnaryExpr: Minus
+                IntLiteral: 1
+            UnaryExpr: BitNot
+                IntLiteral: 1
+            BinaryExpr: Power
+                IntLiteral: 1
+                IntLiteral: 2
+            BinaryExpr: Mul
+                IntLiteral: 1
+                IntLiteral: 2
+            BinaryExpr: Div
+                IntLiteral: 1
+                IntLiteral: 2
+            BinaryExpr: Mod
+                IntLiteral: 1
+                IntLiteral: 2
+            BinaryExpr: IntDiv
+                IntLiteral: 1
+                IntLiteral: 2
+            BinaryExpr: Add
+                IntLiteral: 1
+                IntLiteral: 2
+            BinaryExpr: Sub
+                IntLiteral: 1
+                IntLiteral: 2
+            BinaryExpr: LeftShift
+                IntLiteral: 1
+                IntLiteral: 2
+            BinaryExpr: RightShift
+                IntLiteral: 1
+                IntLiteral: 2
+            BinaryExpr: BitAnd
+                IntLiteral: 1
+                IntLiteral: 2
+            BinaryExpr: BitXor
+                IntLiteral: 1
+                IntLiteral: 2
+            BinaryExpr: BitOr
+                IntLiteral: 1
+                IntLiteral: 2
+            BinaryExpr: Less
+                IntLiteral: 1
+                IntLiteral: 2
+            BinaryExpr: Greater
+                IntLiteral: 1
+                IntLiteral: 2
+            BinaryExpr: Equal
+                IntLiteral: 1
+                IntLiteral: 2
+            BinaryExpr: LessOrEqual
+                IntLiteral: 1
+                IntLiteral: 2
+            BinaryExpr: GreaterOrEqual
+                IntLiteral: 1
+                IntLiteral: 2
+            BinaryExpr: NotEqual
+                IntLiteral: 1
+                IntLiteral: 2
+    rvalue:
+        ListLiteral:
+            UnaryExpr: Not
+                BoolLiteral: true
+            BinaryExpr: And
+                BoolLiteral: true
+                BoolLiteral: false
+            BinaryExpr: Or
+                BoolLiteral: true
+                BoolLiteral: false
+AsgStmt:
+    lvalue:
+        NameLiteral: '_'
+    rvalue:
+        BinaryExpr: Add
+            BinaryExpr: Add
+                IntLiteral: 1
+                IntLiteral: 2
+            IntLiteral: 3
+AsgStmt:
+    lvalue:
+        NameLiteral: '_'
+    rvalue:
+        BinaryExpr: Add
+            IntLiteral: 1
+            BinaryExpr: Add
+                IntLiteral: 2
+                IntLiteral: 3
+IfStmt:
+    condition:
+        BinaryExpr: Equal
+            NameLiteral: 'x'
+            IntLiteral: 0
+    body: 
+        AsgStmt:
+            lvalue:
+                NameLiteral: 'x'
+            rvalue:
+                BinaryExpr: Add
+                    NameLiteral: 'x'
+                    IntLiteral: 1
+    condition:
+        BinaryExpr: Equal
+            NameLiteral: 'x'
+            IntLiteral: 1
+    body: 
+        AsgStmt:
+            lvalue:
+                NameLiteral: 'x'
+            rvalue:
+                BinaryExpr: Sub
+                    NameLiteral: 'x'
+                    IntLiteral: 2
+    condition:
+        BinaryExpr: Equal
+            NameLiteral: 'x'
+            UnaryExpr: Minus
+                IntLiteral: 1
+    body: 
+        AsgStmt:
+            lvalue:
+                NameLiteral: 'x'
+            rvalue:
+                BinaryExpr: Add
+                    NameLiteral: 'x'
+                    IntLiteral: 1
+    else: 
+        AsgStmt:
+            lvalue:
+                NameLiteral: 'x'
+            rvalue:
+                IntLiteral: 0
+        ContinueStmt
+WhileStmt:
+    condition:
+        BinaryExpr: Greater
+            NameLiteral: 'x'
+            IntLiteral: 0
+    body: 
+        AsgStmt:
+            lvalue:
+                NameLiteral: 'x'
+            rvalue:
+                BinaryExpr: Sub
+                    NameLiteral: 'x'
+                    IntLiteral: 1
+        BreakStmt
+FuncDefStmt: 'foo'
+    body: <empty>
+FuncDefStmt: 'bar'
+    params:
+        ParameterDef: 'x'
+            type:
+                NameLiteral: 'Int'
+        ParameterDef: 'y'
+            type:
+                NameLiteral: 'Float'
+    body: <empty>
+FuncDefStmt: 'baz'
+    params:
+        ParameterDef: 'x'
+            type:
+                NameLiteral: 'Int'
+    ret:
+        NameLiteral: 'Int'
+    body: 
+        AsgStmt:
+            lvalue:
+                NameLiteral: 'x'
+            rvalue:
+                BinaryExpr: Mul
+                    NameLiteral: 'x'
+                    IntLiteral: 2
+        ReturnStmt
+            BinaryExpr: Add
+                NameLiteral: 'x'
+                IntLiteral: 1
+StructDefStmt: 'S'
+    fields: <empty>
+StructDefStmt: 'Vec2'
+    fields: 
+        FieldDef: 'x'
+            type:
+                NameLiteral: 'Float'
+        FieldDef: 'y'
+            type:
+                NameLiteral: 'Float'
+StructDefStmt: 'Zero'
+    fields: 
+        FieldDef: 'value'
+            init:
+                FloatLiteral: 0

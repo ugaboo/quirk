@@ -8,7 +8,6 @@ using fmt::print;
 using std::make_unique;
 
 void AstPrinter::print_indent() {
-    print(out, "{:<5}", ln++);
     for (auto i = 0; i < indent; i++) {
         print(out, "    ");
     }

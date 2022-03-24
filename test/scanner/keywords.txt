@@ -1,33 +1,33 @@
 [1:1] KwAnd 'and'
-[1:5] NewLine
+[1:4] NewLine
 [2:1] KwBreak 'break'
-[2:7] NewLine
+[2:6] NewLine
 [3:1] KwContinue 'continue'
-[3:10] NewLine
+[3:9] NewLine
 [4:1] KwDef 'def'
-[4:5] NewLine
+[4:4] NewLine
 [5:1] KwElif 'elif'
-[5:6] NewLine
+[5:5] NewLine
 [6:1] KwElse 'else'
-[6:6] NewLine
+[6:5] NewLine
 [7:1] KwFalse 'False'
-[7:7] NewLine
+[7:6] NewLine
 [8:1] KwIf 'if'
-[8:4] NewLine
+[8:3] NewLine
 [9:1] KwNone 'None'
-[9:6] NewLine
+[9:5] NewLine
 [10:1] KwNot 'not'
-[10:5] NewLine
+[10:4] NewLine
 [11:1] KwOr 'or'
-[11:4] NewLine
+[11:3] NewLine
 [12:1] KwPass 'pass'
-[12:6] NewLine
+[12:5] NewLine
 [13:1] KwReturn 'return'
-[13:8] NewLine
+[13:7] NewLine
 [14:1] KwStruct 'struct'
-[14:8] NewLine
+[14:7] NewLine
 [15:1] KwTrue 'True'
-[15:6] NewLine
+[15:5] NewLine
 [16:1] KwWhile 'while'
 [16:6] NewLine
 [17:1] EndMarker

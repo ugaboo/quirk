@@ -1,29 +1,29 @@
 [2:1] Name 'a'
-[2:3] NewLine
+[2:2] NewLine
 [3:3] Indent
 [3:3] Name 'b'
-[3:5] NewLine
+[3:4] NewLine
 [4:3] Name 'c'
-[4:5] NewLine
+[4:4] NewLine
 [5:5] Indent
 [5:5] Name 'd'
-[5:7] NewLine
+[5:6] NewLine
 [7:5] Name 'e'
-[7:7] NewLine
+[7:6] NewLine
 [8:3] Dedent
 [8:3] Name 'f'
-[8:5] NewLine
+[8:4] NewLine
 [10:3] Name 'g'
-[10:5] NewLine
+[10:4] NewLine
 [11:1] Dedent
 [11:1] Name 'h'
-[11:3] NewLine
+[11:2] NewLine
 [12:5] Indent
 [12:5] Name 'i'
-[12:33] NewLine
+[12:32] NewLine
 [13:7] Indent
 [13:7] Name 'j'
-[13:9] NewLine
+[13:8] NewLine
 [14:1] Dedent
 [14:1] Dedent
 [14:1] Name 'k'

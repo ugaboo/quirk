@@ -4,46 +4,32 @@
 #include <sstream>
 #include <string>
 #include "fmt/core.h"
+#include "utils.h"
 #include "visitors/ast_printer.h"
 
 using namespace std;
 using namespace quirk;
 
 auto empty() {
-    Parser parser(string(TEST_DIR) + "/parser/empty.qk");
+    Parser parser(TEST_DIR "/parser/empty.qk");
     unique_ptr<ast::Module> m;
-    if (parser.parse(m) && m->count_stmts() == 0) {
-        return true;
-    }
-    return false;
+    return parser.parse(m) && m->count_stmts() == 0;
 }
 
 auto all_rules() {
-    Parser parser(string(TEST_DIR) + "parser/ast.qk");
+    Parser parser(TEST_DIR "parser/ast.qk");
     unique_ptr<ast::Module> m;
     if (!parser.parse(m)) {
         return false;
     }
 
-    // ofstream fout(string(TEST_DIR) + "/parser/ast.txt", ios_base::binary | ios_base::out);
-    // AstPrinter printer(fout);
-    // printer.visit(m.get());
-
-    stringstream sout;
-    AstPrinter printer(sout);
+    stringstream output;
+    AstPrinter printer(output);
     printer.visit(m.get());
 
-    ifstream fin(string(TEST_DIR) + "parser/ast.txt");
+    ifstream file(TEST_DIR "parser/ast.txt");
 
-    string expected, received;
-    while (getline(fin, expected) && getline(sout, received)) {
-        if (expected != received) {
-            fmt::print("expected: {}\n", expected);
-            fmt::print("received: {}\n", received);
-            return false;
-        }
-    }
-    return true;
+    return diff(file, output);
 }
 
 auto test_error(string filename, CompilationError expected) {
@@ -60,11 +46,11 @@ auto test_error(string filename, CompilationError expected) {
 }
 
 int main() {
-    // auto syntax_error = test_error(string(TEST_DIR) + "parser/syntax_error.qk", CompilationError::InvalidSyntax);
+    // auto syntax_error = test_error(TEST_DIR "parser/syntax_error.qk", CompilationError::InvalidSyntax);
     // auto asg_to_call_error =
-    //     test_error(string(TEST_DIR) + "parser/asg_to_call_error.qk", CompilationError::CantAssignToFunctionCall);
+    //     test_error(TEST_DIR "parser/asg_to_call_error.qk", CompilationError::CantAssignToFunctionCall);
     // auto annotation_error =
-    //     test_error(string(TEST_DIR) + "parser/annotation_error.qk", CompilationError::IllegalTargetForAnnotation);
+    //     test_error(TEST_DIR "parser/annotation_error.qk", CompilationError::IllegalTargetForAnnotation);
 
     // return (empty() && all_rules() && syntax_error && asg_to_call_error && annotation_error) ? 0 : 1;
 

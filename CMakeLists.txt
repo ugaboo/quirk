@@ -83,11 +83,11 @@ ADD_COMPILE_DEFINITIONS(TEST_DIR="${PROJECT_SOURCE_DIR}/test/")
 
 ENABLE_TESTING()
 
-ADD_EXECUTABLE(test_reader test/reader.cpp)
-ADD_EXECUTABLE(test_scanner test/scanner.cpp)
-ADD_EXECUTABLE(test_parser test/parser.cpp)
-ADD_EXECUTABLE(test_scope_builder test/scope_builder.cpp)
-ADD_EXECUTABLE(test_codegen test/codegen.cpp)
+ADD_EXECUTABLE(test_reader test/reader.cpp test/utils.h)
+ADD_EXECUTABLE(test_scanner test/scanner.cpp test/utils.h)
+ADD_EXECUTABLE(test_parser test/parser.cpp test/utils.h)
+ADD_EXECUTABLE(test_scope_builder test/scope_builder.cpp test/utils.h)
+ADD_EXECUTABLE(test_codegen test/codegen.cpp test/utils.h)
 
 TARGET_LINK_LIBRARIES(test_reader compiler)
 TARGET_LINK_LIBRARIES(test_scanner compiler)
