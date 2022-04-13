@@ -9,6 +9,7 @@ SET(CMAKE_CXX_EXTENSIONS OFF)
 SET(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/src")
+INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/test")
 
 SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
@@ -57,8 +58,10 @@ LLVM_MAP_COMPONENTS_TO_LIBNAMES(llvm_libs core support nativecodegen x86asmparse
 #--------------------------------------------------------------------------------------------------
 # compiler
 
-FILE(GLOB_RECURSE compiler_src CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/*.cpp")
-# cmake_print_variables(compiler_src)
+FILE(GLOB_RECURSE compiler_h CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/*.h")
+FILE(GLOB_RECURSE compiler_cpp CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/*.cpp")
+# cmake_print_variables(compiler_h)
+# cmake_print_variables(compiler_cpp)
 
 IF (MSVC)
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /WX /external:I \"${LLVM_DIR}/../../../include\" /external:W0")
@@ -68,7 +71,7 @@ ELSE()
     # ADD_COMPILE_OPTIONS(-Wall -Wextra -pedantic -Werror -isystem)
 ENDIF()
 
-ADD_LIBRARY(compiler STATIC ${compiler_src})
+ADD_LIBRARY(compiler STATIC ${compiler_h} ${compiler_cpp})
 
 TARGET_LINK_LIBRARIES(compiler utf8proc magic_enum fmt ${llvm_libs})
 
@@ -83,11 +86,11 @@ ADD_COMPILE_DEFINITIONS(TEST_DIR="${PROJECT_SOURCE_DIR}/test/")
 
 ENABLE_TESTING()
 
-ADD_EXECUTABLE(test_reader test/reader.cpp test/utils.h)
-ADD_EXECUTABLE(test_scanner test/scanner.cpp test/utils.h)
-ADD_EXECUTABLE(test_parser test/parser.cpp test/utils.h)
-ADD_EXECUTABLE(test_scope_builder test/scope_builder.cpp test/utils.h)
-ADD_EXECUTABLE(test_codegen test/codegen.cpp test/utils.h)
+ADD_EXECUTABLE(test_reader test/reader.cpp)
+ADD_EXECUTABLE(test_scanner test/scanner.cpp)
+ADD_EXECUTABLE(test_parser test/parser.cpp)
+ADD_EXECUTABLE(test_scope_builder test/scope_builder.cpp)
+ADD_EXECUTABLE(test_codegen test/codegen.cpp)
 
 TARGET_LINK_LIBRARIES(test_reader compiler)
 TARGET_LINK_LIBRARIES(test_scanner compiler)

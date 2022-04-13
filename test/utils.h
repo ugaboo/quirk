@@ -2,7 +2,7 @@
 #include <fstream>
 #include <string>
 #include "fmt/core.h"
-#include "visitors/ast_printer.h"
+#include "syn/sem/ast_printer.h"
 
 void dump(quirk::ast::Module* m, std::string filename) {
     std::ofstream out(filename, std::ios_base::binary | std::ios_base::out);

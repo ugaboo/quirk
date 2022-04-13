@@ -1,4 +1,4 @@
-#include "scanner.h"
+#include "syn/scanner.h"
 #include <filesystem>
 #include <fstream>
 #include <vector>

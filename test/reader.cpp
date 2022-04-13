@@ -1,8 +1,7 @@
-#include "reader.h"
+#include "syn/reader.h"
 #include <iostream>
 #include <vector>
 #include "fmt/core.h"
-#include "settings.h"
 
 using namespace quirk;
 using std::string;
@@ -92,8 +91,9 @@ bool slice() {
     auto is_id = [&]() { return reader.get_letter() >= 'a' && reader.get_letter() <= 'z'; };
 
     vector<string> expected = {
-        "lorem",   "ipsum",  "dolor",      "sit", "amet",   "consectetur", "adipiscing", "elit",  "sed",    "do",
-        "eiusmod", "tempor", "incididunt", "ut",  "labore", "et",          "dolore",     "magna", "aliqua",
+        "lorem",  "ipsum", "dolor",  "sit",     "amet",   "consectetur", "adipiscing",
+        "elit",   "sed",   "do",     "eiusmod", "tempor", "incididunt",  "ut",
+        "labore", "et",    "dolore", "magna",   "aliqua",
     };
 
     for (auto str : expected) {

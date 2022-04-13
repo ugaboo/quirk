@@ -1,13 +1,12 @@
+#include "syn/sem/scope_builder.h"
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <string>
 #include "fmt/core.h"
-#include "parser.h"
+#include "syn/parser.h"
+#include "syn/sem/ast_printer.h"
 #include "utils.h"
-
-#include "visitors/ast_printer.h"
-#include "visitors/scope_builder.h"
 
 using namespace std;
 using namespace quirk;

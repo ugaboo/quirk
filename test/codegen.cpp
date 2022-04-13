@@ -1,8 +1,8 @@
-#include "parser.h"
+#include "syn/parser.h"
 
-#include "visitors/codegen.h"
-#include "visitors/scope_builder.h"
-#include "visitors/type_inference.h"
+#include "syn/sem/codegen.h"
+#include "syn/sem/scope_builder.h"
+#include "syn/sem/type_inference.h"
 
 using namespace std;
 using namespace quirk;
