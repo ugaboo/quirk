@@ -29,8 +29,8 @@ public:
     };
 
 private:
-    Decl* type;
-    Kind kind;
+    Decl*            type;
+    Kind             kind;
     unique_ptr<Expr> left, right;
 
 public:

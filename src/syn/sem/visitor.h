@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ast/asg_stmt.h"
+#include "ast/basic_type.h"
 #include "ast/binary_expr.h"
 #include "ast/bool_literal.h"
 #include "ast/break_stmt.h"
@@ -21,7 +22,6 @@
 #include "ast/op_func.h"
 #include "ast/parameter.h"
 #include "ast/parameter_def.h"
-#include "ast/primitive_types.h"
 #include "ast/return_stmt.h"
 #include "ast/struct_def_stmt.h"
 #include "ast/structure.h"

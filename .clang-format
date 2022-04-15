@@ -7,3 +7,5 @@ FixNamespaceComments: true
 AccessModifierOffset: -4
 IndentCaseLabels: false
 IndentCaseBlocks: false
+AlignConsecutiveDeclarations: true
+AllowAllArgumentsOnNextLine: false

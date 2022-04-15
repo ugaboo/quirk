@@ -1,4 +1,5 @@
 #pragma once
+#include "compilation_error.h"
 #include "node.h"
 
 namespace quirk::ast {

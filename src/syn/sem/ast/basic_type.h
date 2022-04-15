@@ -3,6 +3,19 @@
 
 namespace quirk::ast {
 
+class BasicType : public Decl {
+public:
+    enum class Kind {
+        Int64,
+        Float64,
+    };
+
+private:
+    Kind kind;
+
+public:
+};
+
 class Int64Type : public Decl {
     Int64Type() {}
 
