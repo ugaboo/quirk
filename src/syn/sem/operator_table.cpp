@@ -22,4 +22,12 @@ const BinaryOpInfo* OperatorTable::Find(BinaryExpr::Kind kind,
     return nullptr;
 }
 
+const UnaryOpInfo* OperatorTable::Find(UnaryExpr::Kind kind, BasicType::Kind arg_type) {
+    auto result = unary_ops.find({kind, arg_type});
+    if (result != unary_ops.end()) {
+        return &result->second;
+    }
+    return nullptr;
+}
+
 }  // namespace quirk
