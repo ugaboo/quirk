@@ -1,4 +1,5 @@
-BasedOnStyle: Chromium    
+BasedOnStyle: Chromium
+BreakBeforeBraces: Stroustrup
 IndentWidth: 4
 ColumnLimit: 100
 AlignTrailingComments: true
