@@ -11,13 +11,11 @@ using namespace ast;
 
 Parser::Parser(string filename) : scanner(filename) {}
 
-bool Parser::parse(vector<StmtPtr>& result)
-{
+bool Parser::parse(vector<StmtPtr>& result) {
     return is_module(result);
 }
 
-bool Parser::is_module(vector<StmtPtr>& result)
-{
+bool Parser::is_module(vector<StmtPtr>& result) {
     StmtPtr s;
 L0:
     if (are_statements(result)) {
@@ -36,8 +34,7 @@ END:
     return true;
 }
 
-bool Parser::is_definition(StmtPtr& result)
-{
+bool Parser::is_definition(StmtPtr& result) {
     if (is_function(result)) {
         goto END;
     }
@@ -49,8 +46,7 @@ END:
     return true;
 }
 
-bool Parser::are_statements(vector<StmtPtr>& result)
-{
+bool Parser::are_statements(vector<StmtPtr>& result) {
     StmtPtr s;
 
     if (is_stmt_row(result)) {
@@ -65,8 +61,7 @@ END:
     return true;
 }
 
-bool Parser::is_compound(StmtPtr& result)
-{
+bool Parser::is_compound(StmtPtr& result) {
     if (is_if(result)) {
         goto END;
     }
@@ -78,8 +73,7 @@ END:
     return true;
 }
 
-bool Parser::is_stmt_row(vector<StmtPtr>& result)
-{
+bool Parser::is_stmt_row(vector<StmtPtr>& result) {
     StmtPtr s;
 
     if (is_small(s)) {
@@ -115,8 +109,7 @@ END:
     return true;
 }
 
-bool Parser::is_stmt_col(vector<StmtPtr>& result)
-{
+bool Parser::is_stmt_col(vector<StmtPtr>& result) {
     if (scanner.get_token() == Token::NewLine) {
         scanner.move();
         goto L1;
@@ -143,8 +136,7 @@ END:
     return true;
 }
 
-bool Parser::is_small(StmtPtr& result)
-{
+bool Parser::is_small(StmtPtr& result) {
     if (is_call_or_asg(result)) {
         goto END;
     }
@@ -166,8 +158,7 @@ END:
     return true;
 }
 
-bool Parser::is_call_or_asg(StmtPtr& result)
-{
+bool Parser::is_call_or_asg(StmtPtr& result) {
     Context context;
     ExprPtr desig, type, expr;
 
@@ -214,8 +205,7 @@ END:
     return true;
 }
 
-bool Parser::is_type(ExprPtr& result)
-{
+bool Parser::is_type(ExprPtr& result) {
     if (scanner.get_token() == Token::Name) {
         result = make_unique<NameLiteral>(scanner.get_context());
         scanner.move();
@@ -226,8 +216,7 @@ END:
     return true;
 }
 
-bool Parser::is_return(StmtPtr& result)
-{
+bool Parser::is_return(StmtPtr& result) {
     Context context;
     ExprPtr expr;
 
@@ -247,8 +236,7 @@ END:
     return true;
 }
 
-bool Parser::are_expressions(vector<ExprPtr>& result)
-{
+bool Parser::are_expressions(vector<ExprPtr>& result) {
     ExprPtr expr;
 
     if (is_expression(expr)) {
@@ -272,8 +260,7 @@ END:
     return true;
 }
 
-bool Parser::is_expression(ExprPtr& result)
-{
+bool Parser::is_expression(ExprPtr& result) {
     if (is_or(result)) {
         goto END;
     }
@@ -282,8 +269,7 @@ END:
     return true;
 }
 
-bool Parser::is_or(ExprPtr& result)
-{
+bool Parser::is_or(ExprPtr& result) {
     Context context;
     ExprPtr right;
 
@@ -308,8 +294,7 @@ END:
     return true;
 }
 
-bool Parser::is_and(ExprPtr& result)
-{
+bool Parser::is_and(ExprPtr& result) {
     Context context;
     ExprPtr right;
 
@@ -334,8 +319,7 @@ END:
     return true;
 }
 
-bool Parser::is_not(ExprPtr& result)
-{
+bool Parser::is_not(ExprPtr& result) {
     Context context;
 
     if (scanner.get_token() == Token::KwNot) {
@@ -357,8 +341,7 @@ END:
     return true;
 }
 
-bool Parser::is_comparison(ExprPtr& result)
-{
+bool Parser::is_comparison(ExprPtr& result) {
     Context      context;
     BinaryOpKind kind;
     ExprPtr      right;
@@ -382,8 +365,7 @@ END:
     return true;
 }
 
-bool Parser::is_relation(BinaryOpKind& result, Context& context)
-{
+bool Parser::is_relation(BinaryOpKind& result, Context& context) {
     if (scanner.get_token() == Token::Less) {
         result = BinaryOpKind::Less;
         context = scanner.get_context();
@@ -425,8 +407,7 @@ END:
     return true;
 }
 
-bool Parser::is_bor(ExprPtr& result)
-{
+bool Parser::is_bor(ExprPtr& result) {
     Context context;
     ExprPtr right;
 
@@ -451,8 +432,7 @@ END:
     return true;
 }
 
-bool Parser::is_bxor(ExprPtr& result)
-{
+bool Parser::is_bxor(ExprPtr& result) {
     Context context;
     ExprPtr right;
 
@@ -477,8 +457,7 @@ END:
     return true;
 }
 
-bool Parser::is_band(ExprPtr& result)
-{
+bool Parser::is_band(ExprPtr& result) {
     Context context;
     ExprPtr right;
 
@@ -503,8 +482,7 @@ END:
     return true;
 }
 
-bool Parser::is_shift(ExprPtr& result)
-{
+bool Parser::is_shift(ExprPtr& result) {
     Context      context;
     BinaryOpKind kind;
     ExprPtr      right;
@@ -537,8 +515,7 @@ END:
     return true;
 }
 
-bool Parser::is_arith(ExprPtr& result)
-{
+bool Parser::is_arith(ExprPtr& result) {
     Context      context;
     BinaryOpKind kind;
     ExprPtr      right;
@@ -571,8 +548,7 @@ END:
     return true;
 }
 
-bool Parser::is_term(ExprPtr& result)
-{
+bool Parser::is_term(ExprPtr& result) {
     Context      context;
     BinaryOpKind kind;
     ExprPtr      right;
@@ -617,8 +593,7 @@ END:
     return true;
 }
 
-bool Parser::is_factor(ExprPtr& result)
-{
+bool Parser::is_factor(ExprPtr& result) {
     Context     context;
     UnaryOpKind kind;
 
@@ -654,8 +629,7 @@ END:
     return true;
 }
 
-bool Parser::is_power(ExprPtr& result)
-{
+bool Parser::is_power(ExprPtr& result) {
     Context context;
     ExprPtr exp;
 
@@ -680,8 +654,7 @@ END:
     return true;
 }
 
-bool Parser::is_designator(ExprPtr& result)
-{
+bool Parser::is_designator(ExprPtr& result) {
     if (is_atom(result)) {
         goto L1;
     }
@@ -695,8 +668,7 @@ END:
     return true;
 }
 
-bool Parser::is_atom(ExprPtr& result)
-{
+bool Parser::is_atom(ExprPtr& result) {
     if (is_list(result)) {
         goto END;
     }
@@ -750,8 +722,7 @@ END:
     return true;
 }
 
-bool Parser::is_selector(ExprPtr& result)
-{
+bool Parser::is_selector(ExprPtr& result) {
     Context         context;
     vector<ExprPtr> args, keys;
 
@@ -807,8 +778,7 @@ END:
     return true;
 }
 
-bool Parser::is_list(ExprPtr& result)
-{
+bool Parser::is_list(ExprPtr& result) {
     Context         context;
     vector<ExprPtr> exprs;
 
@@ -834,21 +804,22 @@ END:
     return true;
 }
 
-bool Parser::is_function(StmtPtr& result)
-{
+bool Parser::is_function(StmtPtr& result) {
     Context                          context;
+    NameLiteralPtr                   name;
     vector<unique_ptr<ParamDefExpr>> params;
     ExprPtr                          ret_type_expr;
     vector<StmtPtr>                  stmts;
 
     if (scanner.get_token() == Token::KwDef) {
+        context = scanner.get_context();
         scanner.move();
         goto L1;
     }
     return false;
 L1:
     if (scanner.get_token() == Token::Name) {
-        context = scanner.get_context();
+        name = make_unique<NameLiteral>(scanner.get_context());
         scanner.move();
         goto L2;
     }
@@ -893,12 +864,11 @@ L8:
     }
     throw CompilationError::InvalidSyntax;
 END:
-    result = make_unique<FuncDefStmt>(context, params, ret_type_expr, stmts);
+    result = make_unique<FuncDefStmt>(context, name, params, ret_type_expr, stmts);
     return true;
 }
 
-bool Parser::are_parameters(vector<unique_ptr<ParamDefExpr>>& result)
-{
+bool Parser::are_parameters(vector<unique_ptr<ParamDefExpr>>& result) {
     unique_ptr<ParamDefExpr> param;
 
     if (is_parameter(param)) {
@@ -922,10 +892,9 @@ END:
     return true;
 }
 
-bool Parser::is_parameter(unique_ptr<ParamDefExpr>& result)
-{
+bool Parser::is_parameter(unique_ptr<ParamDefExpr>& result) {
     NameLiteralPtr name;
-    ExprPtr type;
+    ExprPtr        type;
 
     if (scanner.get_token() == Token::Name) {
         name = make_unique<NameLiteral>(scanner.get_context());
@@ -949,8 +918,7 @@ END:
     return true;
 }
 
-bool Parser::is_if(StmtPtr& result)
-{
+bool Parser::is_if(StmtPtr& result) {
     using Condition = ExprPtr;
     using Statements = vector<StmtPtr>;
     using Branch = std::pair<Condition, Statements>;
@@ -1009,8 +977,7 @@ END:
     return true;
 }
 
-bool Parser::is_while(StmtPtr& result)
-{
+bool Parser::is_while(StmtPtr& result) {
     Context         context;
     ExprPtr         condition;
     vector<StmtPtr> body;
@@ -1042,8 +1009,7 @@ END:
     return true;
 }
 
-bool Parser::is_suite(vector<StmtPtr>& result)
-{
+bool Parser::is_suite(vector<StmtPtr>& result) {
     if (is_stmt_row(result)) {
         goto END;
     }
@@ -1055,8 +1021,7 @@ END:
     return true;
 }
 
-bool Parser::is_structure(StmtPtr& result)
-{
+bool Parser::is_structure(StmtPtr& result) {
     Context                      context;
     vector<unique_ptr<FieldDef>> fields;
 
@@ -1088,8 +1053,7 @@ END:
     return true;
 }
 
-bool Parser::are_fields(vector<unique_ptr<FieldDef>>& result)
-{
+bool Parser::are_fields(vector<unique_ptr<FieldDef>>& result) {
     if (is_field_row(result)) {
         goto END;
     }
@@ -1101,8 +1065,7 @@ END:
     return true;
 }
 
-bool Parser::is_field_row(vector<unique_ptr<FieldDef>>& result)
-{
+bool Parser::is_field_row(vector<unique_ptr<FieldDef>>& result) {
     unique_ptr<FieldDef> field;
 
     if (is_field(field)) {
@@ -1138,8 +1101,7 @@ END:
     return true;
 }
 
-bool Parser::is_field_col(vector<unique_ptr<FieldDef>>& result)
-{
+bool Parser::is_field_col(vector<unique_ptr<FieldDef>>& result) {
     if (scanner.get_token() == Token::NewLine) {
         scanner.move();
         goto L1;
@@ -1166,8 +1128,7 @@ END:
     return true;
 }
 
-bool Parser::is_field(unique_ptr<FieldDef>& result)
-{
+bool Parser::is_field(unique_ptr<FieldDef>& result) {
     NameLiteralPtr name;
     ExprPtr        type;
     ExprPtr        init_expr;

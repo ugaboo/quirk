@@ -1,19 +1,21 @@
 #pragma once
-#include <map>
+
 #include "ast/field_def.h"
+#include "declaration.h"
 
 namespace quirk::scopes {
 
-class Field : public Decl {
-    FieldDef* source;
+using namespace ast;
+
+class Field : public Declaration {
+    FieldDef* def;
 
 public:
-    Field(FieldDef* source) : source(source) {}
+    Field(FieldDef* def) : def(def) {}
 
-    auto get_name() { return source->get_name(); }
-    auto get_source() { return source; }
+    auto get_def() { return def; }
 
-    void accept(Visitor* visitor) override;
+    string_view get_name() override { return def->get_name()->get_value(); }
 };
 
-}  // namespace quirk::ast
+}  // namespace quirk::scopes

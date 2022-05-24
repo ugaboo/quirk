@@ -5,41 +5,41 @@
 #include <unordered_map>
 #include <vector>
 #include "../ast/headers.h"
-#include "module.h"
+#include "field.h"
+#include "function.h"
+#include "structure.h"
+#include "variable.h"
 
 namespace quirk::scopes {
 
-using std::string;
-using std::string_view;
-using std::unique_ptr;
-using std::unordered_map;
-using std::vector;
-
+using namespace std;
 using namespace ast;
 
 class ScopesBuilder : public Visitor {
+    Scope          module_scope;
+    vector<Scope*> scopes;
+
     unordered_map<NameLiteral*, Declaration*> bindings;
-    Module                                    mod;
 
 public:
     ScopesBuilder(vector<StmtPtr>& stmts);
 
     virtual void visit(AsgStmt* node) override;
     virtual void visit(BinaryExpr* node) override;
-    virtual void visit(BoolLiteral* node) override;
-    virtual void visit(BreakStmt* node) override;
+    virtual void visit(BoolLiteral* node) override {}
+    virtual void visit(BreakStmt* node) override {}
     virtual void visit(CallExpr* node) override;
     virtual void visit(CallStmt* node) override;
-    virtual void visit(ContinueStmt* node) override;
+    virtual void visit(ContinueStmt* node) override {}
     virtual void visit(FieldDef* node) override;
-    virtual void visit(FloatLiteral* node) override;
+    virtual void visit(FloatLiteral* node) override {}
     virtual void visit(FuncDefStmt* node) override;
     virtual void visit(IfStmt* node) override;
-    virtual void visit(IntLiteral* node) override;
+    virtual void visit(IntLiteral* node) override {}
     virtual void visit(ListLiteral* node) override;
     virtual void visit(MemberAccessExpr* node) override;
     virtual void visit(NameLiteral* node) override;
-    virtual void visit(NoneLiteral* node) override;
+    virtual void visit(NoneLiteral* node) override {}
     virtual void visit(ParamDefExpr* node) override;
     virtual void visit(ReturnStmt* node) override;
     virtual void visit(StructDefStmt* node) override;
@@ -48,7 +48,8 @@ public:
     virtual void visit(WhileStmt* node) override;
 
 private:
-    void add_builtins();
+    Declaration* lookup(string_view name);
+    void         add_builtins();
 };
 
 // class ScopeBuilder : public Visitor {

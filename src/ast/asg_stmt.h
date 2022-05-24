@@ -9,9 +9,7 @@ class AsgStmt : public Stmt {
 
 public:
     AsgStmt(Context context, ExprPtr& lvalue, ExprPtr& type_expr, ExprPtr& rvalue)
-        : Stmt(context), lvalue(move(lvalue)), rvalue(move(rvalue)), type_expr(move(type_expr))
-    {
-    }
+        : Stmt(context), lvalue(move(lvalue)), rvalue(move(rvalue)), type_expr(move(type_expr)) {}
 
     auto get_lvalue() { return lvalue.get(); }
     auto get_rvalue() { return rvalue.get(); }

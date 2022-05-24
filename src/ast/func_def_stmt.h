@@ -7,18 +7,18 @@ namespace quirk::ast {
 class Function;
 
 class FuncDefStmt : public Stmt {
-    Context                 context;
+    NameLiteralPtr          name;
     vector<ParamDefExprPtr> params;
     ExprPtr                 ret_type_expr;
     vector<StmtPtr>         stmts;
 
 public:
     FuncDefStmt(Context                  context,
+                NameLiteralPtr&          name,
                 vector<ParamDefExprPtr>& params,
                 ExprPtr&                 ret_type_expr,
                 vector<StmtPtr>&         stmts)
-        : Stmt(context), ret_type_expr(move(ret_type_expr))
-    {
+        : Stmt(context), name(move(name)), ret_type_expr(move(ret_type_expr)) {
         for (auto& param : params) {
             FuncDefStmt::params.push_back(move(param));
         }
@@ -27,7 +27,7 @@ public:
         }
     }
 
-    auto get_name() { return context.value; }
+    auto get_name() { return name.get(); }
     auto count_params() { return params.size(); }
     auto get_param(size_t index) { return params[index].get(); }
     auto get_ret_type_expr() { return ret_type_expr.get(); }

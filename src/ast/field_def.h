@@ -13,11 +13,12 @@ class FieldDef : public Stmt {
 
 public:
     FieldDef(NameLiteralPtr& name, ExprPtr& type, ExprPtr& init_expr)
-        : Stmt(name->get_context()), name(move(name)), type(move(type)), init_expr(move(init_expr))
-    {
-    }
+        : Stmt(name->get_context()),
+          name(move(name)),
+          type(move(type)),
+          init_expr(move(init_expr)) {}
 
-    auto get_name() { return name->get_context().value; }
+    auto get_name() { return name.get(); }
     auto get_type() { return type.get(); }
     auto get_init_expr() { return init_expr.get(); }
 
