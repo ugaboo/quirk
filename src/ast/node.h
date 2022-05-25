@@ -16,8 +16,7 @@ class Node {
 
 public:
     Node() = delete;
-    Node(Context context) : context(context)
-    {
+    Node(Context context) : context(context) {
         static uint64_t last_id = 0;
         id = last_id++;
     }
@@ -34,13 +33,9 @@ public:
     Expr(Context context) : Node(context) {}
 };
 
-using ExprPtr = unique_ptr<Expr>;
-
 class Stmt : public Node {
 public:
     Stmt(Context context) : Node(context) {}
 };
-
-using StmtPtr = unique_ptr<Stmt>;
 
 }  // namespace quirk::ast

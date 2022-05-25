@@ -6,7 +6,7 @@ namespace quirk::util {
 
 using fmt::print;
 
-AstPrinter::AstPrinter(std::ostream& out, vector<StmtPtr>& stmts) : out(out) {
+AstPrinter::AstPrinter(std::ostream& out, vector<unique_ptr<Stmt>>& stmts) : out(out) {
     for (auto& s : stmts) {
         s->accept(this);
     }
@@ -101,7 +101,7 @@ void AstPrinter::visit(FloatLiteral* node) {
 }
 
 void AstPrinter::visit(FuncDefStmt* node) {
-    print("FuncDefStmt: '{}'\n", node->get_name());
+    print("FuncDefStmt: '{}'\n", node->get_name()->get_value());
     IndentGuard inc(indent);
     {
         if (node->count_params() > 0) {
@@ -214,7 +214,7 @@ void AstPrinter::visit(NoneLiteral*) {
 }
 
 void AstPrinter::visit(ParamDefExpr* node) {
-    print("ParameterDef: '{}'\n", node->get_name());
+    print("ParameterDef: '{}'\n", node->get_name()->get_value());
     IndentGuard inc(indent);
     {
         print("type:\n");
@@ -234,7 +234,7 @@ void AstPrinter::visit(ReturnStmt* node) {
 }
 
 void AstPrinter::visit(StructDefStmt* node) {
-    print("StructDefStmt: '{}'\n", node->get_name());
+    print("StructDefStmt: '{}'\n", node->get_name()->get_value());
     IndentGuard inc(indent);
     {
         if (node->count_fields() > 0) {

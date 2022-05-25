@@ -4,13 +4,12 @@
 namespace quirk::ast {
 
 class SubscriptExpr : public Expr {
-    ExprPtr         designator;
-    vector<ExprPtr> keys;
+    unique_ptr<Expr>         designator;
+    vector<unique_ptr<Expr>> keys;
 
 public:
-    SubscriptExpr(Context context, ExprPtr& designator, vector<ExprPtr>& keys)
-        : Expr(context), designator(move(designator))
-    {
+    SubscriptExpr(Context context, unique_ptr<Expr>& designator, vector<unique_ptr<Expr>>& keys)
+        : Expr(context), designator(move(designator)) {
         for (auto& key : keys) {
             SubscriptExpr::keys.push_back(move(key));
         }

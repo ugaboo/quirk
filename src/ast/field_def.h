@@ -7,12 +7,12 @@ namespace quirk::ast {
 class Field;
 
 class FieldDef : public Stmt {
-    NameLiteralPtr name;
-    ExprPtr        type;
-    ExprPtr        init_expr;
+    unique_ptr<NameLiteral> name;
+    unique_ptr<Expr>        type;
+    unique_ptr<Expr>        init_expr;
 
 public:
-    FieldDef(NameLiteralPtr& name, ExprPtr& type, ExprPtr& init_expr)
+    FieldDef(unique_ptr<NameLiteral>& name, unique_ptr<Expr>& type, unique_ptr<Expr>& init_expr)
         : Stmt(name->get_context()),
           name(move(name)),
           type(move(type)),

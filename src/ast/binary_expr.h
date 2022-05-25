@@ -28,14 +28,12 @@ enum class BinaryOpKind {
 };
 
 class BinaryExpr : public Expr {
-    BinaryOpKind kind;
-    ExprPtr      left, right;
+    BinaryOpKind     kind;
+    unique_ptr<Expr> left, right;
 
 public:
-    BinaryExpr(Context context, BinaryOpKind kind, ExprPtr& left, ExprPtr& right)
-        : Expr(context), kind(kind), left(move(left)), right(move(right))
-    {
-    }
+    BinaryExpr(Context context, BinaryOpKind kind, unique_ptr<Expr>& left, unique_ptr<Expr>& right)
+        : Expr(context), kind(kind), left(move(left)), right(move(right)) {}
 
     auto get_kind() { return kind; }
     auto get_left() { return left.get(); }

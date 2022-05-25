@@ -9,19 +9,17 @@
 using namespace std;
 using namespace quirk;
 
-auto empty()
-{
+auto empty() {
     Parser parser(TEST_DIR "/parser/empty.qk");
 
-    vector<StmtPtr> stmts;
+    vector<unique_ptr<Stmt>> stmts;
     return parser.parse(stmts) && stmts.size() == 0;
 }
 
-auto all_rules()
-{
+auto all_rules() {
     Parser parser(TEST_DIR "parser/ast.qk");
 
-    vector<StmtPtr> stmts;
+    vector<unique_ptr<Stmt>> stmts;
     if (!parser.parse(stmts)) {
         return false;
     }
@@ -34,15 +32,13 @@ auto all_rules()
     return diff(file, output);
 }
 
-auto test_error(string filename, CompilationError expected)
-{
+auto test_error(string filename, CompilationError expected) {
     Parser parser(filename);
 
-    vector<StmtPtr> stmts;
+    vector<unique_ptr<Stmt>> stmts;
     try {
         parser.parse(stmts);
-    }
-    catch (CompilationError err) {
+    } catch (CompilationError err) {
         if (err == expected) {
             return true;
         }
@@ -50,8 +46,7 @@ auto test_error(string filename, CompilationError expected)
     return false;
 }
 
-int main()
-{
+int main() {
     // auto syntax_error = test_error(TEST_DIR "parser/syntax_error.qk",
     // CompilationError::InvalidSyntax); auto asg_to_call_error =
     //     test_error(TEST_DIR "parser/asg_to_call_error.qk",

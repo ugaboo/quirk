@@ -7,6 +7,7 @@
 #include "../ast/headers.h"
 #include "field.h"
 #include "function.h"
+#include "parameter.h"
 #include "structure.h"
 #include "variable.h"
 
@@ -22,7 +23,7 @@ class ScopesBuilder : public Visitor {
     unordered_map<NameLiteral*, Declaration*> bindings;
 
 public:
-    ScopesBuilder(vector<StmtPtr>& stmts);
+    ScopesBuilder(vector<unique_ptr<Stmt>>& stmts);
 
     virtual void visit(AsgStmt* node) override;
     virtual void visit(BinaryExpr* node) override;

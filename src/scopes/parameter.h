@@ -1,18 +1,23 @@
 #pragma once
-#include "ast/parameter_def.h"
+
+#include "ast/param_def_expr.h"
+#include "declaration.h"
 
 namespace quirk::scopes {
 
-class Parameter : public Decl {
-    ParameterDef* def;
+using namespace ast;
+
+class Parameter : public Declaration {
+    ParamDefExpr* def;
 
 public:
-    Parameter(ParameterDef* def) : def(def) {}
+    Parameter(ParamDefExpr* def) : def(def) {}
 
-    auto get_name() { return def->get_name(); }
     auto get_def() { return def; }
 
-    void accept(Visitor* visitor) override;
+    string_view get_name() override { return def->get_name()->get_value(); }
+
+    // void accept(Visitor* visitor) override;
 };
 
-}  // namespace quirk::ast
+}  // namespace quirk::scopes

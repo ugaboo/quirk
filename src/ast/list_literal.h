@@ -4,11 +4,10 @@
 namespace quirk::ast {
 
 class ListLiteral : public Expr {
-    vector<ExprPtr> exprs;
+    vector<unique_ptr<Expr>> exprs;
 
 public:
-    ListLiteral(Context context, vector<ExprPtr>& exprs) : Expr(context)
-    {
+    ListLiteral(Context context, vector<unique_ptr<Expr>>& exprs) : Expr(context) {
         for (auto& expr : exprs) {
             ListLiteral::exprs.push_back(move(expr));
         }

@@ -13,9 +13,11 @@ class Structure : public Declaration {
 public:
     Structure(StructDefStmt* def) : def(def) {}
 
-    string_view get_name() override { return def->get_name(); }
+    string_view get_name() override { return def->get_name()->get_value(); }
 
     auto get_def() { return def; }
+
+    auto get_scope() { return &local_scope; }
 
     // auto count_local_decls() { return local_decls.size(); }
     // auto get_local_decl(size_t index) { return local_decls[index].get(); }

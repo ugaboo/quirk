@@ -4,10 +4,10 @@
 namespace quirk::ast {
 
 class ReturnStmt : public Stmt {
-    ExprPtr expr;
+    unique_ptr<Expr> expr;
 
 public:
-    ReturnStmt(Context context, ExprPtr& expr) : Stmt(context), expr(move(expr)) {}
+    ReturnStmt(Context context, unique_ptr<Expr>& expr) : Stmt(context), expr(move(expr)) {}
 
     auto get_expr() { return expr.get(); }
 

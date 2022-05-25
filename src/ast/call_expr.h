@@ -7,13 +7,12 @@ namespace quirk::ast {
 using std::vector;
 
 class CallExpr : public Expr {
-    ExprPtr         designator;
-    vector<ExprPtr> args;
+    unique_ptr<Expr>         designator;
+    vector<unique_ptr<Expr>> args;
 
 public:
-    CallExpr(Context context, ExprPtr& designator, vector<ExprPtr>& args)
-        : Expr(context), designator(move(designator))
-    {
+    CallExpr(Context context, unique_ptr<Expr>& designator, vector<unique_ptr<Expr>>& args)
+        : Expr(context), designator(move(designator)) {
         for (auto& arg : args) {
             CallExpr::args.push_back(move(arg));
         }

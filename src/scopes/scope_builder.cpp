@@ -3,7 +3,7 @@
 
 namespace quirk::scopes {
 
-ScopesBuilder::ScopesBuilder(vector<StmtPtr>& stmts) {
+ScopesBuilder::ScopesBuilder(vector<unique_ptr<Stmt>>& stmts) {
     scopes.push_back(&module_scope);
 
     add_builtins();
@@ -63,7 +63,9 @@ void ScopesBuilder::visit(FieldDef* node) {
     }
 }
 
-void ScopesBuilder::visit(ast::FuncDefStmt* node) {
+void ScopesBuilder::visit(FuncDefStmt* node) {
+    node->get_ret_type_expr()->accept(this);
+
     auto func = make_unique<Function>(node);
     auto ptr = func.get();
     bindings.insert({node->get_name(), ptr});
@@ -71,6 +73,92 @@ void ScopesBuilder::visit(ast::FuncDefStmt* node) {
         throw CompilationError::Redefinition;
     }
     scopes.push_back(ptr->get_scope());
+
+    for (size_t i = 0; i < node->count_params(); i++) {
+        node->get_param(i)->accept(this);
+    }
+    for (size_t i = 0; i < node->count_stmts(); i++) {
+        node->get_stmt(i)->accept(this);
+    }
+}
+
+void ScopesBuilder::visit(IfStmt* node) {
+    for (size_t i = 0; i < node->count_branches(); i++) {
+        node->get_condition(i)->accept(this);
+        for (size_t j = 0; j < node->count_branch_stmts(i); j++) {
+            node->get_branch_stmt(i, j)->accept(this);
+        }
+    }
+    for (size_t i = 0; i < node->count_else_stmts(); i++) {
+        node->get_else_stmt(i)->accept(this);
+    }
+}
+
+void ScopesBuilder::visit(ListLiteral* node) {
+    for (size_t i = 0; i < node->count_exprs(); i++) {
+        node->get_expr(i)->accept(this);
+    }
+}
+
+void ScopesBuilder::visit(MemberAccessExpr* node) {
+    node->get_designator()->accept(this);
+    node->get_selector()->accept(this);
+}
+
+void ScopesBuilder::visit(NameLiteral* node) {
+    auto decl = lookup(node->get_value());
+    if (decl == nullptr) {
+        throw CompilationError::ItemNotFound;
+    }
+    bindings.insert({node, decl});
+}
+
+void ScopesBuilder::visit(ParamDefExpr* node) {
+    auto param = make_unique<Parameter>(node);
+    bindings.insert({node->get_name(), param.get()});
+    if (!scopes.back()->add(move(param))) {
+        throw CompilationError::Redefinition;
+    }
+
+    node->get_type()->accept(this);
+}
+
+void ScopesBuilder::visit(ReturnStmt* node) {
+    if (node->get_expr() != nullptr) {
+        node->get_expr()->accept(this);
+    }
+}
+
+void ScopesBuilder::visit(StructDefStmt* node) {
+    auto st = make_unique<Structure>(node);
+    auto ptr = st.get();
+    bindings.insert({node->get_name(), st.get()});
+    if (!scopes.back()->add(move(st))) {
+        throw CompilationError::Redefinition;
+    }
+    scopes.push_back(ptr->get_scope());
+
+    for (size_t i = 0; i < node->count_fields(); i++) {
+        node->get_field(i)->accept(this);
+    }
+}
+
+void ScopesBuilder::visit(SubscriptExpr* node) {
+    node->get_designator()->accept(this);
+    for (size_t i = 0; i < node->count_keys(); i++) {
+        node->get_key(i)->accept(this);
+    }
+}
+
+void ScopesBuilder::visit(UnaryExpr* node) {
+    node->get_expr()->accept(this);
+}
+
+void ScopesBuilder::visit(WhileStmt* node) {
+    node->get_condition()->accept(this);
+    for (size_t i = 0; i < node->count_stmts(); i++) {
+        node->get_stmt(i)->accept(this);
+    }
 }
 
 Declaration* ScopesBuilder::lookup(string_view name) {
@@ -84,84 +172,6 @@ Declaration* ScopesBuilder::lookup(string_view name) {
 }
 
 void ScopesBuilder::add_builtins() {}
-
-// void ScopeBuilder::visit(ast::IfStmt* node) {
-//     for (size_t i = 0; i < node->count_branches(); i++) {
-//         node->get_condition(i)->accept(this);
-//         for (size_t j = 0; j < node->count_branch_stmts(i); j++) {
-//             node->get_branch_stmt(i, j)->accept(this);
-//         }
-//     }
-//     for (size_t i = 0; i < node->count_else_stmts(); i++) {
-//         node->get_else_stmt(i)->accept(this);
-//     }
-// }
-
-// void ScopeBuilder::visit(ast::ListLiteral* node) {
-//     for (size_t i = 0; i < node->count_exprs(); i++) {
-//         node->get_expr(i)->accept(this);
-//     }
-// }
-
-// void ScopeBuilder::visit(ast::MemberAccessExpr* node) {
-//     node->get_designator()->accept(this);
-//     node->get_selector()->accept(this);
-// }
-
-// void ScopeBuilder::visit(ast::NameLiteral* node) {
-//     auto decl = Find(node->get_value());
-//     if (decl != nullptr) {
-//         node->set_decl(decl);
-//     } else {
-//         throw CompilationError::ItemNotFound;
-//     }
-// }
-
-// void ScopeBuilder::visit(ast::ReturnStmt* node) {
-//     if (node->get_expr() != nullptr) {
-//         node->get_expr()->accept(this);
-//     }
-// }
-
-// void ScopeBuilder::visit(ast::StructDefStmt* node) {
-//     auto st = make_unique<ast::Structure>(node);
-//     node->set_decl(st.get());
-//     structures.push_back(st.get());
-//     auto [_, success] = name_tables.back().insert({string(node->get_name()), st.get()});
-//     if (!success) {
-//         throw CompilationError::Redefinition;
-//     }
-//     local_decls.back().push_back(move(st));
-// }
-
-// void ScopeBuilder::visit(ast::SubscriptExpr* node) {
-//     node->get_designator()->accept(this);
-//     for (size_t i = 0; i < node->count_keys(); i++) {
-//         node->get_key(i)->accept(this);
-//     }
-// }
-
-// void ScopeBuilder::visit(ast::UnaryExpr* node) {
-//     node->get_expr()->accept(this);
-// }
-
-// void ScopeBuilder::visit(ast::ParameterDef* node) {
-//     auto param = make_unique<ast::Parameter>(node);
-//     node->set_decl(param.get());
-//     auto [_, success] = name_tables.back().insert({string(param->get_name()), param.get()});
-//     if (!success) {
-//         throw CompilationError::Redefinition;
-//     }
-//     local_decls.back().push_back(move(param));
-//     node->get_type()->accept(this);
-// }
-
-// void ScopeBuilder::visit(ast::WhileStmt* node) {
-//     node->get_condition()->accept(this);
-//     for (size_t i = 0; i < node->count_stmts(); i++) {
-//         node->get_stmt(i)->accept(this);
-//     }
-// }
 
 // void ScopeBuilder::visit(ast::Module* node) {
 //     name_tables.emplace_back();

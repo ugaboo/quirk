@@ -10,15 +10,14 @@
 using namespace std;
 using namespace quirk;
 
-bool test()
-{
+bool test() {
     string         folder = TEST_DIR "scope_builder/";
     vector<string> names = {"ops", "funcs", "structs"};
 
     for (auto name : names) {
         Parser parser(folder + name + ".qk");
 
-        vector<StmtPtr> stmts;
+        vector<unique_ptr<Stmt>> stmts;
         if (!parser.parse(stmts)) {
             return 1;
         }
@@ -37,23 +36,21 @@ bool test()
     return true;
 }
 
-bool test_errors()
-{
+bool test_errors() {
     string         folder = TEST_DIR "scope_builder/";
     vector<string> names = {"error1", "error2"};
 
     for (auto name : names) {
-        Parser                  parser(folder + name + ".qk");
+        Parser parser(folder + name + ".qk");
 
-        vector<StmtPtr> stmts;
+        vector<unique_ptr<Stmt>> stmts;
         if (!parser.parse(stmts)) {
             return 1;
         }
 
         try {
             scopes::ScopesBuilder builder(stmts);
-        }
-        catch (CompilationError exc) {
+        } catch (CompilationError exc) {
             if (exc == CompilationError::ItemNotFound) {
                 continue;
             }
@@ -62,7 +59,6 @@ bool test_errors()
     return true;
 }
 
-int main()
-{
+int main() {
     return test() && test_errors() ? 0 : 1;
 }

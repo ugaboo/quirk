@@ -4,16 +4,14 @@
 namespace quirk::ast {
 
 class ParamDefExpr : public Expr {
-    NameLiteralPtr name;
-    ExprPtr        type;
+    unique_ptr<NameLiteral> name;
+    unique_ptr<Expr>        type;
 
 public:
-    ParamDefExpr(NameLiteralPtr& name, ExprPtr& type)
-        : Expr(name->get_context()), name(move(name)), type(move(type))
-    {
-    }
+    ParamDefExpr(unique_ptr<NameLiteral>& name, unique_ptr<Expr>& type)
+        : Expr(name->get_context()), name(move(name)), type(move(type)) {}
 
-    auto get_name() { return name->get_value(); }
+    auto get_name() { return name.get(); }
     auto get_type() { return type.get(); }
 
     void accept(Visitor* visitor) override { visitor->visit(this); }

@@ -7,17 +7,17 @@ namespace quirk::ast {
 class Function;
 
 class FuncDefStmt : public Stmt {
-    NameLiteralPtr          name;
-    vector<ParamDefExprPtr> params;
-    ExprPtr                 ret_type_expr;
-    vector<StmtPtr>         stmts;
+    unique_ptr<NameLiteral>  name;
+    vector<ParamDefExprPtr>  params;
+    unique_ptr<Expr>         ret_type_expr;
+    vector<unique_ptr<Stmt>> stmts;
 
 public:
-    FuncDefStmt(Context                  context,
-                NameLiteralPtr&          name,
-                vector<ParamDefExprPtr>& params,
-                ExprPtr&                 ret_type_expr,
-                vector<StmtPtr>&         stmts)
+    FuncDefStmt(Context                   context,
+                unique_ptr<NameLiteral>&  name,
+                vector<ParamDefExprPtr>&  params,
+                unique_ptr<Expr>&         ret_type_expr,
+                vector<unique_ptr<Stmt>>& stmts)
         : Stmt(context), name(move(name)), ret_type_expr(move(ret_type_expr)) {
         for (auto& param : params) {
             FuncDefStmt::params.push_back(move(param));

@@ -15,7 +15,7 @@ class AstPrinter : public Visitor {
     int      indent = 0;
 
 public:
-    AstPrinter(ostream& out, vector<StmtPtr>& stmts);
+    AstPrinter(ostream& out, vector<unique_ptr<Stmt>>& stmts);
 
     virtual void visit(AsgStmt* node) override;
     virtual void visit(BinaryExpr* node) override;
@@ -44,8 +44,7 @@ private:
     void print_call(CallExpr* node);
 
     template <typename S, typename... Args>
-    void print(const S& format_str, Args&&... args)
-    {
+    void print(const S& format_str, Args&&... args) {
         for (auto i = 0; i < indent; i++) {
             fmt::print(out, "    ");
         }

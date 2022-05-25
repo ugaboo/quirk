@@ -7,17 +7,18 @@ namespace quirk::ast {
 class Structure;
 
 class StructDefStmt : public Stmt {
-    vector<FieldDefPtr> fields;
+    unique_ptr<NameLiteral> name;
+    vector<FieldDefPtr>     fields;
 
 public:
-    StructDefStmt(Context context, vector<FieldDefPtr>& fields) : Stmt(context)
-    {
+    StructDefStmt(Context context, unique_ptr<NameLiteral>& name, vector<FieldDefPtr>& fields)
+        : Stmt(context), name(move(name)) {
         for (auto& field : fields) {
             StructDefStmt::fields.push_back(move(field));
         }
     }
 
-    auto get_name() { return get_context().value; }
+    auto get_name() { return name.get(); }
     auto count_fields() { return fields.size(); }
     auto get_field(size_t index) { return fields[index].get(); }
 

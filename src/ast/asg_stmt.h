@@ -5,10 +5,13 @@
 namespace quirk::ast {
 
 class AsgStmt : public Stmt {
-    ExprPtr lvalue, rvalue, type_expr;
+    unique_ptr<Expr> lvalue, rvalue, type_expr;
 
 public:
-    AsgStmt(Context context, ExprPtr& lvalue, ExprPtr& type_expr, ExprPtr& rvalue)
+    AsgStmt(Context           context,
+            unique_ptr<Expr>& lvalue,
+            unique_ptr<Expr>& type_expr,
+            unique_ptr<Expr>& rvalue)
         : Stmt(context), lvalue(move(lvalue)), rvalue(move(rvalue)), type_expr(move(type_expr)) {}
 
     auto get_lvalue() { return lvalue.get(); }
