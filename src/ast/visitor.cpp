@@ -5,8 +5,12 @@ namespace quirk::ast {
 
 void Visitor::visit(AsgStmt* node)
 {
-    node->get_rvalue()->accept(this);
-    node->get_type_expr()->accept(this);
+    if (node->get_rvalue() != nullptr) {
+        node->get_rvalue()->accept(this);
+    }
+    if (node->get_type_expr() != nullptr) {
+        node->get_type_expr()->accept(this);
+    }
     node->get_lvalue()->accept(this);
 }
 
