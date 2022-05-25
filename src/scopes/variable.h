@@ -17,7 +17,8 @@ public:
 
     auto get_def() { return def; }
 
-    string_view get_name() override {
+    string_view get_name() override
+    {
         return static_cast<NameLiteral*>(def->get_lvalue())->get_value();
     }
 
@@ -27,4 +28,4 @@ public:
     // void accept(Visitor* visitor) override;
 };
 
-}  // namespace quirk::scopes
+} // namespace quirk::scopes

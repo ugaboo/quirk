@@ -3,7 +3,8 @@
 
 namespace quirk::scopes {
 
-ScopesBuilder::ScopesBuilder(vector<unique_ptr<Stmt>>& stmts) {
+ScopesBuilder::ScopesBuilder(vector<unique_ptr<Stmt>>& stmts)
+{
     scopes.push_back(&module_scope);
 
     add_builtins();
@@ -13,7 +14,8 @@ ScopesBuilder::ScopesBuilder(vector<unique_ptr<Stmt>>& stmts) {
     }
 }
 
-void ScopesBuilder::visit(ast::AsgStmt* node) {
+void ScopesBuilder::visit(ast::AsgStmt* node)
+{
     if (node->get_type_expr() != nullptr) {
         node->get_type_expr()->accept(this);
     }
@@ -29,7 +31,7 @@ void ScopesBuilder::visit(ast::AsgStmt* node) {
     auto decl = lookup(name->get_value());
     if (decl == nullptr) {
         auto var = make_unique<Variable>(node);
-        if (scopes.size() == 1) {  // module level
+        if (scopes.size() == 1) { // module level
             var->make_global();
         }
         bindings.insert({name, var.get()});
@@ -39,23 +41,8 @@ void ScopesBuilder::visit(ast::AsgStmt* node) {
     }
 }
 
-void ScopesBuilder::visit(BinaryExpr* node) {
-    node->get_left()->accept(this);
-    node->get_right()->accept(this);
-}
-
-void ScopesBuilder::visit(CallExpr* node) {
-    node->get_designator()->accept(this);
-    for (size_t i = 0; i < node->count_args(); i++) {
-        node->get_arg(i)->accept(this);
-    }
-}
-
-void ScopesBuilder::visit(CallStmt* node) {
-    node->get_expr()->accept(this);
-}
-
-void ScopesBuilder::visit(FieldDef* node) {
+void ScopesBuilder::visit(FieldDef* node)
+{
     auto field = make_unique<Field>(node);
     bindings.insert({node->get_name(), field.get()});
     if (!scopes.back()->add(move(field))) {
@@ -63,7 +50,8 @@ void ScopesBuilder::visit(FieldDef* node) {
     }
 }
 
-void ScopesBuilder::visit(FuncDefStmt* node) {
+void ScopesBuilder::visit(FuncDefStmt* node)
+{
     node->get_ret_type_expr()->accept(this);
 
     auto func = make_unique<Function>(node);
@@ -82,30 +70,8 @@ void ScopesBuilder::visit(FuncDefStmt* node) {
     }
 }
 
-void ScopesBuilder::visit(IfStmt* node) {
-    for (size_t i = 0; i < node->count_branches(); i++) {
-        node->get_condition(i)->accept(this);
-        for (size_t j = 0; j < node->count_branch_stmts(i); j++) {
-            node->get_branch_stmt(i, j)->accept(this);
-        }
-    }
-    for (size_t i = 0; i < node->count_else_stmts(); i++) {
-        node->get_else_stmt(i)->accept(this);
-    }
-}
-
-void ScopesBuilder::visit(ListLiteral* node) {
-    for (size_t i = 0; i < node->count_exprs(); i++) {
-        node->get_expr(i)->accept(this);
-    }
-}
-
-void ScopesBuilder::visit(MemberAccessExpr* node) {
-    node->get_designator()->accept(this);
-    node->get_selector()->accept(this);
-}
-
-void ScopesBuilder::visit(NameLiteral* node) {
+void ScopesBuilder::visit(NameLiteral* node)
+{
     auto decl = lookup(node->get_value());
     if (decl == nullptr) {
         throw CompilationError::ItemNotFound;
@@ -113,7 +79,8 @@ void ScopesBuilder::visit(NameLiteral* node) {
     bindings.insert({node, decl});
 }
 
-void ScopesBuilder::visit(ParamDefExpr* node) {
+void ScopesBuilder::visit(ParamDefExpr* node)
+{
     auto param = make_unique<Parameter>(node);
     bindings.insert({node->get_name(), param.get()});
     if (!scopes.back()->add(move(param))) {
@@ -123,13 +90,8 @@ void ScopesBuilder::visit(ParamDefExpr* node) {
     node->get_type()->accept(this);
 }
 
-void ScopesBuilder::visit(ReturnStmt* node) {
-    if (node->get_expr() != nullptr) {
-        node->get_expr()->accept(this);
-    }
-}
-
-void ScopesBuilder::visit(StructDefStmt* node) {
+void ScopesBuilder::visit(StructDefStmt* node)
+{
     auto st = make_unique<Structure>(node);
     auto ptr = st.get();
     bindings.insert({node->get_name(), st.get()});
@@ -143,25 +105,8 @@ void ScopesBuilder::visit(StructDefStmt* node) {
     }
 }
 
-void ScopesBuilder::visit(SubscriptExpr* node) {
-    node->get_designator()->accept(this);
-    for (size_t i = 0; i < node->count_keys(); i++) {
-        node->get_key(i)->accept(this);
-    }
-}
-
-void ScopesBuilder::visit(UnaryExpr* node) {
-    node->get_expr()->accept(this);
-}
-
-void ScopesBuilder::visit(WhileStmt* node) {
-    node->get_condition()->accept(this);
-    for (size_t i = 0; i < node->count_stmts(); i++) {
-        node->get_stmt(i)->accept(this);
-    }
-}
-
-Declaration* ScopesBuilder::lookup(string_view name) {
+Declaration* ScopesBuilder::lookup(string_view name)
+{
     for (auto it = scopes.rbegin(); it != scopes.rend(); it++) {
         auto decl = (*it)->find(string(name));
         if (decl != nullptr) {
@@ -254,4 +199,4 @@ void ScopesBuilder::add_builtins() {}
 //     add_bin_op("__add__", f64, f64, f64);
 // }
 
-}  // namespace quirk::scopes
+} // namespace quirk::scopes

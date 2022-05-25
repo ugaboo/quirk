@@ -26,4 +26,4 @@ public:
     // void accept(Visitor* visitor) override;
 };
 
-}  // namespace quirk::scopes
+} // namespace quirk::scopes

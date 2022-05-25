@@ -6,28 +6,28 @@ namespace quirk::ast {
 
 class Visitor {
 public:
-    virtual void visit(AsgStmt* node) = 0;
-    virtual void visit(BinaryExpr* node) = 0;
-    virtual void visit(BoolLiteral* node) = 0;
-    virtual void visit(BreakStmt* node) = 0;
-    virtual void visit(CallExpr* node) = 0;
-    virtual void visit(CallStmt* node) = 0;
-    virtual void visit(ContinueStmt* node) = 0;
-    virtual void visit(FieldDef* node) = 0;
-    virtual void visit(FloatLiteral* node) = 0;
-    virtual void visit(FuncDefStmt* node) = 0;
-    virtual void visit(IfStmt* node) = 0;
-    virtual void visit(IntLiteral* node) = 0;
-    virtual void visit(ListLiteral* node) = 0;
-    virtual void visit(MemberAccessExpr* node) = 0;
-    virtual void visit(NameLiteral* node) = 0;
-    virtual void visit(NoneLiteral* node) = 0;
-    virtual void visit(ParamDefExpr* node) = 0;
-    virtual void visit(ReturnStmt* node) = 0;
-    virtual void visit(StructDefStmt* node) = 0;
-    virtual void visit(SubscriptExpr* node) = 0;
-    virtual void visit(UnaryExpr* node) = 0;
-    virtual void visit(WhileStmt* node) = 0;
+    virtual void visit(AsgStmt* node);
+    virtual void visit(BinaryExpr* node);
+    virtual void visit(BoolLiteral* node);
+    virtual void visit(BreakStmt* node);
+    virtual void visit(CallExpr* node);
+    virtual void visit(CallStmt* node);
+    virtual void visit(ContinueStmt* node);
+    virtual void visit(FieldDef* node);
+    virtual void visit(FloatLiteral* node);
+    virtual void visit(FuncDefStmt* node);
+    virtual void visit(IfStmt* node);
+    virtual void visit(IntLiteral* node);
+    virtual void visit(ListLiteral* node);
+    virtual void visit(MemberAccessExpr* node);
+    virtual void visit(NameLiteral* node);
+    virtual void visit(NoneLiteral* node);
+    virtual void visit(ParamDefExpr* node);
+    virtual void visit(ReturnStmt* node);
+    virtual void visit(StructDefStmt* node);
+    virtual void visit(SubscriptExpr* node);
+    virtual void visit(UnaryExpr* node);
+    virtual void visit(WhileStmt* node);
 };
 
 }  // namespace quirk::ast

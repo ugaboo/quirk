@@ -1,14 +1,12 @@
-BasedOnStyle: Chromium
-BreakBeforeBraces: Custom
-BraceWrapping:
-  AfterControlStatement: MultiLine
-IndentWidth: 4
-ColumnLimit: 100
-AlignTrailingComments: true
-FixNamespaceComments: true
 AccessModifierOffset: -4
-IndentCaseLabels: false
-IndentCaseBlocks: false
 AlignConsecutiveDeclarations: true
+AlignTrailingComments: true
 AllowAllArgumentsOnNextLine: false
 AllowShortFunctionsOnASingleLine: Inline
+BreakBeforeBraces: WebKit
+ColumnLimit: 100
+FixNamespaceComments: true
+IndentCaseBlocks: false
+IndentCaseLabels: false
+IndentWidth: 4
+PointerAlignment: Left

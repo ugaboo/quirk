@@ -1,15 +1,15 @@
 #pragma once
 
-#include <memory>
-#include <string>
-#include <unordered_map>
-#include <vector>
 #include "../ast/headers.h"
 #include "field.h"
 #include "function.h"
 #include "parameter.h"
 #include "structure.h"
 #include "variable.h"
+#include <memory>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 namespace quirk::scopes {
 
@@ -26,27 +26,11 @@ public:
     ScopesBuilder(vector<unique_ptr<Stmt>>& stmts);
 
     virtual void visit(AsgStmt* node) override;
-    virtual void visit(BinaryExpr* node) override;
-    virtual void visit(BoolLiteral* node) override {}
-    virtual void visit(BreakStmt* node) override {}
-    virtual void visit(CallExpr* node) override;
-    virtual void visit(CallStmt* node) override;
-    virtual void visit(ContinueStmt* node) override {}
     virtual void visit(FieldDef* node) override;
-    virtual void visit(FloatLiteral* node) override {}
     virtual void visit(FuncDefStmt* node) override;
-    virtual void visit(IfStmt* node) override;
-    virtual void visit(IntLiteral* node) override {}
-    virtual void visit(ListLiteral* node) override;
-    virtual void visit(MemberAccessExpr* node) override;
     virtual void visit(NameLiteral* node) override;
-    virtual void visit(NoneLiteral* node) override {}
     virtual void visit(ParamDefExpr* node) override;
-    virtual void visit(ReturnStmt* node) override;
     virtual void visit(StructDefStmt* node) override;
-    virtual void visit(SubscriptExpr* node) override;
-    virtual void visit(UnaryExpr* node) override;
-    virtual void visit(WhileStmt* node) override;
 
 private:
     Declaration* lookup(string_view name);
@@ -90,4 +74,4 @@ private:
 //     ret_type); void add_operator_funcs();
 // };
 
-}  // namespace quirk::scopes
+} // namespace quirk::scopes
