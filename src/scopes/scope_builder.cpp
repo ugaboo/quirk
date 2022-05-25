@@ -3,7 +3,7 @@
 
 namespace quirk::scopes {
 
-ScopesBuilder::ScopesBuilder(vector<unique_ptr<Stmt>>& stmts)
+ScopeBuilder::ScopeBuilder(vector<unique_ptr<Stmt>>& stmts)
 {
     scopes.push_back(&module_scope);
 
@@ -14,7 +14,7 @@ ScopesBuilder::ScopesBuilder(vector<unique_ptr<Stmt>>& stmts)
     }
 }
 
-void ScopesBuilder::visit(ast::AsgStmt* node)
+void ScopeBuilder::visit(ast::AsgStmt* node)
 {
     if (node->get_type_expr() != nullptr) {
         node->get_type_expr()->accept(this);
@@ -41,7 +41,7 @@ void ScopesBuilder::visit(ast::AsgStmt* node)
     }
 }
 
-void ScopesBuilder::visit(FieldDef* node)
+void ScopeBuilder::visit(FieldDef* node)
 {
     auto field = make_unique<Field>(node);
     bindings.insert({node->get_name(), field.get()});
@@ -50,7 +50,7 @@ void ScopesBuilder::visit(FieldDef* node)
     }
 }
 
-void ScopesBuilder::visit(FuncDefStmt* node)
+void ScopeBuilder::visit(FuncDefStmt* node)
 {
     node->get_ret_type_expr()->accept(this);
 
@@ -70,7 +70,7 @@ void ScopesBuilder::visit(FuncDefStmt* node)
     }
 }
 
-void ScopesBuilder::visit(NameLiteral* node)
+void ScopeBuilder::visit(NameLiteral* node)
 {
     auto decl = lookup(node->get_value());
     if (decl == nullptr) {
@@ -79,7 +79,7 @@ void ScopesBuilder::visit(NameLiteral* node)
     bindings.insert({node, decl});
 }
 
-void ScopesBuilder::visit(ParamDefExpr* node)
+void ScopeBuilder::visit(ParamDefExpr* node)
 {
     auto param = make_unique<Parameter>(node);
     bindings.insert({node->get_name(), param.get()});
@@ -90,7 +90,7 @@ void ScopesBuilder::visit(ParamDefExpr* node)
     node->get_type()->accept(this);
 }
 
-void ScopesBuilder::visit(StructDefStmt* node)
+void ScopeBuilder::visit(StructDefStmt* node)
 {
     auto st = make_unique<Structure>(node);
     auto ptr = st.get();
@@ -105,7 +105,7 @@ void ScopesBuilder::visit(StructDefStmt* node)
     }
 }
 
-Declaration* ScopesBuilder::lookup(string_view name)
+Declaration* ScopeBuilder::lookup(string_view name)
 {
     for (auto it = scopes.rbegin(); it != scopes.rend(); it++) {
         auto decl = (*it)->find(string(name));
@@ -116,7 +116,7 @@ Declaration* ScopesBuilder::lookup(string_view name)
     return nullptr;
 }
 
-void ScopesBuilder::add_builtins() {}
+void ScopeBuilder::add_builtins() {}
 
 // void ScopeBuilder::visit(ast::Module* node) {
 //     name_tables.emplace_back();

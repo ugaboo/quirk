@@ -10,9 +10,9 @@ using std::string_view;
 using std::unique_ptr;
 
 class Reader {
-    inline static int tab = 4;  // tab size
+    inline static int tab = 4; // tab size
 
-    unique_ptr<uint8_t[]> text;  // utf-8 encoded text, C-style string to use with the utf8proc
+    unique_ptr<uint8_t[]> text; // utf-8 encoded text, C-style string to use with the utf8proc
 
     uint8_t* pos;
     uint8_t* prev_pos;
@@ -28,15 +28,15 @@ public:
     void move();
 
     char32_t get_letter() { return letter; }
-    size_t   get_line() { return line; }
-    size_t   get_column() { return column; }
-    size_t   get_index() { return prev_pos - text.get(); }
+    size_t get_line() { return line; }
+    size_t get_column() { return column; }
+    size_t get_index() { return prev_pos - text.get(); }
 
     string_view slice(size_t begin);
 
 private:
-    void    read_text(string filename);
+    void read_text(string filename);
     int32_t iterate();
 };
 
-}  // namespace quirk
+} // namespace quirk

@@ -29,4 +29,4 @@ class SubscriptExpr;
 class UnaryExpr;
 class WhileStmt;
 
-}  // namespace quirk::ast
+} // namespace quirk::ast

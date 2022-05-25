@@ -8,11 +8,12 @@ class Structure;
 
 class StructDefStmt : public Stmt {
     unique_ptr<NameLiteral> name;
-    vector<FieldDefPtr>     fields;
+    vector<FieldDefPtr> fields;
 
 public:
     StructDefStmt(Context context, unique_ptr<NameLiteral>& name, vector<FieldDefPtr>& fields)
-        : Stmt(context), name(move(name)) {
+        : Stmt(context), name(move(name))
+    {
         for (auto& field : fields) {
             StructDefStmt::fields.push_back(move(field));
         }
@@ -25,4 +26,4 @@ public:
     void accept(Visitor* visitor) override { visitor->visit(this); }
 };
 
-}  // namespace quirk::ast
+} // namespace quirk::ast

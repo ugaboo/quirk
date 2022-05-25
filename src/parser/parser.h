@@ -1,9 +1,9 @@
 #pragma once
+#include "ast/headers.h"
+#include "scanner/scanner.h"
 #include <functional>
 #include <memory>
 #include <vector>
-#include "ast/headers.h"
-#include "scanner/scanner.h"
 
 namespace quirk {
 
@@ -63,4 +63,4 @@ private:
     bool is_while(unique_ptr<Stmt>& result);
 };
 
-}  // namespace quirk
+} // namespace quirk

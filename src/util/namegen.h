@@ -1,7 +1,7 @@
 #pragma once
-#include <stdexcept>
 #include "type_inference.h"
 #include "visitor.h"
+#include <stdexcept>
 
 namespace quirk {
 
@@ -11,14 +11,16 @@ class NameGen : public Visitor {
     string name;
 
 public:
-    NameGen(ast::Node* node) {
+    NameGen(ast::Node* node)
+    {
         node->accept(this);
         assert(name != "");
     }
 
     auto get_name() { return name; }
 
-    void visit(ast::OpFunc* node) override {
+    void visit(ast::OpFunc* node) override
+    {
         name = node->get_name();
         NameGen arg1(node->get_arg1_type());
         name += "@" + arg1.get_name();
@@ -28,7 +30,8 @@ public:
         }
     }
 
-    void visit(ast::BinaryExpr* node) override {
+    void visit(ast::BinaryExpr* node) override
+    {
         switch (node->get_kind()) {
         case ast::BinaryExpr::Kind::Add:
             name = "__add__";
@@ -49,4 +52,4 @@ public:
     void visit(ast::Float64Type* node) override { name = "Float"; }
 };
 
-}  // namespace quirk
+} // namespace quirk

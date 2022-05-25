@@ -1,13 +1,14 @@
+#include "fmt/core.h"
 #include "reader/reader.h"
 #include <iostream>
 #include <vector>
-#include "fmt/core.h"
 
 using namespace quirk;
 using std::string;
 using std::vector;
 
-bool empty() {
+bool empty()
+{
     Reader reader(TEST_DIR "reader/empty.qk");
     if (reader.get_letter() != '\n') {
         fmt::print("FAILED: empty file");
@@ -26,7 +27,8 @@ bool empty() {
     return true;
 }
 
-bool bom() {
+bool bom()
+{
     Reader reader(TEST_DIR "reader/bom.qk");
 
     auto expected = U"this file contains byte order mark\n";
@@ -40,7 +42,8 @@ bool bom() {
     return true;
 }
 
-bool unicode() {
+bool unicode()
+{
     Reader reader(TEST_DIR "reader/кириллица.qk");
 
     auto expected = U"текст на русском языке 😎";
@@ -54,7 +57,8 @@ bool unicode() {
     return true;
 }
 
-bool ln_col() {
+bool ln_col()
+{
     string folder = TEST_DIR "reader/";
     auto files = {
         "ln_col_unix",
@@ -85,7 +89,8 @@ bool ln_col() {
     return true;
 }
 
-bool slice() {
+bool slice()
+{
     Reader reader(TEST_DIR "reader/slice.qk");
 
     auto is_id = [&]() { return reader.get_letter() >= 'a' && reader.get_letter() <= 'z'; };
@@ -112,6 +117,7 @@ bool slice() {
     return true;
 }
 
-int main() {
+int main()
+{
     return (empty() && bom() && unicode() && slice() && ln_col()) ? 0 : 1;
 }

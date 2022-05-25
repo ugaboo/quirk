@@ -1,22 +1,24 @@
 #include "../src/parser/parser.h"
+#include "fmt/core.h"
+#include "utils.h"
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <string>
-#include "fmt/core.h"
-#include "utils.h"
 
 using namespace std;
 using namespace quirk;
 
-auto empty() {
+auto empty()
+{
     Parser parser(TEST_DIR "/parser/empty.qk");
 
     vector<unique_ptr<Stmt>> stmts;
     return parser.parse(stmts) && stmts.size() == 0;
 }
 
-auto all_rules() {
+auto all_rules()
+{
     Parser parser(TEST_DIR "parser/ast.qk");
 
     vector<unique_ptr<Stmt>> stmts;
@@ -24,7 +26,7 @@ auto all_rules() {
         return false;
     }
 
-    stringstream     output;
+    stringstream output;
     util::AstPrinter printer(output, stmts);
 
     ifstream file(TEST_DIR "parser/ast.txt");
@@ -32,7 +34,8 @@ auto all_rules() {
     return diff(file, output);
 }
 
-auto test_error(string filename, CompilationError expected) {
+auto test_error(string filename, CompilationError expected)
+{
     Parser parser(filename);
 
     vector<unique_ptr<Stmt>> stmts;
@@ -46,7 +49,8 @@ auto test_error(string filename, CompilationError expected) {
     return false;
 }
 
-int main() {
+int main()
+{
     // auto syntax_error = test_error(TEST_DIR "parser/syntax_error.qk",
     // CompilationError::InvalidSyntax); auto asg_to_call_error =
     //     test_error(TEST_DIR "parser/asg_to_call_error.qk",

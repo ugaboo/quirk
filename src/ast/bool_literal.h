@@ -15,4 +15,4 @@ public:
     void accept(Visitor* visitor) override { visitor->visit(this); }
 };
 
-}  // namespace quirk::ast
+} // namespace quirk::ast

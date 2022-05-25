@@ -1,7 +1,7 @@
 #include "parser.h"
+#include "compilation_error.h"
 #include <cassert>
 #include <stdexcept>
-#include "compilation_error.h"
 
 using std::make_unique;
 
@@ -11,11 +11,13 @@ using namespace ast;
 
 Parser::Parser(string filename) : scanner(filename) {}
 
-bool Parser::parse(vector<unique_ptr<Stmt>>& result) {
+bool Parser::parse(vector<unique_ptr<Stmt>>& result)
+{
     return is_module(result);
 }
 
-bool Parser::is_module(vector<unique_ptr<Stmt>>& result) {
+bool Parser::is_module(vector<unique_ptr<Stmt>>& result)
+{
     unique_ptr<Stmt> s;
 L0:
     if (are_statements(result)) {
@@ -34,7 +36,8 @@ END:
     return true;
 }
 
-bool Parser::is_definition(unique_ptr<Stmt>& result) {
+bool Parser::is_definition(unique_ptr<Stmt>& result)
+{
     if (is_function(result)) {
         goto END;
     }
@@ -46,7 +49,8 @@ END:
     return true;
 }
 
-bool Parser::are_statements(vector<unique_ptr<Stmt>>& result) {
+bool Parser::are_statements(vector<unique_ptr<Stmt>>& result)
+{
     unique_ptr<Stmt> s;
 
     if (is_stmt_row(result)) {
@@ -61,7 +65,8 @@ END:
     return true;
 }
 
-bool Parser::is_compound(unique_ptr<Stmt>& result) {
+bool Parser::is_compound(unique_ptr<Stmt>& result)
+{
     if (is_if(result)) {
         goto END;
     }
@@ -73,7 +78,8 @@ END:
     return true;
 }
 
-bool Parser::is_stmt_row(vector<unique_ptr<Stmt>>& result) {
+bool Parser::is_stmt_row(vector<unique_ptr<Stmt>>& result)
+{
     unique_ptr<Stmt> s;
 
     if (is_small(s)) {
@@ -109,7 +115,8 @@ END:
     return true;
 }
 
-bool Parser::is_stmt_col(vector<unique_ptr<Stmt>>& result) {
+bool Parser::is_stmt_col(vector<unique_ptr<Stmt>>& result)
+{
     if (scanner.get_token() == Token::NewLine) {
         scanner.move();
         goto L1;
@@ -136,7 +143,8 @@ END:
     return true;
 }
 
-bool Parser::is_small(unique_ptr<Stmt>& result) {
+bool Parser::is_small(unique_ptr<Stmt>& result)
+{
     if (is_call_or_asg(result)) {
         goto END;
     }
@@ -158,8 +166,9 @@ END:
     return true;
 }
 
-bool Parser::is_call_or_asg(unique_ptr<Stmt>& result) {
-    Context          context;
+bool Parser::is_call_or_asg(unique_ptr<Stmt>& result)
+{
+    Context context;
     unique_ptr<Expr> desig, type, expr;
 
     if (is_designator(desig)) {
@@ -205,7 +214,8 @@ END:
     return true;
 }
 
-bool Parser::is_type(unique_ptr<Expr>& result) {
+bool Parser::is_type(unique_ptr<Expr>& result)
+{
     if (scanner.get_token() == Token::Name) {
         result = make_unique<NameLiteral>(scanner.get_context());
         scanner.move();
@@ -216,8 +226,9 @@ END:
     return true;
 }
 
-bool Parser::is_return(unique_ptr<Stmt>& result) {
-    Context          context;
+bool Parser::is_return(unique_ptr<Stmt>& result)
+{
+    Context context;
     unique_ptr<Expr> expr;
 
     if (scanner.get_token() == Token::KwReturn) {
@@ -236,7 +247,8 @@ END:
     return true;
 }
 
-bool Parser::are_expressions(vector<unique_ptr<Expr>>& result) {
+bool Parser::are_expressions(vector<unique_ptr<Expr>>& result)
+{
     unique_ptr<Expr> expr;
 
     if (is_expression(expr)) {
@@ -260,7 +272,8 @@ END:
     return true;
 }
 
-bool Parser::is_expression(unique_ptr<Expr>& result) {
+bool Parser::is_expression(unique_ptr<Expr>& result)
+{
     if (is_or(result)) {
         goto END;
     }
@@ -269,8 +282,9 @@ END:
     return true;
 }
 
-bool Parser::is_or(unique_ptr<Expr>& result) {
-    Context          context;
+bool Parser::is_or(unique_ptr<Expr>& result)
+{
+    Context context;
     unique_ptr<Expr> right;
 
     if (is_and(result)) {
@@ -294,8 +308,9 @@ END:
     return true;
 }
 
-bool Parser::is_and(unique_ptr<Expr>& result) {
-    Context          context;
+bool Parser::is_and(unique_ptr<Expr>& result)
+{
+    Context context;
     unique_ptr<Expr> right;
 
     if (is_not(result)) {
@@ -319,7 +334,8 @@ END:
     return true;
 }
 
-bool Parser::is_not(unique_ptr<Expr>& result) {
+bool Parser::is_not(unique_ptr<Expr>& result)
+{
     Context context;
 
     if (scanner.get_token() == Token::KwNot) {
@@ -341,9 +357,10 @@ END:
     return true;
 }
 
-bool Parser::is_comparison(unique_ptr<Expr>& result) {
-    Context          context;
-    BinaryOpKind     kind;
+bool Parser::is_comparison(unique_ptr<Expr>& result)
+{
+    Context context;
+    BinaryOpKind kind;
     unique_ptr<Expr> right;
 
     if (is_bor(result)) {
@@ -365,7 +382,8 @@ END:
     return true;
 }
 
-bool Parser::is_relation(BinaryOpKind& result, Context& context) {
+bool Parser::is_relation(BinaryOpKind& result, Context& context)
+{
     if (scanner.get_token() == Token::Less) {
         result = BinaryOpKind::Less;
         context = scanner.get_context();
@@ -407,8 +425,9 @@ END:
     return true;
 }
 
-bool Parser::is_bor(unique_ptr<Expr>& result) {
-    Context          context;
+bool Parser::is_bor(unique_ptr<Expr>& result)
+{
+    Context context;
     unique_ptr<Expr> right;
 
     if (is_bxor(result)) {
@@ -432,8 +451,9 @@ END:
     return true;
 }
 
-bool Parser::is_bxor(unique_ptr<Expr>& result) {
-    Context          context;
+bool Parser::is_bxor(unique_ptr<Expr>& result)
+{
+    Context context;
     unique_ptr<Expr> right;
 
     if (is_band(result)) {
@@ -457,8 +477,9 @@ END:
     return true;
 }
 
-bool Parser::is_band(unique_ptr<Expr>& result) {
-    Context          context;
+bool Parser::is_band(unique_ptr<Expr>& result)
+{
+    Context context;
     unique_ptr<Expr> right;
 
     if (is_shift(result)) {
@@ -482,9 +503,10 @@ END:
     return true;
 }
 
-bool Parser::is_shift(unique_ptr<Expr>& result) {
-    Context          context;
-    BinaryOpKind     kind;
+bool Parser::is_shift(unique_ptr<Expr>& result)
+{
+    Context context;
+    BinaryOpKind kind;
     unique_ptr<Expr> right;
 
     if (is_arith(result)) {
@@ -515,9 +537,10 @@ END:
     return true;
 }
 
-bool Parser::is_arith(unique_ptr<Expr>& result) {
-    Context          context;
-    BinaryOpKind     kind;
+bool Parser::is_arith(unique_ptr<Expr>& result)
+{
+    Context context;
+    BinaryOpKind kind;
     unique_ptr<Expr> right;
 
     if (is_term(result)) {
@@ -548,9 +571,10 @@ END:
     return true;
 }
 
-bool Parser::is_term(unique_ptr<Expr>& result) {
-    Context          context;
-    BinaryOpKind     kind;
+bool Parser::is_term(unique_ptr<Expr>& result)
+{
+    Context context;
+    BinaryOpKind kind;
     unique_ptr<Expr> right;
 
     if (is_factor(result)) {
@@ -593,8 +617,9 @@ END:
     return true;
 }
 
-bool Parser::is_factor(unique_ptr<Expr>& result) {
-    Context     context;
+bool Parser::is_factor(unique_ptr<Expr>& result)
+{
+    Context context;
     UnaryOpKind kind;
 
     if (is_power(result)) {
@@ -629,8 +654,9 @@ END:
     return true;
 }
 
-bool Parser::is_power(unique_ptr<Expr>& result) {
-    Context          context;
+bool Parser::is_power(unique_ptr<Expr>& result)
+{
+    Context context;
     unique_ptr<Expr> exp;
 
     if (is_designator(result)) {
@@ -654,13 +680,14 @@ END:
     return true;
 }
 
-bool Parser::is_designator(unique_ptr<Expr>& result) {
+bool Parser::is_designator(unique_ptr<Expr>& result)
+{
     if (is_atom(result)) {
         goto L1;
     }
     return false;
 L1:
-    if (is_selector(result)) {  // atom's result is passed into the selector check
+    if (is_selector(result)) { // atom's result is passed into the selector check
         goto L1;
     }
     goto END;
@@ -668,7 +695,8 @@ END:
     return true;
 }
 
-bool Parser::is_atom(unique_ptr<Expr>& result) {
+bool Parser::is_atom(unique_ptr<Expr>& result)
+{
     if (is_list(result)) {
         goto END;
     }
@@ -722,8 +750,9 @@ END:
     return true;
 }
 
-bool Parser::is_selector(unique_ptr<Expr>& result) {
-    Context                  context;
+bool Parser::is_selector(unique_ptr<Expr>& result)
+{
+    Context context;
     vector<unique_ptr<Expr>> args, keys;
 
     if (scanner.get_token() == Token::LeftParenthesis) {
@@ -778,8 +807,9 @@ END:
     return true;
 }
 
-bool Parser::is_list(unique_ptr<Expr>& result) {
-    Context                  context;
+bool Parser::is_list(unique_ptr<Expr>& result)
+{
+    Context context;
     vector<unique_ptr<Expr>> exprs;
 
     if (scanner.get_token() == Token::LeftBracket) {
@@ -804,12 +834,13 @@ END:
     return true;
 }
 
-bool Parser::is_function(unique_ptr<Stmt>& result) {
-    Context                          context;
-    unique_ptr<NameLiteral>          name;
+bool Parser::is_function(unique_ptr<Stmt>& result)
+{
+    Context context;
+    unique_ptr<NameLiteral> name;
     vector<unique_ptr<ParamDefExpr>> params;
-    unique_ptr<Expr>                 ret_type_expr;
-    vector<unique_ptr<Stmt>>         stmts;
+    unique_ptr<Expr> ret_type_expr;
+    vector<unique_ptr<Stmt>> stmts;
 
     if (scanner.get_token() == Token::KwDef) {
         context = scanner.get_context();
@@ -868,7 +899,8 @@ END:
     return true;
 }
 
-bool Parser::are_parameters(vector<unique_ptr<ParamDefExpr>>& result) {
+bool Parser::are_parameters(vector<unique_ptr<ParamDefExpr>>& result)
+{
     unique_ptr<ParamDefExpr> param;
 
     if (is_parameter(param)) {
@@ -892,9 +924,10 @@ END:
     return true;
 }
 
-bool Parser::is_parameter(unique_ptr<ParamDefExpr>& result) {
+bool Parser::is_parameter(unique_ptr<ParamDefExpr>& result)
+{
     unique_ptr<NameLiteral> name;
-    unique_ptr<Expr>        type;
+    unique_ptr<Expr> type;
 
     if (scanner.get_token() == Token::Name) {
         name = make_unique<NameLiteral>(scanner.get_context());
@@ -918,14 +951,15 @@ END:
     return true;
 }
 
-bool Parser::is_if(unique_ptr<Stmt>& result) {
+bool Parser::is_if(unique_ptr<Stmt>& result)
+{
     using Condition = unique_ptr<Expr>;
     using Statements = vector<unique_ptr<Stmt>>;
     using Branch = std::pair<Condition, Statements>;
 
-    Context        context;
+    Context context;
     vector<Branch> branches;
-    Statements     else_stmts;
+    Statements else_stmts;
 
     if (scanner.get_token() == Token::KwIf) {
         context = scanner.get_context();
@@ -977,9 +1011,10 @@ END:
     return true;
 }
 
-bool Parser::is_while(unique_ptr<Stmt>& result) {
-    Context                  context;
-    unique_ptr<Expr>         condition;
+bool Parser::is_while(unique_ptr<Stmt>& result)
+{
+    Context context;
+    unique_ptr<Expr> condition;
     vector<unique_ptr<Stmt>> body;
 
     if (scanner.get_token() == Token::KwWhile) {
@@ -1009,7 +1044,8 @@ END:
     return true;
 }
 
-bool Parser::is_suite(vector<unique_ptr<Stmt>>& result) {
+bool Parser::is_suite(vector<unique_ptr<Stmt>>& result)
+{
     if (is_stmt_row(result)) {
         goto END;
     }
@@ -1021,9 +1057,10 @@ END:
     return true;
 }
 
-bool Parser::is_structure(unique_ptr<Stmt>& result) {
-    Context                      context;
-    unique_ptr<NameLiteral>      name;
+bool Parser::is_structure(unique_ptr<Stmt>& result)
+{
+    Context context;
+    unique_ptr<NameLiteral> name;
     vector<unique_ptr<FieldDef>> fields;
 
     if (scanner.get_token() == Token::KwStruct) {
@@ -1055,7 +1092,8 @@ END:
     return true;
 }
 
-bool Parser::are_fields(vector<unique_ptr<FieldDef>>& result) {
+bool Parser::are_fields(vector<unique_ptr<FieldDef>>& result)
+{
     if (is_field_row(result)) {
         goto END;
     }
@@ -1067,7 +1105,8 @@ END:
     return true;
 }
 
-bool Parser::is_field_row(vector<unique_ptr<FieldDef>>& result) {
+bool Parser::is_field_row(vector<unique_ptr<FieldDef>>& result)
+{
     unique_ptr<FieldDef> field;
 
     if (is_field(field)) {
@@ -1103,7 +1142,8 @@ END:
     return true;
 }
 
-bool Parser::is_field_col(vector<unique_ptr<FieldDef>>& result) {
+bool Parser::is_field_col(vector<unique_ptr<FieldDef>>& result)
+{
     if (scanner.get_token() == Token::NewLine) {
         scanner.move();
         goto L1;
@@ -1130,10 +1170,11 @@ END:
     return true;
 }
 
-bool Parser::is_field(unique_ptr<FieldDef>& result) {
+bool Parser::is_field(unique_ptr<FieldDef>& result)
+{
     unique_ptr<NameLiteral> name;
-    unique_ptr<Expr>        type;
-    unique_ptr<Expr>        init_expr;
+    unique_ptr<Expr> type;
+    unique_ptr<Expr> init_expr;
 
     if (scanner.get_token() == Token::Name) {
         name = make_unique<NameLiteral>(scanner.get_context());
@@ -1168,4 +1209,4 @@ END:
     return true;
 }
 
-}  // namespace quirk
+} // namespace quirk

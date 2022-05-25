@@ -4,12 +4,13 @@
 namespace quirk::ast {
 
 class WhileStmt : public Stmt {
-    unique_ptr<Expr>         condition;
+    unique_ptr<Expr> condition;
     vector<unique_ptr<Stmt>> stmts;
 
 public:
     WhileStmt(Context context, unique_ptr<Expr>& condition, vector<unique_ptr<Stmt>>& stmts)
-        : Stmt(context), condition(move(condition)) {
+        : Stmt(context), condition(move(condition))
+    {
         for (auto& stmnt : stmts) {
             WhileStmt::stmts.push_back(move(stmnt));
         }
@@ -22,4 +23,4 @@ public:
     void accept(Visitor* visitor) override { visitor->visit(this); }
 };
 
-}  // namespace quirk::ast
+} // namespace quirk::ast

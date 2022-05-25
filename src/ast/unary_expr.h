@@ -11,12 +11,14 @@ enum class UnaryOpKind {
 };
 
 class UnaryExpr : public Expr {
-    UnaryOpKind      kind;
+    UnaryOpKind kind;
     unique_ptr<Expr> expr;
 
 public:
     UnaryExpr(Context context, UnaryOpKind kind, unique_ptr<Expr>& expr)
-        : Expr(context), kind(kind), expr(move(expr)) {}
+        : Expr(context), kind(kind), expr(move(expr))
+    {
+    }
 
     auto get_kind() { return kind; }
     auto get_expr() { return expr.get(); }
@@ -24,4 +26,4 @@ public:
     void accept(Visitor* visitor) override { visitor->visit(this); }
 };
 
-}  // namespace quirk::ast
+} // namespace quirk::ast

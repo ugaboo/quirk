@@ -1,17 +1,18 @@
 #include "../src/scopes/scope_builder.h"
+#include "fmt/core.h"
+#include "parser/parser.h"
+#include "utils.h"
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <string>
-#include "fmt/core.h"
-#include "parser/parser.h"
-#include "utils.h"
 
 using namespace std;
 using namespace quirk;
 
-bool test() {
-    string         folder = TEST_DIR "scope_builder/";
+bool test()
+{
+    string folder = TEST_DIR "scope_builder/";
     vector<string> names = {"ops", "funcs", "structs"};
 
     for (auto name : names) {
@@ -22,9 +23,9 @@ bool test() {
             return 1;
         }
 
-        scopes::ScopesBuilder builder(stmts);
+        scopes::ScopeBuilder builder(stmts);
 
-        stringstream     output;
+        stringstream output;
         util::AstPrinter printer(output, stmts);
 
         ifstream file(folder + name + ".txt");
@@ -36,8 +37,9 @@ bool test() {
     return true;
 }
 
-bool test_errors() {
-    string         folder = TEST_DIR "scope_builder/";
+bool test_errors()
+{
+    string folder = TEST_DIR "scope_builder/";
     vector<string> names = {"error1", "error2"};
 
     for (auto name : names) {
@@ -49,7 +51,7 @@ bool test_errors() {
         }
 
         try {
-            scopes::ScopesBuilder builder(stmts);
+            scopes::ScopeBuilder builder(stmts);
         } catch (CompilationError exc) {
             if (exc == CompilationError::ItemNotFound) {
                 continue;
@@ -59,6 +61,7 @@ bool test_errors() {
     return true;
 }
 
-int main() {
+int main()
+{
     return test() && test_errors() ? 0 : 1;
 }

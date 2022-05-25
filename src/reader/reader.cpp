@@ -1,7 +1,7 @@
 #include "reader.h"
+#include "utf8proc.h"
 #include <filesystem>
 #include <fstream>
-#include "utf8proc.h"
 
 namespace quirk {
 
@@ -24,7 +24,7 @@ void Reader::move()
         column = 1;
         break;
     case '\t':
-        column = ((column - 1) / tab + 1) * tab + 1;  // idiv
+        column = ((column - 1) / tab + 1) * tab + 1; // idiv
         break;
     default:
         column++;
@@ -59,10 +59,9 @@ void Reader::read_text(string filename)
     if (end - begin >= 3) {
         uint8_t bytes[3];
         file.read(reinterpret_cast<char*>(bytes), 3);
-        if (bytes[0] == 0xEF && bytes[1] == 0xBB && bytes[2] == 0xBF) {  // byte order mark
+        if (bytes[0] == 0xEF && bytes[1] == 0xBB && bytes[2] == 0xBF) { // byte order mark
             begin = file.tellg();
-        }
-        else {
+        } else {
             file.seekg(0);
         }
     }
@@ -73,7 +72,7 @@ void Reader::read_text(string filename)
     if (size > 0) {
         file.read(reinterpret_cast<char*>(text.get()), size);
     }
-    text[size] = '\n';  // force Dedent(s) before EndMarker
+    text[size] = '\n'; // force Dedent(s) before EndMarker
     text[size + 1] = '\0';
 }
 
@@ -92,4 +91,4 @@ int32_t Reader::iterate()
     return prev;
 }
 
-}  // namespace quirk
+} // namespace quirk

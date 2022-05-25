@@ -8,11 +8,11 @@ class AsgStmt : public Stmt {
     unique_ptr<Expr> lvalue, rvalue, type_expr;
 
 public:
-    AsgStmt(Context           context,
-            unique_ptr<Expr>& lvalue,
-            unique_ptr<Expr>& type_expr,
+    AsgStmt(Context context, unique_ptr<Expr>& lvalue, unique_ptr<Expr>& type_expr,
             unique_ptr<Expr>& rvalue)
-        : Stmt(context), lvalue(move(lvalue)), rvalue(move(rvalue)), type_expr(move(type_expr)) {}
+        : Stmt(context), lvalue(move(lvalue)), rvalue(move(rvalue)), type_expr(move(type_expr))
+    {
+    }
 
     auto get_lvalue() { return lvalue.get(); }
     auto get_rvalue() { return rvalue.get(); }
@@ -21,4 +21,4 @@ public:
     void accept(Visitor* visitor) override { visitor->visit(this); }
 };
 
-}  // namespace quirk::ast
+} // namespace quirk::ast

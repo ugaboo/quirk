@@ -9,7 +9,7 @@ class IfStmt : public Stmt {
     using Branch = std::pair<Condition, Statements>;
 
     vector<Branch> branches;
-    Statements     else_stmts;
+    Statements else_stmts;
 
 public:
     IfStmt(Context context, vector<Branch>& branches, vector<unique_ptr<Stmt>>& else_stmts)
@@ -40,4 +40,4 @@ public:
     void accept(Visitor* visitor) override { visitor->visit(this); }
 };
 
-}  // namespace quirk::ast
+} // namespace quirk::ast

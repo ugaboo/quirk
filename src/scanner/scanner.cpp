@@ -1,6 +1,6 @@
 ﻿#include "scanner.h"
-#include <map>
 #include "compilation_error.h"
+#include <map>
 
 namespace quirk {
 
@@ -58,27 +58,21 @@ void Scanner::iterate()
     if (is_space()) {
         token = Token::Ignore;
         reader.move();
-    }
-    else if (is_new_line()) {
+    } else if (is_new_line()) {
         if (ignore_new_line > 0) {
             token = Token::Ignore;
-        }
-        else {
+        } else {
             token = Token::NewLine;
             update_indent = true;
         }
         reader.move();
-    }
-    else if (is_id_start()) {
+    } else if (is_id_start()) {
         id_or_keyword();
-    }
-    else if (is_digit()) {
+    } else if (is_digit()) {
         number();
-    }
-    else if (is_eof()) {
+    } else if (is_eof()) {
         token = Token::EndMarker;
-    }
-    else {
+    } else {
         simple_token();
     }
 
@@ -128,15 +122,15 @@ bool Scanner::is_id_continue()
 bool Scanner::is_bidi()
 {
     switch (reader.get_letter()) {
-    case 0x202A:  // Left-to-Right Embedding
-    case 0x202B:  // Right-to-Left Embedding
-    case 0x202D:  // Left-to-Right Override
-    case 0x202E:  // Right-to-Left Override
-    case 0x2066:  // Left-to-Right Isolate
-    case 0x2067:  // Right-to-Left Isolate
-    case 0x2068:  // First Strong Isolate
-    case 0x202C:  // Pop Directional Formatting
-    case 0x2069:  // Pop Directional Isolate
+    case 0x202A: // Left-to-Right Embedding
+    case 0x202B: // Right-to-Left Embedding
+    case 0x202D: // Left-to-Right Override
+    case 0x202E: // Right-to-Left Override
+    case 0x2066: // Left-to-Right Isolate
+    case 0x2067: // Right-to-Left Isolate
+    case 0x2068: // First Strong Isolate
+    case 0x202C: // Pop Directional Formatting
+    case 0x2069: // Pop Directional Isolate
         return true;
     default:
         return false;
@@ -184,7 +178,7 @@ void Scanner::skip_comment()
         reader.move();
 
         if (is_bidi()) {
-            throw CompilationError::InvalidSyntax;  // TODO: implement BIDI analysis instead
+            throw CompilationError::InvalidSyntax; // TODO: implement BIDI analysis instead
         }
     } while (!is_new_line() && !is_eof());
 }
@@ -235,8 +229,7 @@ void Scanner::simple_token()
         if (is('*')) {
             token = Token::Power;
             reader.move();
-        }
-        else {
+        } else {
             token = Token::Star;
         }
         break;
@@ -245,8 +238,7 @@ void Scanner::simple_token()
         if (is('/')) {
             token = Token::DoubleSlash;
             reader.move();
-        }
-        else {
+        } else {
             token = Token::Slash;
         }
         break;
@@ -255,12 +247,10 @@ void Scanner::simple_token()
         if (is('=')) {
             token = Token::LessOrEqual;
             reader.move();
-        }
-        else if (is('<')) {
+        } else if (is('<')) {
             token = Token::LeftShift;
             reader.move();
-        }
-        else {
+        } else {
             token = Token::Less;
         }
         break;
@@ -269,12 +259,10 @@ void Scanner::simple_token()
         if (is('>')) {
             token = Token::RightShift;
             reader.move();
-        }
-        else if (is('=')) {
+        } else if (is('=')) {
             token = Token::GreaterOrEqual;
             reader.move();
-        }
-        else {
+        } else {
             token = Token::Greater;
         }
         break;
@@ -316,8 +304,7 @@ void Scanner::simple_token()
         if (is('=')) {
             token = Token::Equal;
             reader.move();
-        }
-        else {
+        } else {
             token = Token::AsgStmt;
         }
         break;
@@ -330,8 +317,7 @@ void Scanner::simple_token()
         if (is('>')) {
             token = Token::RightArrow;
             reader.move();
-        }
-        else {
+        } else {
             token = Token::Minus;
         }
         break;
@@ -391,8 +377,7 @@ void Scanner::simple_token()
         reader.move();
         if (is_digit()) {
             real();
-        }
-        else {
+        } else {
             token = Token::Point;
         }
         break;
@@ -405,4 +390,4 @@ void Scanner::simple_token()
     }
 }
 
-}  // namespace quirk
+} // namespace quirk

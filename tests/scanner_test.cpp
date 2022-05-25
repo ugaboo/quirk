@@ -1,22 +1,23 @@
-#include "scanner/scanner.h"
-#include <filesystem>
-#include <fstream>
-#include <vector>
 #include "compilation_error.h"
 #include "fmt/core.h"
 #include "magic_enum.hpp"
+#include "scanner/scanner.h"
 #include "utils.h"
+#include <filesystem>
+#include <fstream>
+#include <vector>
 
 using namespace std;
 using namespace quirk;
 
-string format_lexeme(Scanner& scan) {
+string format_lexeme(Scanner& scan)
+{
     auto tk = magic_enum::enum_name(scan.get_token());
     auto ctx = scan.get_context();
     auto val = ctx.value;
 
     if (scan.get_token() == Token::NewLine) {
-        val = string_view();  // make the dump prettier
+        val = string_view(); // make the dump prettier
     }
 
     auto str = fmt::format("[{}:{}] {}", ctx.line, ctx.column, tk);
@@ -26,8 +27,9 @@ string format_lexeme(Scanner& scan) {
     return str;
 }
 
-bool test() {
-    string         folder = TEST_DIR "scanner/";
+bool test()
+{
+    string folder = TEST_DIR "scanner/";
     vector<string> names = {
         "names",          "keywords",  "indents",  "indents2",
         "simple_lexemes", "new_lines", "integers", "floats",
@@ -51,7 +53,8 @@ bool test() {
     return true;
 }
 
-bool tab_error() {
+bool tab_error()
+{
     try {
         Scanner scan(TEST_DIR "scanner/tab_error.qk");
         while (scan.get_token() != Token::EndMarker) {
@@ -66,7 +69,8 @@ bool tab_error() {
     return false;
 }
 
-bool dedent_doesnt_match() {
+bool dedent_doesnt_match()
+{
     try {
         Scanner scan(TEST_DIR "scanner/dedent_doesnt_match.qk");
         while (scan.get_token() != Token::EndMarker) {
@@ -81,6 +85,7 @@ bool dedent_doesnt_match() {
     return false;
 }
 
-int main() {
+int main()
+{
     return (test() && tab_error() && dedent_doesnt_match()) ? 0 : 1;
 }

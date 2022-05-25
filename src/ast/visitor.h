@@ -30,4 +30,4 @@ public:
     virtual void visit(WhileStmt* node);
 };
 
-}  // namespace quirk::ast
+} // namespace quirk::ast

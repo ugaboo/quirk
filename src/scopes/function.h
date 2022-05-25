@@ -8,7 +8,7 @@ using namespace ast;
 
 class Function : public Declaration {
     FuncDefStmt* def = nullptr;
-    Scope        local_scope;
+    Scope local_scope;
 
 public:
     Function(FuncDefStmt* def) : def(def) {}
@@ -26,4 +26,4 @@ public:
     // void accept(Visitor* visitor) override;
 };
 
-}  // namespace quirk::scopes
+} // namespace quirk::scopes

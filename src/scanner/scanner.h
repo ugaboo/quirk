@@ -1,14 +1,14 @@
 #pragma once
 
-#include <stack>
 #include "../reader/reader.h"
 #include "token.h"
+#include <stack>
 
 namespace quirk {
 
 struct Context {
-    size_t      line;
-    size_t      column;
+    size_t line;
+    size_t column;
     string_view value;
 };
 
@@ -16,10 +16,10 @@ class Scanner {
     Reader reader;
 
     std::stack<uint64_t> indentation;
-    uint64_t             indent;
-    bool                 update_indent = true;
+    uint64_t indent;
+    bool update_indent = true;
 
-    Token  token = Token::None;
+    Token token = Token::None;
     size_t token_index;
     size_t line;
     size_t column;
@@ -65,4 +65,4 @@ private:
     void simple_token();
 };
 
-}  // namespace quirk
+} // namespace quirk

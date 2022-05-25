@@ -7,7 +7,8 @@ class ListLiteral : public Expr {
     vector<unique_ptr<Expr>> exprs;
 
 public:
-    ListLiteral(Context context, vector<unique_ptr<Expr>>& exprs) : Expr(context) {
+    ListLiteral(Context context, vector<unique_ptr<Expr>>& exprs) : Expr(context)
+    {
         for (auto& expr : exprs) {
             ListLiteral::exprs.push_back(move(expr));
         }
@@ -19,4 +20,4 @@ public:
     void accept(Visitor* visitor) override { visitor->visit(this); }
 };
 
-}  // namespace quirk::ast
+} // namespace quirk::ast

@@ -16,14 +16,14 @@ namespace quirk::scopes {
 using namespace std;
 using namespace ast;
 
-class ScopesBuilder : public Visitor {
-    Scope          module_scope;
+class ScopeBuilder : public Visitor {
+    Scope module_scope;
     vector<Scope*> scopes;
 
     unordered_map<NameLiteral*, Declaration*> bindings;
 
 public:
-    ScopesBuilder(vector<unique_ptr<Stmt>>& stmts);
+    ScopeBuilder(vector<unique_ptr<Stmt>>& stmts);
 
     virtual void visit(AsgStmt* node) override;
     virtual void visit(FieldDef* node) override;
@@ -34,7 +34,7 @@ public:
 
 private:
     Declaration* lookup(string_view name);
-    void         add_builtins();
+    void add_builtins();
 };
 
 // class ScopeBuilder : public Visitor {

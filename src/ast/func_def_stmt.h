@@ -7,18 +7,16 @@ namespace quirk::ast {
 class Function;
 
 class FuncDefStmt : public Stmt {
-    unique_ptr<NameLiteral>  name;
-    vector<ParamDefExprPtr>  params;
-    unique_ptr<Expr>         ret_type_expr;
+    unique_ptr<NameLiteral> name;
+    vector<ParamDefExprPtr> params;
+    unique_ptr<Expr> ret_type_expr;
     vector<unique_ptr<Stmt>> stmts;
 
 public:
-    FuncDefStmt(Context                   context,
-                unique_ptr<NameLiteral>&  name,
-                vector<ParamDefExprPtr>&  params,
-                unique_ptr<Expr>&         ret_type_expr,
-                vector<unique_ptr<Stmt>>& stmts)
-        : Stmt(context), name(move(name)), ret_type_expr(move(ret_type_expr)) {
+    FuncDefStmt(Context context, unique_ptr<NameLiteral>& name, vector<ParamDefExprPtr>& params,
+                unique_ptr<Expr>& ret_type_expr, vector<unique_ptr<Stmt>>& stmts)
+        : Stmt(context), name(move(name)), ret_type_expr(move(ret_type_expr))
+    {
         for (auto& param : params) {
             FuncDefStmt::params.push_back(move(param));
         }
@@ -37,4 +35,4 @@ public:
     void accept(Visitor* visitor) override { visitor->visit(this); }
 };
 
-}  // namespace quirk::ast
+} // namespace quirk::ast
