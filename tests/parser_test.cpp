@@ -13,21 +13,21 @@ auto empty()
 {
     Parser parser(TEST_DIR "/parser/empty.qk");
 
-    vector<unique_ptr<Stmt>> stmts;
-    return parser.parse(stmts) && stmts.size() == 0;
+    unique_ptr<TranslationUnit> tu;
+    return parser.parse(tu) && tu->count_stmts() == 0;
 }
 
 auto all_rules()
 {
     Parser parser(TEST_DIR "parser/ast.qk");
 
-    vector<unique_ptr<Stmt>> stmts;
-    if (!parser.parse(stmts)) {
+    unique_ptr<TranslationUnit> tu;
+    if (!parser.parse(tu)) {
         return false;
     }
 
     stringstream output;
-    util::AstPrinter printer(output, stmts);
+    util::AstPrinter printer(output, tu.get());
 
     ifstream file(TEST_DIR "parser/ast.txt");
 
@@ -38,9 +38,9 @@ auto test_error(string filename, CompilationError expected)
 {
     Parser parser(filename);
 
-    vector<unique_ptr<Stmt>> stmts;
+    unique_ptr<TranslationUnit> tu;
     try {
-        parser.parse(stmts);
+        parser.parse(tu);
     } catch (CompilationError err) {
         if (err == expected) {
             return true;

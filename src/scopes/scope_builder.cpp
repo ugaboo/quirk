@@ -3,14 +3,14 @@
 
 namespace quirk::scopes {
 
-ScopeBuilder::ScopeBuilder(vector<unique_ptr<Stmt>>& stmts)
+ScopeBuilder::ScopeBuilder(TranslationUnit* tu)
 {
     scopes.push_back(&module_scope);
 
     add_builtins();
 
-    for (auto& s : stmts) {
-        s->accept(this);
+    for (size_t i = 0; i < tu->count_stmts(); i++) {
+        tu->get_stmt(i)->accept(this);
     }
 }
 

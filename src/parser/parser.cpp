@@ -7,20 +7,16 @@ namespace quirk {
 
 Parser::Parser(string filename) : scanner(filename) {}
 
-bool Parser::parse(vector<unique_ptr<Stmt>>& result)
+bool Parser::parse(unique_ptr<TranslationUnit>& result)
 {
-    return is_module(result);
-}
-
-bool Parser::is_module(vector<unique_ptr<Stmt>>& result)
-{
+    vector<unique_ptr<Stmt>> stmts;
     unique_ptr<Stmt> s;
 L0:
-    if (are_statements(result)) {
+    if (are_statements(stmts)) {
         goto L0;
     }
     if (is_definition(s)) {
-        result.push_back(move(s));
+        stmts.push_back(move(s));
         goto L0;
     }
     if (scanner.get_token() == Token::EndMarker) {
@@ -29,6 +25,7 @@ L0:
     }
     throw CompilationError::InvalidSyntax;
 END:
+    result = make_unique<TranslationUnit>(stmts);
     return true;
 }
 

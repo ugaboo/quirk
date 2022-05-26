@@ -23,7 +23,7 @@ class ScopeBuilder : public Visitor {
     unordered_map<NameLiteral*, Declaration*> bindings;
 
 public:
-    ScopeBuilder(vector<unique_ptr<Stmt>>& stmts);
+    ScopeBuilder(TranslationUnit* tu);
 
     virtual void visit(AsgStmt* node) override;
     virtual void visit(FieldDef* node) override;

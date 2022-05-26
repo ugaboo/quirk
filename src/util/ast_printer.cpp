@@ -6,10 +6,10 @@ namespace quirk::util {
 
 using fmt::print;
 
-AstPrinter::AstPrinter(std::ostream& out, vector<unique_ptr<Stmt>>& stmts) : out(out)
+AstPrinter::AstPrinter(std::ostream& out, TranslationUnit* tu) : out(out)
 {
-    for (auto& s : stmts) {
-        s->accept(this);
+    for (size_t i = 0; i < tu->count_stmts(); i++) {
+        tu->get_stmt(i)->accept(this);
     }
 }
 

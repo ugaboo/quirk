@@ -18,15 +18,15 @@ bool test()
     for (auto name : names) {
         Parser parser(folder + name + ".qk");
 
-        vector<unique_ptr<Stmt>> stmts;
-        if (!parser.parse(stmts)) {
+        unique_ptr<TranslationUnit> tu;
+        if (!parser.parse(tu)) {
             return 1;
         }
 
-        scopes::ScopeBuilder builder(stmts);
+        scopes::ScopeBuilder builder(tu.get());
 
         stringstream output;
-        util::AstPrinter printer(output, stmts);
+        util::AstPrinter printer(output, tu.get());
 
         ifstream file(folder + name + ".txt");
 
@@ -45,13 +45,13 @@ bool test_errors()
     for (auto name : names) {
         Parser parser(folder + name + ".qk");
 
-        vector<unique_ptr<Stmt>> stmts;
-        if (!parser.parse(stmts)) {
+        unique_ptr<TranslationUnit> tu;
+        if (!parser.parse(tu)) {
             return 1;
         }
 
         try {
-            scopes::ScopeBuilder builder(stmts);
+            scopes::ScopeBuilder builder(tu.get());
         } catch (CompilationError exc) {
             if (exc == CompilationError::ItemNotFound) {
                 continue;

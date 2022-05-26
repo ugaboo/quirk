@@ -15,7 +15,7 @@ class AstPrinter : public Visitor {
     int indent = 0;
 
 public:
-    AstPrinter(ostream& out, vector<unique_ptr<Stmt>>& stmts);
+    AstPrinter(ostream& out, TranslationUnit* tu);
 
     virtual void visit(AsgStmt* node) override;
     virtual void visit(BinaryExpr* node) override;

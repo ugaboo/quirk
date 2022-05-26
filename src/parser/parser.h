@@ -16,7 +16,7 @@ class Parser {
 public:
     Parser(string filename);
 
-    bool parse(vector<unique_ptr<Stmt>>& stmts);
+    bool parse(unique_ptr<TranslationUnit>& result);
 
 private:
     bool are_expressions(vector<unique_ptr<Expr>>& result);
