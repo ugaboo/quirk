@@ -39,7 +39,7 @@ void Visitor::visit(CallStmt* node)
 
 void Visitor::visit(ContinueStmt* node) {}
 
-void Visitor::visit(FieldDef* node)
+void Visitor::visit(FieldDefStmt* node)
 {
     node->get_init_expr()->accept(this);
     node->get_type()->accept(this);

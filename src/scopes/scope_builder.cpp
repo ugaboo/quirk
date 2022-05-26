@@ -3,10 +3,10 @@
 
 namespace quirk::scopes {
 
-ScopeBuilder::ScopeBuilder(TranslationUnit* tu)
+ScopeBuilder::ScopeBuilder(TranslationUnit* tu, Module* mod,
+                           unordered_map<NameLiteral*, Declaration*>& bindings)
+    : scope(mod), bindings(bindings)
 {
-    scopes.push_back(&module_scope);
-
     add_builtins();
 
     for (size_t i = 0; i < tu->count_stmts(); i++) {
@@ -41,7 +41,7 @@ void ScopeBuilder::visit(ast::AsgStmt* node)
     }
 }
 
-void ScopeBuilder::visit(FieldDef* node)
+void ScopeBuilder::visit(FieldDefStmt* node)
 {
     auto field = make_unique<Field>(node);
     bindings.insert({node->get_name(), field.get()});

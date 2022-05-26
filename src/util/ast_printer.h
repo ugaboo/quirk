@@ -24,7 +24,7 @@ public:
     virtual void visit(CallExpr* node) override;
     virtual void visit(CallStmt* node) override;
     virtual void visit(ContinueStmt* node) override;
-    virtual void visit(FieldDef* node) override;
+    virtual void visit(FieldDefStmt* node) override;
     virtual void visit(FloatLiteral* node) override;
     virtual void visit(FuncDefStmt* node) override;
     virtual void visit(IfStmt* node) override;

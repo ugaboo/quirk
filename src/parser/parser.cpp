@@ -1054,7 +1054,7 @@ bool Parser::is_structure(unique_ptr<Stmt>& result)
 {
     Context context;
     unique_ptr<NameLiteral> name;
-    vector<unique_ptr<FieldDef>> fields;
+    vector<unique_ptr<FieldDefStmt>> fields;
 
     if (scanner.get_token() == Token::KwStruct) {
         context = scanner.get_context();
@@ -1085,7 +1085,7 @@ END:
     return true;
 }
 
-bool Parser::are_fields(vector<unique_ptr<FieldDef>>& result)
+bool Parser::are_fields(vector<unique_ptr<FieldDefStmt>>& result)
 {
     if (is_field_row(result)) {
         goto END;
@@ -1098,9 +1098,9 @@ END:
     return true;
 }
 
-bool Parser::is_field_row(vector<unique_ptr<FieldDef>>& result)
+bool Parser::is_field_row(vector<unique_ptr<FieldDefStmt>>& result)
 {
-    unique_ptr<FieldDef> field;
+    unique_ptr<FieldDefStmt> field;
 
     if (is_field(field)) {
         result.push_back(move(field));
@@ -1135,7 +1135,7 @@ END:
     return true;
 }
 
-bool Parser::is_field_col(vector<unique_ptr<FieldDef>>& result)
+bool Parser::is_field_col(vector<unique_ptr<FieldDefStmt>>& result)
 {
     if (scanner.get_token() == Token::NewLine) {
         scanner.move();
@@ -1163,7 +1163,7 @@ END:
     return true;
 }
 
-bool Parser::is_field(unique_ptr<FieldDef>& result)
+bool Parser::is_field(unique_ptr<FieldDefStmt>& result)
 {
     unique_ptr<NameLiteral> name;
     unique_ptr<Expr> type;
@@ -1198,7 +1198,7 @@ L4:
     }
     throw CompilationError::InvalidSyntax;
 END:
-    result = make_unique<FieldDef>(name, type, init_expr);
+    result = make_unique<FieldDefStmt>(name, type, init_expr);
     return true;
 }
 

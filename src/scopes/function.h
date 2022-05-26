@@ -11,7 +11,11 @@ class Function : public Scope, public Declaration {
     FuncDefStmt* def = nullptr;
 
 public:
-    Function(FuncDefStmt* def) : def(def) {}
+    Function() = delete;
+    Function(Function&) = delete;
+    Function(Function&&) = delete;
+
+    Function(FuncDefStmt* def, Scope* parent) : Scope(parent), def(def) {}
 
     string_view get_name() override { return def->get_name()->get_value(); }
 

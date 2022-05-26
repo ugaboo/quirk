@@ -3,6 +3,7 @@
 #include "../ast/translation_unit.h"
 #include "field.h"
 #include "function.h"
+#include "module.h"
 #include "parameter.h"
 #include "structure.h"
 #include "variable.h"
@@ -17,16 +18,19 @@ using namespace std;
 using namespace ast;
 
 class ScopeBuilder : public Visitor {
-    Scope module_scope;
-    vector<Scope*> scopes;
+    unordered_map<NameLiteral*, Declaration*>& bindings;
 
-    unordered_map<NameLiteral*, Declaration*> bindings;
+    Scope* scope;
+    vector<ScopeBuilder> builders;
 
 public:
-    ScopeBuilder(TranslationUnit* tu);
+    ScopeBuilder(vector<TranslationUnit*> tus) {}
+
+    ScopeBuilder(TranslationUnit* tu, Module* mod,
+                 unordered_map<NameLiteral*, Declaration*>& bindings);
 
     virtual void visit(AsgStmt* node) override;
-    virtual void visit(FieldDef* node) override;
+    virtual void visit(FieldDefStmt* node) override;
     virtual void visit(FuncDefStmt* node) override;
     virtual void visit(NameLiteral* node) override;
     virtual void visit(ParamDefExpr* node) override;

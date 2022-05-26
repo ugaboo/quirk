@@ -5,19 +5,18 @@
 namespace quirk::ast {
 
 class FloatLiteral : public Expr {
-    double value;
-
 public:
-    FloatLiteral(Context context) : Expr(context)
+    FloatLiteral(Context context) : Expr(context) {}
+
+    double to_double()
     {
-        string str(context.value.data(), context.value.size());
-        value = strtod(str.c_str(), nullptr);
+        string str(get_context().value);
+        double value = strtod(str.c_str(), nullptr);
         if (errno == ERANGE) {
             throw CompilationError::ConstantTooLarge;
         }
+        return value;
     }
-
-    auto get_value() { return value; }
 
     void accept(Visitor* visitor) override { visitor->visit(this); }
 };

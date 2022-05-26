@@ -5,12 +5,10 @@
 namespace quirk::ast {
 
 class BoolLiteral : public Expr {
-    bool value;
-
 public:
-    BoolLiteral(Context context) : Expr(context) { value = get_context().value == "True"; }
+    BoolLiteral(Context context) : Expr(context) {}
 
-    auto get_value() { return value; }
+    bool to_bool() { return get_context().value == "True"; }
 
     void accept(Visitor* visitor) override { visitor->visit(this); }
 };

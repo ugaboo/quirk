@@ -5,7 +5,9 @@
 namespace quirk::ast {
 
 class AsgStmt : public Stmt {
-    unique_ptr<Expr> lvalue, rvalue, type_expr;
+    unique_ptr<Expr> lvalue;
+    unique_ptr<Expr> type_expr;
+    unique_ptr<Expr> rvalue;
 
 public:
     AsgStmt(Context context, unique_ptr<Expr>& lvalue, unique_ptr<Expr>& type_expr,

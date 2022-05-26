@@ -11,7 +11,11 @@ class Structure : public Scope, public Declaration {
     StructDefStmt* def;
 
 public:
-    Structure(StructDefStmt* def) : def(def) {}
+    Structure() = delete;
+    Structure(Structure&) = delete;
+    Structure(Structure&&) = delete;
+
+    Structure(StructDefStmt* def, Scope* parent) : Scope(parent), def(def) {}
 
     string_view get_name() override { return def->get_name()->get_value(); }
 

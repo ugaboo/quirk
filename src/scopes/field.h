@@ -8,10 +8,10 @@ namespace quirk::scopes {
 using namespace ast;
 
 class Field : public Declaration {
-    FieldDef* def;
+    FieldDefStmt* def;
 
 public:
-    Field(FieldDef* def) : def(def) {}
+    Field(FieldDefStmt* def) : def(def) {}
 
     auto get_def() { return def; }
 

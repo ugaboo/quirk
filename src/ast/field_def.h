@@ -4,13 +4,13 @@
 
 namespace quirk::ast {
 
-class FieldDef : public Stmt {
+class FieldDefStmt : public Stmt {
     unique_ptr<NameLiteral> name;
     unique_ptr<Expr> type;
     unique_ptr<Expr> init_expr;
 
 public:
-    FieldDef(unique_ptr<NameLiteral>& name, unique_ptr<Expr>& type, unique_ptr<Expr>& init_expr)
+    FieldDefStmt(unique_ptr<NameLiteral>& name, unique_ptr<Expr>& type, unique_ptr<Expr>& init_expr)
         : Stmt(name->get_context()), name(move(name)), type(move(type)), init_expr(move(init_expr))
     {
     }

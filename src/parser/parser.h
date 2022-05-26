@@ -20,7 +20,7 @@ public:
 
 private:
     bool are_expressions(vector<unique_ptr<Expr>>& result);
-    bool are_fields(vector<unique_ptr<FieldDef>>& result);
+    bool are_fields(vector<unique_ptr<FieldDefStmt>>& result);
     bool are_parameters(vector<unique_ptr<ParamDefExpr>>& result);
     bool are_statements(vector<unique_ptr<Stmt>>& result);
     bool is_and(unique_ptr<Expr>& result);
@@ -36,9 +36,9 @@ private:
     bool is_designator(unique_ptr<Expr>& result);
     bool is_expression(unique_ptr<Expr>& result);
     bool is_factor(unique_ptr<Expr>& result);
-    bool is_field_col(vector<unique_ptr<FieldDef>>& result);
-    bool is_field_row(vector<unique_ptr<FieldDef>>& result);
-    bool is_field(unique_ptr<FieldDef>& result);
+    bool is_field_col(vector<unique_ptr<FieldDefStmt>>& result);
+    bool is_field_row(vector<unique_ptr<FieldDefStmt>>& result);
+    bool is_field(unique_ptr<FieldDefStmt>& result);
     bool is_function(unique_ptr<Stmt>& result);
     bool is_if(unique_ptr<Stmt>& result);
     bool is_list(unique_ptr<Expr>& result);

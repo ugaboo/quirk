@@ -83,7 +83,7 @@ void AstPrinter::visit(ContinueStmt*)
     print("ContinueStmt\n");
 }
 
-void AstPrinter::visit(FieldDef* node)
+void AstPrinter::visit(FieldDefStmt* node)
 {
     print("FieldDef: '{}'\n", node->get_name()->get_value());
     IndentGuard inc(indent);

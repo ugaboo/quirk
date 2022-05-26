@@ -13,7 +13,7 @@ public:
     virtual void visit(CallExpr* node);
     virtual void visit(CallStmt* node);
     virtual void visit(ContinueStmt* node);
-    virtual void visit(FieldDef* node);
+    virtual void visit(FieldDefStmt* node);
     virtual void visit(FloatLiteral* node);
     virtual void visit(FuncDefStmt* node);
     virtual void visit(IfStmt* node);
