@@ -4,8 +4,6 @@
 
 namespace quirk {
 
-using namespace std;
-
 map<string, Token, less<>> keywords = {
     {"and", Token::KwAnd},       {"break", Token::KwBreak},   {"continue", Token::KwContinue},
     {"def", Token::KwDef},       {"elif", Token::KwElif},     {"else", Token::KwElse},

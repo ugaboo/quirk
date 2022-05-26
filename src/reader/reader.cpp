@@ -5,8 +5,6 @@
 
 namespace quirk {
 
-using namespace std;
-
 Reader::Reader(string filename)
 {
     read_text(filename);

@@ -1,4 +1,5 @@
 #pragma once
+
 #include "../ast/translation_unit.h"
 #include "../scanner/scanner.h"
 #include <functional>
@@ -6,9 +7,6 @@
 #include <vector>
 
 namespace quirk {
-
-using std::unique_ptr;
-using std::vector;
 
 using namespace ast;
 

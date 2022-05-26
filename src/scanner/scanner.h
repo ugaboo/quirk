@@ -10,7 +10,7 @@ namespace quirk {
 class Scanner {
     Reader reader;
 
-    std::stack<uint64_t> indentation;
+    stack<uint64_t> indentation;
     uint64_t indent;
     bool update_indent = true;
 

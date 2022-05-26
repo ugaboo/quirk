@@ -1,13 +1,11 @@
 #pragma once
+
 #include <memory>
 #include <string>
-#include <tuple>
 
 namespace quirk {
 
-using std::string;
-using std::string_view;
-using std::unique_ptr;
+using namespace std;
 
 class Reader {
     inline static int tab = 4; // tab size

@@ -3,11 +3,7 @@
 #include <cassert>
 #include <stdexcept>
 
-using std::make_unique;
-
 namespace quirk {
-
-using namespace ast;
 
 Parser::Parser(string filename) : scanner(filename) {}
 
