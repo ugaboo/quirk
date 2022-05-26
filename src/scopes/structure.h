@@ -1,5 +1,6 @@
 #pragma once
-#include "ast/struct_def_stmt.h"
+
+#include "../ast/struct_def_stmt.h"
 #include "declaration.h"
 
 namespace quirk::scopes {
@@ -8,7 +9,7 @@ using namespace ast;
 
 class Structure : public Declaration {
     StructDefStmt* def;
-    Scope          local_scope;
+    Scope local_scope;
 
 public:
     Structure(StructDefStmt* def) : def(def) {}

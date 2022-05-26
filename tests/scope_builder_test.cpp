@@ -1,6 +1,6 @@
+#include "../src/parser/parser.h"
 #include "../src/scopes/scope_builder.h"
 #include "fmt/core.h"
-#include "parser/parser.h"
 #include "utils.h"
 #include <fstream>
 #include <iostream>

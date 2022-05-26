@@ -1,9 +1,9 @@
 #pragma once
 
-#include <ostream>
-#include "../ast/headers.h"
+#include "../ast/translation_unit.h"
 #include "fmt/ostream.h"
 #include "indent_guard.h"
+#include <ostream>
 
 namespace quirk::util {
 
@@ -12,7 +12,7 @@ using namespace ast;
 
 class AstPrinter : public Visitor {
     ostream& out;
-    int      indent = 0;
+    int indent = 0;
 
 public:
     AstPrinter(ostream& out, vector<unique_ptr<Stmt>>& stmts);
@@ -43,8 +43,8 @@ public:
 private:
     void print_call(CallExpr* node);
 
-    template <typename S, typename... Args>
-    void print(const S& format_str, Args&&... args) {
+    template <typename S, typename... Args> void print(const S& format_str, Args&&... args)
+    {
         for (auto i = 0; i < indent; i++) {
             fmt::print(out, "    ");
         }
@@ -52,4 +52,4 @@ private:
     }
 };
 
-}  // namespace quirk::util
+} // namespace quirk::util

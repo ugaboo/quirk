@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ast/param_def_expr.h"
+#include "../ast/param_def_expr.h"
 #include "declaration.h"
 
 namespace quirk::scopes {
@@ -20,4 +20,4 @@ public:
     // void accept(Visitor* visitor) override;
 };
 
-}  // namespace quirk::scopes
+} // namespace quirk::scopes

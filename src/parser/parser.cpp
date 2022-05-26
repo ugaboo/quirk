@@ -1,5 +1,5 @@
 #include "parser.h"
-#include "compilation_error.h"
+#include "../compilation_error.h"
 #include <cassert>
 #include <stdexcept>
 

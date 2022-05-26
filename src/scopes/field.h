@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ast/field_def.h"
+#include "../ast/field_def.h"
 #include "declaration.h"
 
 namespace quirk::scopes {
@@ -18,4 +18,4 @@ public:
     string_view get_name() override { return def->get_name()->get_value(); }
 };
 
-}  // namespace quirk::scopes
+} // namespace quirk::scopes

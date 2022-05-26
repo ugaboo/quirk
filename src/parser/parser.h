@@ -1,6 +1,6 @@
 #pragma once
-#include "ast/headers.h"
-#include "scanner/scanner.h"
+#include "../ast/translation_unit.h"
+#include "../scanner/scanner.h"
 #include <functional>
 #include <memory>
 #include <vector>

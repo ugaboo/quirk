@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../scanner/scanner.h"
+#include "../scanner/context.h"
 #include "visitor.h"
 #include <memory>
 #include <string>
@@ -8,7 +8,7 @@
 
 namespace quirk::ast {
 
-using std::string_view;
+using namespace std;
 
 class Node {
     uint64_t id;
@@ -16,14 +16,19 @@ class Node {
 
 public:
     Node() = delete;
+    Node(Node&) = delete;
+    Node(Node&&) = delete;
+
     Node(Context context) : context(context)
     {
         static uint64_t last_id = 0;
         id = last_id++;
     }
+
     virtual ~Node() {}
 
     auto get_id() { return id; }
+
     auto get_context() { return context; }
 
     virtual void accept(Visitor* visitor) = 0;

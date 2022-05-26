@@ -1,43 +1,29 @@
 #pragma once
-#include "ast/node.h"
+
+#include "declaration.h"
+#include "magic_enum.hpp"
 
 namespace quirk::scopes {
 
-class BasicType : public Decl {
-public:
-    enum class Kind {
-        Int64,
-        Float64,
-    };
+enum class BasicTypeKind {
+    Int64,
+    Float64,
+};
 
+class BasicType : public Declaration {
 private:
-    Kind kind;
+    BasicTypeKind kind;
 
 public:
+    BasicType() = delete;
+    BasicType(BasicType&) = delete;
+    BasicType(BasicType&&) = delete;
+
+    BasicType(BasicTypeKind kind) : kind(kind) {}
+
+    string_view get_name() override { return magic_enum::enum_name(kind); }
+
+    BasicTypeKind get_kind() { return kind; }
 };
 
-class Int64Type : public Decl {
-    Int64Type() {}
-
-public:
-    static auto get_instance() {
-        static Int64Type instance;
-        return &instance;
-    }
-
-    void accept(Visitor* visitor) override;
-};
-
-class Float64Type : public Decl {
-    Float64Type() {}
-
-public:
-    static auto get_instance() {
-        static Float64Type instance;
-        return &instance;
-    }
-
-    void accept(Visitor* visitor) override;
-};
-
-}  // namespace quirk::ast
+} // namespace quirk::scopes

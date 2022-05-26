@@ -1,7 +1,7 @@
 #pragma once
 
-#include "ast/asg_stmt.h"
-#include "ast/name_literal.h"
+#include "../ast/asg_stmt.h"
+#include "../ast/name_literal.h"
 #include "declaration.h"
 
 namespace quirk::scopes {
@@ -10,7 +10,7 @@ using namespace ast;
 
 class Variable : public Declaration {
     AsgStmt* def;
-    bool     global = false;
+    bool global = false;
 
 public:
     Variable(AsgStmt* def) : def(def) {}

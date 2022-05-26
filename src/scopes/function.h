@@ -1,5 +1,6 @@
 #pragma once
-#include "ast/func_def_stmt.h"
+
+#include "../ast/func_def_stmt.h"
 #include "declaration.h"
 
 namespace quirk::scopes {

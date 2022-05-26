@@ -1,5 +1,5 @@
 ﻿#include "scanner.h"
-#include "compilation_error.h"
+#include "../compilation_error.h"
 #include <map>
 
 namespace quirk {

@@ -1,7 +1,7 @@
-#include "compilation_error.h"
+#include "../src/compilation_error.h"
+#include "../src/scanner/scanner.h"
 #include "fmt/core.h"
 #include "magic_enum.hpp"
-#include "scanner/scanner.h"
 #include "utils.h"
 #include <filesystem>
 #include <fstream>

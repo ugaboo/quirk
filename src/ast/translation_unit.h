@@ -22,3 +22,28 @@
 #include "subscript_expr.h"
 #include "unary_expr.h"
 #include "while_stmt.h"
+
+namespace quirk::ast {
+
+class TranslationUnit {
+    vector<unique_ptr<Stmt>> stmts;
+
+public:
+    TranslationUnit() = delete;
+    TranslationUnit(TranslationUnit&) = delete;
+    TranslationUnit(TranslationUnit&&) = delete;
+
+    TranslationUnit(vector<unique_ptr<Stmt>>& stmts)
+    {
+        for (auto& s : stmts) {
+            TranslationUnit::stmts.push_back(move(s));
+        }
+    }
+
+    virtual ~TranslationUnit() {}
+
+    auto count_stmts() { return stmts.size(); }
+    auto get_stmt(size_t index) { return stmts[index].get(); }
+};
+
+} // namespace quirk::ast

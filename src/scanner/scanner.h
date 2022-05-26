@@ -1,16 +1,11 @@
 #pragma once
 
 #include "../reader/reader.h"
+#include "context.h"
 #include "token.h"
 #include <stack>
 
 namespace quirk {
-
-struct Context {
-    size_t line;
-    size_t column;
-    string_view value;
-};
 
 class Scanner {
     Reader reader;
@@ -35,12 +30,12 @@ public:
 
     Context get_context()
     {
-        return Context{.line = line, .column = column, .value = reader.slice(token_index)};
+        return Context{
+            .line = line,
+            .column = column,
+            .value = reader.slice(token_index),
+        };
     }
-
-    // auto get_line() { return line; }
-    // auto get_column() { return column; }
-    // auto get_value() { return reader.slice(token_index); }
 
 private:
     bool is(char32_t letter);
