@@ -19,6 +19,4 @@ public:
     void accept(Visitor* visitor) override { visitor->visit(this); }
 };
 
-using ParamDefExprPtr = unique_ptr<ParamDefExpr>;
-
 } // namespace quirk::ast

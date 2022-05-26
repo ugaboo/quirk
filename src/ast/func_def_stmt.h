@@ -9,13 +9,14 @@ class Function;
 
 class FuncDefStmt : public Stmt {
     unique_ptr<NameLiteral> name;
-    vector<ParamDefExprPtr> params;
+    vector<unique_ptr<ParamDefExpr>> params;
     unique_ptr<Expr> ret_type_expr;
     vector<unique_ptr<Stmt>> stmts;
 
 public:
-    FuncDefStmt(Context context, unique_ptr<NameLiteral>& name, vector<ParamDefExprPtr>& params,
-                unique_ptr<Expr>& ret_type_expr, vector<unique_ptr<Stmt>>& stmts)
+    FuncDefStmt(Context context, unique_ptr<NameLiteral>& name,
+                vector<unique_ptr<ParamDefExpr>>& params, unique_ptr<Expr>& ret_type_expr,
+                vector<unique_ptr<Stmt>>& stmts)
         : Stmt(context), name(move(name)), ret_type_expr(move(ret_type_expr))
     {
         for (auto& param : params) {

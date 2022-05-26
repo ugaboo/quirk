@@ -8,10 +8,11 @@ class Structure;
 
 class StructDefStmt : public Stmt {
     unique_ptr<NameLiteral> name;
-    vector<FieldDefPtr> fields;
+    vector<unique_ptr<FieldDef>> fields;
 
 public:
-    StructDefStmt(Context context, unique_ptr<NameLiteral>& name, vector<FieldDefPtr>& fields)
+    StructDefStmt(Context context, unique_ptr<NameLiteral>& name,
+                  vector<unique_ptr<FieldDef>>& fields)
         : Stmt(context), name(move(name))
     {
         for (auto& field : fields) {

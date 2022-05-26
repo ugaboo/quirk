@@ -4,8 +4,6 @@
 
 namespace quirk::ast {
 
-using std::vector;
-
 class CallExpr : public Expr {
     unique_ptr<Expr> designator;
     vector<unique_ptr<Expr>> args;

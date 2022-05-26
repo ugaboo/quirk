@@ -4,8 +4,6 @@
 
 namespace quirk::ast {
 
-class Field;
-
 class FieldDef : public Stmt {
     unique_ptr<NameLiteral> name;
     unique_ptr<Expr> type;
@@ -23,7 +21,5 @@ public:
 
     void accept(Visitor* visitor) override { visitor->visit(this); }
 };
-
-using FieldDefPtr = unique_ptr<FieldDef>;
 
 } // namespace quirk::ast

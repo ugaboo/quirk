@@ -60,7 +60,7 @@ void ScopeBuilder::visit(FuncDefStmt* node)
     if (!scopes.back()->add(move(func))) {
         throw CompilationError::Redefinition;
     }
-    scopes.push_back(ptr->get_scope());
+    scopes.push_back(ptr);
 
     for (size_t i = 0; i < node->count_params(); i++) {
         node->get_param(i)->accept(this);
@@ -98,7 +98,7 @@ void ScopeBuilder::visit(StructDefStmt* node)
     if (!scopes.back()->add(move(st))) {
         throw CompilationError::Redefinition;
     }
-    scopes.push_back(ptr->get_scope());
+    scopes.push_back(ptr);
 
     for (size_t i = 0; i < node->count_fields(); i++) {
         node->get_field(i)->accept(this);
