@@ -1,18 +1,20 @@
 #pragma once
+
 #include "node.h"
 
 namespace quirk::ast {
 
 class IfStmt : public Stmt {
-    using Condition = unique_ptr<ast::Expr>;
-    using Statements = vector<unique_ptr<ast::Stmt>>;
+    using Condition = std::unique_ptr<ast::Expr>;
+    using Statements = std::vector<std::unique_ptr<ast::Stmt>>;
     using Branch = std::pair<Condition, Statements>;
 
-    vector<Branch> branches;
+    std::vector<Branch> branches;
     Statements else_stmts;
 
 public:
-    IfStmt(Context context, vector<Branch>& branches, vector<unique_ptr<Stmt>>& else_stmts)
+    IfStmt(Context context, std::vector<Branch>& branches,
+           std::vector<std::unique_ptr<Stmt>>& else_stmts)
         : Stmt(context)
     {
         for (auto& branch : branches) {
@@ -37,7 +39,7 @@ public:
     auto count_else_stmts() { return else_stmts.size(); }
     auto get_else_stmt(size_t index) { return else_stmts[index].get(); }
 
-    void accept(Visitor* visitor) override { visitor->visit(this); }
+    void accept(Visitor* visitor) override;
 };
 
 } // namespace quirk::ast

@@ -9,7 +9,7 @@
 
 // using std::string;
 // using std::string_view;
-// using std::unique_ptr;
+// using std::std::unique_ptr;
 
 // // CodeGen generates llvm code for the module, functions and statements
 // class CodeGen : public ast::Visitor {
@@ -18,9 +18,9 @@
 //     llvm::LLVMContext context;
 //     llvm::IRBuilder<> builder;
 
-//     unique_ptr<llvm::Module> module;
+//     std::unique_ptr<llvm::Module> module;
 
-//     unique_ptr<DeclGen> decls;
+//     std::unique_ptr<DeclGen> decls;
 
 //     llvm::Value* llvm_value;
 

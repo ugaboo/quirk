@@ -1,13 +1,14 @@
 #pragma once
 
-#include "declaration.h"
 #include <memory>
 #include <unordered_map>
+
+#include "declaration.h"
 
 namespace quirk::scopes {
 
 class Scope {
-    unordered_map<string_view, unique_ptr<Declaration>> decls;
+    std::unordered_map<std::string_view, std::unique_ptr<Declaration>> decls;
     Scope* parent;
 
 public:
@@ -19,13 +20,13 @@ public:
 
     virtual ~Scope() {}
 
-    bool add(unique_ptr<Declaration> decl)
+    bool add(std::unique_ptr<Declaration> decl)
     {
         auto [_, success] = decls.insert({decl->get_name(), move(decl)});
         return success;
     }
 
-    Declaration* find(string name)
+    Declaration* find(std::string_view name)
     {
         auto search = decls.find(name);
         if (search != decls.end()) {

@@ -5,12 +5,12 @@
 
 namespace quirk {
 
-Parser::Parser(string filename) : scanner(filename) {}
+Parser::Parser(std::string filename) : scanner(filename) {}
 
-bool Parser::parse(unique_ptr<TranslationUnit>& result)
+bool Parser::parse(std::unique_ptr<ast::TranslationUnit>& result)
 {
-    vector<unique_ptr<Stmt>> stmts;
-    unique_ptr<Stmt> s;
+    std::vector<std::unique_ptr<ast::Stmt>> stmts;
+    std::unique_ptr<ast::Stmt> s;
 L0:
     if (are_statements(stmts)) {
         goto L0;
@@ -25,11 +25,11 @@ L0:
     }
     throw CompilationError::InvalidSyntax;
 END:
-    result = make_unique<TranslationUnit>(stmts);
+    result = std::make_unique<ast::TranslationUnit>(stmts);
     return true;
 }
 
-bool Parser::is_definition(unique_ptr<Stmt>& result)
+bool Parser::is_definition(std::unique_ptr<ast::Stmt>& result)
 {
     if (is_function(result)) {
         goto END;
@@ -42,9 +42,9 @@ END:
     return true;
 }
 
-bool Parser::are_statements(vector<unique_ptr<Stmt>>& result)
+bool Parser::are_statements(std::vector<std::unique_ptr<ast::Stmt>>& result)
 {
-    unique_ptr<Stmt> s;
+    std::unique_ptr<ast::Stmt> s;
 
     if (is_stmt_row(result)) {
         goto END;
@@ -58,7 +58,7 @@ END:
     return true;
 }
 
-bool Parser::is_compound(unique_ptr<Stmt>& result)
+bool Parser::is_compound(std::unique_ptr<ast::Stmt>& result)
 {
     if (is_if(result)) {
         goto END;
@@ -71,9 +71,9 @@ END:
     return true;
 }
 
-bool Parser::is_stmt_row(vector<unique_ptr<Stmt>>& result)
+bool Parser::is_stmt_row(std::vector<std::unique_ptr<ast::Stmt>>& result)
 {
-    unique_ptr<Stmt> s;
+    std::unique_ptr<ast::Stmt> s;
 
     if (is_small(s)) {
         result.push_back(move(s));
@@ -108,7 +108,7 @@ END:
     return true;
 }
 
-bool Parser::is_stmt_col(vector<unique_ptr<Stmt>>& result)
+bool Parser::is_stmt_col(std::vector<std::unique_ptr<ast::Stmt>>& result)
 {
     if (scanner.get_token() == Token::NewLine) {
         scanner.move();
@@ -136,7 +136,7 @@ END:
     return true;
 }
 
-bool Parser::is_small(unique_ptr<Stmt>& result)
+bool Parser::is_small(std::unique_ptr<ast::Stmt>& result)
 {
     if (is_call_or_asg(result)) {
         goto END;
@@ -145,12 +145,12 @@ bool Parser::is_small(unique_ptr<Stmt>& result)
         goto END;
     }
     if (scanner.get_token() == Token::KwBreak) {
-        result = make_unique<BreakStmt>(scanner.get_context());
+        result = std::make_unique<ast::BreakStmt>(scanner.get_context());
         scanner.move();
         goto END;
     }
     if (scanner.get_token() == Token::KwContinue) {
-        result = make_unique<ContinueStmt>(scanner.get_context());
+        result = std::make_unique<ast::ContinueStmt>(scanner.get_context());
         scanner.move();
         goto END;
     }
@@ -159,17 +159,17 @@ END:
     return true;
 }
 
-bool Parser::is_call_or_asg(unique_ptr<Stmt>& result)
+bool Parser::is_call_or_asg(std::unique_ptr<ast::Stmt>& result)
 {
     Context context;
-    unique_ptr<Expr> desig, type, expr;
+    std::unique_ptr<ast::Expr> desig, type, expr;
 
     if (is_designator(desig)) {
-        auto func_call = dynamic_cast<CallExpr*>(desig.get());
+        auto func_call = dynamic_cast<ast::CallExpr*>(desig.get());
         if (func_call != nullptr) {
             desig.release();
-            unique_ptr<CallExpr> ptr(func_call);
-            result = make_unique<CallStmt>(ptr);
+            std::unique_ptr<ast::CallExpr> ptr(func_call);
+            result = std::make_unique<ast::CallStmt>(ptr);
             return true;
         }
         goto L1;
@@ -203,14 +203,14 @@ END:
     if (type == nullptr && expr == nullptr) {
         throw CompilationError::InvalidSyntax;
     }
-    result = make_unique<AsgStmt>(context, desig, type, expr);
+    result = std::make_unique<ast::AsgStmt>(context, desig, type, expr);
     return true;
 }
 
-bool Parser::is_type(unique_ptr<Expr>& result)
+bool Parser::is_type(std::unique_ptr<ast::Expr>& result)
 {
     if (scanner.get_token() == Token::Name) {
-        result = make_unique<NameLiteral>(scanner.get_context());
+        result = std::make_unique<ast::NameLiteral>(scanner.get_context());
         scanner.move();
         goto END;
     }
@@ -219,10 +219,10 @@ END:
     return true;
 }
 
-bool Parser::is_return(unique_ptr<Stmt>& result)
+bool Parser::is_return(std::unique_ptr<ast::Stmt>& result)
 {
     Context context;
-    unique_ptr<Expr> expr;
+    std::unique_ptr<ast::Expr> expr;
 
     if (scanner.get_token() == Token::KwReturn) {
         context = scanner.get_context();
@@ -236,13 +236,13 @@ L1:
     }
     goto END;
 END:
-    result = make_unique<ReturnStmt>(context, expr);
+    result = std::make_unique<ast::ReturnStmt>(context, expr);
     return true;
 }
 
-bool Parser::are_expressions(vector<unique_ptr<Expr>>& result)
+bool Parser::are_expressions(std::vector<std::unique_ptr<ast::Expr>>& result)
 {
-    unique_ptr<Expr> expr;
+    std::unique_ptr<ast::Expr> expr;
 
     if (is_expression(expr)) {
         result.push_back(move(expr));
@@ -265,7 +265,7 @@ END:
     return true;
 }
 
-bool Parser::is_expression(unique_ptr<Expr>& result)
+bool Parser::is_expression(std::unique_ptr<ast::Expr>& result)
 {
     if (is_or(result)) {
         goto END;
@@ -275,10 +275,10 @@ END:
     return true;
 }
 
-bool Parser::is_or(unique_ptr<Expr>& result)
+bool Parser::is_or(std::unique_ptr<ast::Expr>& result)
 {
     Context context;
-    unique_ptr<Expr> right;
+    std::unique_ptr<ast::Expr> right;
 
     if (is_and(result)) {
         goto L2;
@@ -286,7 +286,7 @@ bool Parser::is_or(unique_ptr<Expr>& result)
     return false;
 L1:
     if (is_and(right)) {
-        result = make_unique<BinaryExpr>(context, BinaryOpKind::Or, result, right);
+        result = std::make_unique<ast::BinaryExpr>(context, ast::BinaryOpKind::Or, result, right);
         goto L2;
     }
     throw CompilationError::InvalidSyntax;
@@ -301,10 +301,10 @@ END:
     return true;
 }
 
-bool Parser::is_and(unique_ptr<Expr>& result)
+bool Parser::is_and(std::unique_ptr<ast::Expr>& result)
 {
     Context context;
-    unique_ptr<Expr> right;
+    std::unique_ptr<ast::Expr> right;
 
     if (is_not(result)) {
         goto L2;
@@ -312,7 +312,7 @@ bool Parser::is_and(unique_ptr<Expr>& result)
     return false;
 L1:
     if (is_not(right)) {
-        result = make_unique<BinaryExpr>(context, BinaryOpKind::And, result, right);
+        result = std::make_unique<ast::BinaryExpr>(context, ast::BinaryOpKind::And, result, right);
         goto L2;
     }
     throw CompilationError::InvalidSyntax;
@@ -327,7 +327,7 @@ END:
     return true;
 }
 
-bool Parser::is_not(unique_ptr<Expr>& result)
+bool Parser::is_not(std::unique_ptr<ast::Expr>& result)
 {
     Context context;
 
@@ -342,7 +342,7 @@ bool Parser::is_not(unique_ptr<Expr>& result)
     return false;
 L1:
     if (is_not(result)) {
-        result = make_unique<UnaryExpr>(context, UnaryOpKind::Not, result);
+        result = std::make_unique<ast::UnaryExpr>(context, ast::UnaryOpKind::Not, result);
         goto END;
     }
     throw CompilationError::InvalidSyntax;
@@ -350,11 +350,11 @@ END:
     return true;
 }
 
-bool Parser::is_comparison(unique_ptr<Expr>& result)
+bool Parser::is_comparison(std::unique_ptr<ast::Expr>& result)
 {
     Context context;
-    BinaryOpKind kind;
-    unique_ptr<Expr> right;
+    ast::BinaryOpKind kind;
+    std::unique_ptr<ast::Expr> right;
 
     if (is_bor(result)) {
         goto L2;
@@ -362,7 +362,7 @@ bool Parser::is_comparison(unique_ptr<Expr>& result)
     return false;
 L1:
     if (is_bor(right)) {
-        result = make_unique<BinaryExpr>(context, kind, result, right);
+        result = std::make_unique<ast::BinaryExpr>(context, kind, result, right);
         goto L2;
     }
     throw CompilationError::InvalidSyntax;
@@ -375,40 +375,40 @@ END:
     return true;
 }
 
-bool Parser::is_relation(BinaryOpKind& result, Context& context)
+bool Parser::is_relation(ast::BinaryOpKind& result, Context& context)
 {
     if (scanner.get_token() == Token::Less) {
-        result = BinaryOpKind::Less;
+        result = ast::BinaryOpKind::Less;
         context = scanner.get_context();
         scanner.move();
         goto END;
     }
     if (scanner.get_token() == Token::Greater) {
-        result = BinaryOpKind::Greater;
+        result = ast::BinaryOpKind::Greater;
         context = scanner.get_context();
         scanner.move();
         goto END;
     }
     if (scanner.get_token() == Token::Equal) {
-        result = BinaryOpKind::Equal;
+        result = ast::BinaryOpKind::Equal;
         context = scanner.get_context();
         scanner.move();
         goto END;
     }
     if (scanner.get_token() == Token::LessOrEqual) {
-        result = BinaryOpKind::LessOrEqual;
+        result = ast::BinaryOpKind::LessOrEqual;
         context = scanner.get_context();
         scanner.move();
         goto END;
     }
     if (scanner.get_token() == Token::GreaterOrEqual) {
-        result = BinaryOpKind::GreaterOrEqual;
+        result = ast::BinaryOpKind::GreaterOrEqual;
         context = scanner.get_context();
         scanner.move();
         goto END;
     }
     if (scanner.get_token() == Token::NotEqual) {
-        result = BinaryOpKind::NotEqual;
+        result = ast::BinaryOpKind::NotEqual;
         context = scanner.get_context();
         scanner.move();
         goto END;
@@ -418,10 +418,10 @@ END:
     return true;
 }
 
-bool Parser::is_bor(unique_ptr<Expr>& result)
+bool Parser::is_bor(std::unique_ptr<ast::Expr>& result)
 {
     Context context;
-    unique_ptr<Expr> right;
+    std::unique_ptr<ast::Expr> right;
 
     if (is_bxor(result)) {
         goto L2;
@@ -429,7 +429,8 @@ bool Parser::is_bor(unique_ptr<Expr>& result)
     return false;
 L1:
     if (is_bxor(right)) {
-        result = make_unique<BinaryExpr>(context, BinaryOpKind::BitOr, result, right);
+        result =
+            std::make_unique<ast::BinaryExpr>(context, ast::BinaryOpKind::BitOr, result, right);
         goto L2;
     }
     throw CompilationError::InvalidSyntax;
@@ -444,10 +445,10 @@ END:
     return true;
 }
 
-bool Parser::is_bxor(unique_ptr<Expr>& result)
+bool Parser::is_bxor(std::unique_ptr<ast::Expr>& result)
 {
     Context context;
-    unique_ptr<Expr> right;
+    std::unique_ptr<ast::Expr> right;
 
     if (is_band(result)) {
         goto L2;
@@ -455,7 +456,8 @@ bool Parser::is_bxor(unique_ptr<Expr>& result)
     return false;
 L1:
     if (is_band(right)) {
-        result = make_unique<BinaryExpr>(context, BinaryOpKind::BitXor, result, right);
+        result =
+            std::make_unique<ast::BinaryExpr>(context, ast::BinaryOpKind::BitXor, result, right);
         goto L2;
     }
     throw CompilationError::InvalidSyntax;
@@ -470,10 +472,10 @@ END:
     return true;
 }
 
-bool Parser::is_band(unique_ptr<Expr>& result)
+bool Parser::is_band(std::unique_ptr<ast::Expr>& result)
 {
     Context context;
-    unique_ptr<Expr> right;
+    std::unique_ptr<ast::Expr> right;
 
     if (is_shift(result)) {
         goto L2;
@@ -481,7 +483,8 @@ bool Parser::is_band(unique_ptr<Expr>& result)
     return false;
 L1:
     if (is_shift(right)) {
-        result = make_unique<BinaryExpr>(context, BinaryOpKind::BitAnd, result, right);
+        result =
+            std::make_unique<ast::BinaryExpr>(context, ast::BinaryOpKind::BitAnd, result, right);
         goto L2;
     }
     throw CompilationError::InvalidSyntax;
@@ -496,11 +499,11 @@ END:
     return true;
 }
 
-bool Parser::is_shift(unique_ptr<Expr>& result)
+bool Parser::is_shift(std::unique_ptr<ast::Expr>& result)
 {
     Context context;
-    BinaryOpKind kind;
-    unique_ptr<Expr> right;
+    ast::BinaryOpKind kind;
+    std::unique_ptr<ast::Expr> right;
 
     if (is_arith(result)) {
         goto L2;
@@ -508,19 +511,19 @@ bool Parser::is_shift(unique_ptr<Expr>& result)
     return false;
 L1:
     if (is_arith(right)) {
-        result = make_unique<BinaryExpr>(context, kind, result, right);
+        result = std::make_unique<ast::BinaryExpr>(context, kind, result, right);
         goto L2;
     }
     throw CompilationError::InvalidSyntax;
 L2:
     if (scanner.get_token() == Token::LeftShift) {
-        kind = BinaryOpKind::LeftShift;
+        kind = ast::BinaryOpKind::LeftShift;
         context = scanner.get_context();
         scanner.move();
         goto L1;
     }
     if (scanner.get_token() == Token::RightShift) {
-        kind = BinaryOpKind::RightShift;
+        kind = ast::BinaryOpKind::RightShift;
         context = scanner.get_context();
         scanner.move();
         goto L1;
@@ -530,11 +533,11 @@ END:
     return true;
 }
 
-bool Parser::is_arith(unique_ptr<Expr>& result)
+bool Parser::is_arith(std::unique_ptr<ast::Expr>& result)
 {
     Context context;
-    BinaryOpKind kind;
-    unique_ptr<Expr> right;
+    ast::BinaryOpKind kind;
+    std::unique_ptr<ast::Expr> right;
 
     if (is_term(result)) {
         goto L2;
@@ -542,19 +545,19 @@ bool Parser::is_arith(unique_ptr<Expr>& result)
     return false;
 L1:
     if (is_term(right)) {
-        result = make_unique<BinaryExpr>(context, kind, result, right);
+        result = std::make_unique<ast::BinaryExpr>(context, kind, result, right);
         goto L2;
     }
     throw CompilationError::InvalidSyntax;
 L2:
     if (scanner.get_token() == Token::Plus) {
-        kind = BinaryOpKind::Add;
+        kind = ast::BinaryOpKind::Add;
         context = scanner.get_context();
         scanner.move();
         goto L1;
     }
     if (scanner.get_token() == Token::Minus) {
-        kind = BinaryOpKind::Sub;
+        kind = ast::BinaryOpKind::Sub;
         context = scanner.get_context();
         scanner.move();
         goto L1;
@@ -564,11 +567,11 @@ END:
     return true;
 }
 
-bool Parser::is_term(unique_ptr<Expr>& result)
+bool Parser::is_term(std::unique_ptr<ast::Expr>& result)
 {
     Context context;
-    BinaryOpKind kind;
-    unique_ptr<Expr> right;
+    ast::BinaryOpKind kind;
+    std::unique_ptr<ast::Expr> right;
 
     if (is_factor(result)) {
         goto L2;
@@ -576,31 +579,31 @@ bool Parser::is_term(unique_ptr<Expr>& result)
     return false;
 L1:
     if (is_factor(right)) {
-        result = make_unique<BinaryExpr>(context, kind, result, right);
+        result = std::make_unique<ast::BinaryExpr>(context, kind, result, right);
         goto L2;
     }
     throw CompilationError::InvalidSyntax;
 L2:
     if (scanner.get_token() == Token::Star) {
-        kind = BinaryOpKind::Mul;
+        kind = ast::BinaryOpKind::Mul;
         context = scanner.get_context();
         scanner.move();
         goto L1;
     }
     if (scanner.get_token() == Token::Slash) {
-        kind = BinaryOpKind::Div;
+        kind = ast::BinaryOpKind::Div;
         context = scanner.get_context();
         scanner.move();
         goto L1;
     }
     if (scanner.get_token() == Token::Percent) {
-        kind = BinaryOpKind::Mod;
+        kind = ast::BinaryOpKind::Mod;
         context = scanner.get_context();
         scanner.move();
         goto L1;
     }
     if (scanner.get_token() == Token::DoubleSlash) {
-        kind = BinaryOpKind::IntDiv;
+        kind = ast::BinaryOpKind::IntDiv;
         context = scanner.get_context();
         scanner.move();
         goto L1;
@@ -610,28 +613,28 @@ END:
     return true;
 }
 
-bool Parser::is_factor(unique_ptr<Expr>& result)
+bool Parser::is_factor(std::unique_ptr<ast::Expr>& result)
 {
     Context context;
-    UnaryOpKind kind;
+    ast::UnaryOpKind kind;
 
     if (is_power(result)) {
         goto END;
     }
     if (scanner.get_token() == Token::Plus) {
-        kind = UnaryOpKind::Plus;
+        kind = ast::UnaryOpKind::Plus;
         context = scanner.get_context();
         scanner.move();
         goto L1;
     }
     if (scanner.get_token() == Token::Minus) {
-        kind = UnaryOpKind::Minus;
+        kind = ast::UnaryOpKind::Minus;
         context = scanner.get_context();
         scanner.move();
         goto L1;
     }
     if (scanner.get_token() == Token::BitNot) {
-        kind = UnaryOpKind::BitNot;
+        kind = ast::UnaryOpKind::BitNot;
         context = scanner.get_context();
         scanner.move();
         goto L1;
@@ -639,7 +642,7 @@ bool Parser::is_factor(unique_ptr<Expr>& result)
     return false;
 L1:
     if (is_factor(result)) {
-        result = make_unique<UnaryExpr>(context, kind, result);
+        result = std::make_unique<ast::UnaryExpr>(context, kind, result);
         goto END;
     }
     throw CompilationError::InvalidSyntax;
@@ -647,10 +650,10 @@ END:
     return true;
 }
 
-bool Parser::is_power(unique_ptr<Expr>& result)
+bool Parser::is_power(std::unique_ptr<ast::Expr>& result)
 {
     Context context;
-    unique_ptr<Expr> exp;
+    std::unique_ptr<ast::Expr> exp;
 
     if (is_designator(result)) {
         goto L1;
@@ -665,7 +668,7 @@ L1:
     goto END;
 L2:
     if (is_factor(exp)) {
-        result = make_unique<BinaryExpr>(context, BinaryOpKind::Power, result, exp);
+        result = std::make_unique<ast::BinaryExpr>(context, ast::BinaryOpKind::Power, result, exp);
         goto END;
     }
     throw CompilationError::InvalidSyntax;
@@ -673,7 +676,7 @@ END:
     return true;
 }
 
-bool Parser::is_designator(unique_ptr<Expr>& result)
+bool Parser::is_designator(std::unique_ptr<ast::Expr>& result)
 {
     if (is_atom(result)) {
         goto L1;
@@ -688,38 +691,38 @@ END:
     return true;
 }
 
-bool Parser::is_atom(unique_ptr<Expr>& result)
+bool Parser::is_atom(std::unique_ptr<ast::Expr>& result)
 {
     if (is_list(result)) {
         goto END;
     }
     if (scanner.get_token() == Token::Name) {
-        result = make_unique<NameLiteral>(scanner.get_context());
+        result = std::make_unique<ast::NameLiteral>(scanner.get_context());
         scanner.move();
         goto END;
     }
     if (scanner.get_token() == Token::Int) {
-        result = make_unique<IntLiteral>(scanner.get_context());
+        result = std::make_unique<ast::IntLiteral>(scanner.get_context());
         scanner.move();
         goto END;
     }
     if (scanner.get_token() == Token::Float) {
-        result = make_unique<FloatLiteral>(scanner.get_context());
+        result = std::make_unique<ast::FloatLiteral>(scanner.get_context());
         scanner.move();
         goto END;
     }
     if (scanner.get_token() == Token::KwTrue) {
-        result = make_unique<BoolLiteral>(scanner.get_context());
+        result = std::make_unique<ast::BoolLiteral>(scanner.get_context());
         scanner.move();
         goto END;
     }
     if (scanner.get_token() == Token::KwFalse) {
-        result = make_unique<BoolLiteral>(scanner.get_context());
+        result = std::make_unique<ast::BoolLiteral>(scanner.get_context());
         scanner.move();
         goto END;
     }
     if (scanner.get_token() == Token::KwNone) {
-        result = make_unique<NoneLiteral>(scanner.get_context());
+        result = std::make_unique<ast::NoneLiteral>(scanner.get_context());
         scanner.move();
         goto END;
     }
@@ -743,10 +746,10 @@ END:
     return true;
 }
 
-bool Parser::is_selector(unique_ptr<Expr>& result)
+bool Parser::is_selector(std::unique_ptr<ast::Expr>& result)
 {
     Context context;
-    vector<unique_ptr<Expr>> args, keys;
+    std::vector<std::unique_ptr<ast::Expr>> args, keys;
 
     if (scanner.get_token() == Token::LeftParenthesis) {
         context = scanner.get_context();
@@ -771,7 +774,7 @@ L1:
     goto L2;
 L2:
     if (scanner.get_token() == Token::RightParenthesis) {
-        result = make_unique<CallExpr>(context, result, args);
+        result = std::make_unique<ast::CallExpr>(context, result, args);
         scanner.move();
         goto END;
     }
@@ -783,15 +786,15 @@ L3:
     throw CompilationError::InvalidSyntax;
 L4:
     if (scanner.get_token() == Token::RightBracket) {
-        result = make_unique<SubscriptExpr>(context, result, keys);
+        result = std::make_unique<ast::SubscriptExpr>(context, result, keys);
         scanner.move();
         goto END;
     }
     throw CompilationError::InvalidSyntax;
 L5:
     if (scanner.get_token() == Token::Name) {
-        auto name = make_unique<NameLiteral>(scanner.get_context());
-        result = make_unique<MemberAccessExpr>(context, result, name);
+        auto name = std::make_unique<ast::NameLiteral>(scanner.get_context());
+        result = std::make_unique<ast::MemberAccessExpr>(context, result, name);
         scanner.move();
         goto END;
     }
@@ -800,10 +803,10 @@ END:
     return true;
 }
 
-bool Parser::is_list(unique_ptr<Expr>& result)
+bool Parser::is_list(std::unique_ptr<ast::Expr>& result)
 {
     Context context;
-    vector<unique_ptr<Expr>> exprs;
+    std::vector<std::unique_ptr<ast::Expr>> exprs;
 
     if (scanner.get_token() == Token::LeftBracket) {
         context = scanner.get_context();
@@ -823,17 +826,17 @@ L2:
     }
     throw CompilationError::InvalidSyntax;
 END:
-    result = make_unique<ListLiteral>(context, exprs);
+    result = std::make_unique<ast::ListLiteral>(context, exprs);
     return true;
 }
 
-bool Parser::is_function(unique_ptr<Stmt>& result)
+bool Parser::is_function(std::unique_ptr<ast::Stmt>& result)
 {
     Context context;
-    unique_ptr<NameLiteral> name;
-    vector<unique_ptr<ParamDefExpr>> params;
-    unique_ptr<Expr> ret_type_expr;
-    vector<unique_ptr<Stmt>> stmts;
+    std::unique_ptr<ast::NameLiteral> name;
+    std::vector<std::unique_ptr<ast::ParamDefExpr>> params;
+    std::unique_ptr<ast::Expr> ret_type_expr;
+    std::vector<std::unique_ptr<ast::Stmt>> stmts;
 
     if (scanner.get_token() == Token::KwDef) {
         context = scanner.get_context();
@@ -843,7 +846,7 @@ bool Parser::is_function(unique_ptr<Stmt>& result)
     return false;
 L1:
     if (scanner.get_token() == Token::Name) {
-        name = make_unique<NameLiteral>(scanner.get_context());
+        name = std::make_unique<ast::NameLiteral>(scanner.get_context());
         scanner.move();
         goto L2;
     }
@@ -888,13 +891,13 @@ L8:
     }
     throw CompilationError::InvalidSyntax;
 END:
-    result = make_unique<FuncDefStmt>(context, name, params, ret_type_expr, stmts);
+    result = std::make_unique<ast::FuncDefStmt>(context, name, params, ret_type_expr, stmts);
     return true;
 }
 
-bool Parser::are_parameters(vector<unique_ptr<ParamDefExpr>>& result)
+bool Parser::are_parameters(std::vector<std::unique_ptr<ast::ParamDefExpr>>& result)
 {
-    unique_ptr<ParamDefExpr> param;
+    std::unique_ptr<ast::ParamDefExpr> param;
 
     if (is_parameter(param)) {
         result.push_back(move(param));
@@ -917,13 +920,13 @@ END:
     return true;
 }
 
-bool Parser::is_parameter(unique_ptr<ParamDefExpr>& result)
+bool Parser::is_parameter(std::unique_ptr<ast::ParamDefExpr>& result)
 {
-    unique_ptr<NameLiteral> name;
-    unique_ptr<Expr> type;
+    std::unique_ptr<ast::NameLiteral> name;
+    std::unique_ptr<ast::Expr> type;
 
     if (scanner.get_token() == Token::Name) {
-        name = make_unique<NameLiteral>(scanner.get_context());
+        name = std::make_unique<ast::NameLiteral>(scanner.get_context());
         scanner.move();
         goto L1;
     }
@@ -940,18 +943,18 @@ L2:
     }
     throw CompilationError::InvalidSyntax;
 END:
-    result = make_unique<ParamDefExpr>(name, type);
+    result = std::make_unique<ast::ParamDefExpr>(name, type);
     return true;
 }
 
-bool Parser::is_if(unique_ptr<Stmt>& result)
+bool Parser::is_if(std::unique_ptr<ast::Stmt>& result)
 {
-    using Condition = unique_ptr<Expr>;
-    using Statements = vector<unique_ptr<Stmt>>;
+    using Condition = std::unique_ptr<ast::Expr>;
+    using Statements = std::vector<std::unique_ptr<ast::Stmt>>;
     using Branch = std::pair<Condition, Statements>;
 
     Context context;
-    vector<Branch> branches;
+    std::vector<Branch> branches;
     Statements else_stmts;
 
     if (scanner.get_token() == Token::KwIf) {
@@ -1000,15 +1003,15 @@ L6:
     }
     throw CompilationError::InvalidSyntax;
 END:
-    result = make_unique<IfStmt>(context, branches, else_stmts);
+    result = std::make_unique<ast::IfStmt>(context, branches, else_stmts);
     return true;
 }
 
-bool Parser::is_while(unique_ptr<Stmt>& result)
+bool Parser::is_while(std::unique_ptr<ast::Stmt>& result)
 {
     Context context;
-    unique_ptr<Expr> condition;
-    vector<unique_ptr<Stmt>> body;
+    std::unique_ptr<ast::Expr> condition;
+    std::vector<std::unique_ptr<ast::Stmt>> body;
 
     if (scanner.get_token() == Token::KwWhile) {
         context = scanner.get_context();
@@ -1033,11 +1036,11 @@ L3:
     }
     throw CompilationError::InvalidSyntax;
 END:
-    result = make_unique<WhileStmt>(context, condition, body);
+    result = std::make_unique<ast::WhileStmt>(context, condition, body);
     return true;
 }
 
-bool Parser::is_suite(vector<unique_ptr<Stmt>>& result)
+bool Parser::is_suite(std::vector<std::unique_ptr<ast::Stmt>>& result)
 {
     if (is_stmt_row(result)) {
         goto END;
@@ -1050,11 +1053,11 @@ END:
     return true;
 }
 
-bool Parser::is_structure(unique_ptr<Stmt>& result)
+bool Parser::is_structure(std::unique_ptr<ast::Stmt>& result)
 {
     Context context;
-    unique_ptr<NameLiteral> name;
-    vector<unique_ptr<FieldDefStmt>> fields;
+    std::unique_ptr<ast::NameLiteral> name;
+    std::vector<std::unique_ptr<ast::FieldDefStmt>> fields;
 
     if (scanner.get_token() == Token::KwStruct) {
         context = scanner.get_context();
@@ -1064,7 +1067,7 @@ bool Parser::is_structure(unique_ptr<Stmt>& result)
     return false;
 L1:
     if (scanner.get_token() == Token::Name) {
-        name = make_unique<NameLiteral>(scanner.get_context());
+        name = std::make_unique<ast::NameLiteral>(scanner.get_context());
         scanner.move();
         goto L2;
     }
@@ -1081,11 +1084,11 @@ L3:
     }
     throw CompilationError::InvalidSyntax;
 END:
-    result = make_unique<StructDefStmt>(context, name, fields);
+    result = std::make_unique<ast::StructDefStmt>(context, name, fields);
     return true;
 }
 
-bool Parser::are_fields(vector<unique_ptr<FieldDefStmt>>& result)
+bool Parser::are_fields(std::vector<std::unique_ptr<ast::FieldDefStmt>>& result)
 {
     if (is_field_row(result)) {
         goto END;
@@ -1098,9 +1101,9 @@ END:
     return true;
 }
 
-bool Parser::is_field_row(vector<unique_ptr<FieldDefStmt>>& result)
+bool Parser::is_field_row(std::vector<std::unique_ptr<ast::FieldDefStmt>>& result)
 {
-    unique_ptr<FieldDefStmt> field;
+    std::unique_ptr<ast::FieldDefStmt> field;
 
     if (is_field(field)) {
         result.push_back(move(field));
@@ -1135,7 +1138,7 @@ END:
     return true;
 }
 
-bool Parser::is_field_col(vector<unique_ptr<FieldDefStmt>>& result)
+bool Parser::is_field_col(std::vector<std::unique_ptr<ast::FieldDefStmt>>& result)
 {
     if (scanner.get_token() == Token::NewLine) {
         scanner.move();
@@ -1163,14 +1166,14 @@ END:
     return true;
 }
 
-bool Parser::is_field(unique_ptr<FieldDefStmt>& result)
+bool Parser::is_field(std::unique_ptr<ast::FieldDefStmt>& result)
 {
-    unique_ptr<NameLiteral> name;
-    unique_ptr<Expr> type;
-    unique_ptr<Expr> init_expr;
+    std::unique_ptr<ast::NameLiteral> name;
+    std::unique_ptr<ast::Expr> type;
+    std::unique_ptr<ast::Expr> init_expr;
 
     if (scanner.get_token() == Token::Name) {
-        name = make_unique<NameLiteral>(scanner.get_context());
+        name = std::make_unique<ast::NameLiteral>(scanner.get_context());
         scanner.move();
         goto L1;
     }
@@ -1198,7 +1201,7 @@ L4:
     }
     throw CompilationError::InvalidSyntax;
 END:
-    result = make_unique<FieldDefStmt>(name, type, init_expr);
+    result = std::make_unique<ast::FieldDefStmt>(name, type, init_expr);
     return true;
 }
 

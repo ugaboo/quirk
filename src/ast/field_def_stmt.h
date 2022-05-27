@@ -5,12 +5,13 @@
 namespace quirk::ast {
 
 class FieldDefStmt : public Stmt {
-    unique_ptr<NameLiteral> name;
-    unique_ptr<Expr> type;
-    unique_ptr<Expr> init_expr;
+    std::unique_ptr<NameLiteral> name;
+    std::unique_ptr<Expr> type;
+    std::unique_ptr<Expr> init_expr;
 
 public:
-    FieldDefStmt(unique_ptr<NameLiteral>& name, unique_ptr<Expr>& type, unique_ptr<Expr>& init_expr)
+    FieldDefStmt(std::unique_ptr<NameLiteral>& name, std::unique_ptr<Expr>& type,
+                 std::unique_ptr<Expr>& init_expr)
         : Stmt(name->get_context()), name(move(name)), type(move(type)), init_expr(move(init_expr))
     {
     }
@@ -19,7 +20,7 @@ public:
     auto get_type() { return type.get(); }
     auto get_init_expr() { return init_expr.get(); }
 
-    void accept(Visitor* visitor) override { visitor->visit(this); }
+    void accept(Visitor* visitor) override;
 };
 
 } // namespace quirk::ast

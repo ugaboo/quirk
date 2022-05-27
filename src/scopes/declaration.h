@@ -4,13 +4,11 @@
 
 namespace quirk::scopes {
 
-using namespace std;
-
 class Declaration {
 public:
     virtual ~Declaration() {}
 
-    virtual string_view get_name() = 0;
+    virtual std::string_view get_name() = 0;
 };
 
 } // namespace quirk::scopes

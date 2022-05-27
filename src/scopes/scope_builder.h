@@ -1,51 +1,44 @@
 #pragma once
 
-#include "../ast/translation_unit.h"
+#include "../ast/visitor.h"
 #include "field.h"
 #include "function.h"
 #include "module.h"
 #include "parameter.h"
 #include "structure.h"
 #include "variable.h"
-#include <memory>
-#include <string>
-#include <unordered_map>
-#include <vector>
 
 namespace quirk::scopes {
 
-using namespace std;
-using namespace ast;
-
-class ScopeBuilder : public Visitor {
-    unordered_map<NameLiteral*, Declaration*>& bindings;
+class ScopeBuilder : public ast::Visitor {
+    std::unordered_map<ast::NameLiteral*, Declaration*>& bindings;
 
     Scope* scope;
-    vector<ScopeBuilder> builders;
+    std::vector<ScopeBuilder> builders;
 
 public:
-    ScopeBuilder(vector<TranslationUnit*> tus) {}
+    // ScopeBuilder(std::vector<ast::TranslationUnit*> tus) {}
 
-    ScopeBuilder(TranslationUnit* tu, Module* mod,
-                 unordered_map<NameLiteral*, Declaration*>& bindings);
+    ScopeBuilder(ast::TranslationUnit* tu, Module* mod,
+                 std::unordered_map<ast::NameLiteral*, Declaration*>& bindings);
 
-    virtual void visit(AsgStmt* node) override;
-    virtual void visit(FieldDefStmt* node) override;
-    virtual void visit(FuncDefStmt* node) override;
-    virtual void visit(NameLiteral* node) override;
-    virtual void visit(ParamDefExpr* node) override;
-    virtual void visit(StructDefStmt* node) override;
+    virtual void visit(ast::AsgStmt* node) override;
+    virtual void visit(ast::FieldDefStmt* node) override;
+    virtual void visit(ast::FuncDefStmt* node) override;
+    virtual void visit(ast::NameLiteral* node) override;
+    virtual void visit(ast::ParamDefExpr* node) override;
+    virtual void visit(ast::StructDefStmt* node) override;
 
 private:
-    Declaration* lookup(string_view name);
+    Declaration* lookup(std::string_view name);
     void add_builtins();
 };
 
 // class ScopeBuilder : public Visitor {
-//     vector<vector<unique_ptr<ast::Decl>>> local_decls;
-//     vector<unordered_map<string, ast::Decl*>> name_tables;
-//     vector<ast::Function*> functions;
-//     vector<ast::Structure*> structures;
+//     std::vector<std::vector<std::unique_ptr<ast::Decl>>> local_decls;
+//     std::vector<unordered_map<string, ast::Decl*>> name_tables;
+//     std::vector<ast::Function*> functions;
+//     std::vector<ast::Structure*> structures;
 
 // public:
 //     virtual void visit(ast::Module* node);

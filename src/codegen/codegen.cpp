@@ -13,7 +13,7 @@
 // namespace quirk {
 
 // using std::make_unique;
-// using std::vector;
+// using std::std::vector;
 
 // CodeGen::CodeGen(string filename) : filename(filename), builder(context) {}
 
@@ -128,7 +128,8 @@
 
 // llvm::Function* CodeGen::create_module_initializer() {
 //     auto funcType = llvm::FunctionType::get(builder.getInt32Ty(), false);
-//     auto func = llvm::Function::Create(funcType, llvm::Function::ExternalLinkage, "main", module.get());
+//     auto func = llvm::Function::Create(funcType, llvm::Function::ExternalLinkage, "main",
+//     module.get());
 
 //     auto block = llvm::BasicBlock::Create(context, "", func);
 //     builder.SetInsertPoint(block);

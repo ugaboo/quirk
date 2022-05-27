@@ -1,5 +1,4 @@
 #include "visitor.h"
-#include "translation_unit.h"
 
 namespace quirk::ast {
 

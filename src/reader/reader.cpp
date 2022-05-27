@@ -1,11 +1,13 @@
 #include "reader.h"
-#include "utf8proc.h"
+
 #include <filesystem>
 #include <fstream>
 
+#include "utf8proc.h"
+
 namespace quirk {
 
-Reader::Reader(string filename)
+Reader::Reader(std::string filename)
 {
     read_text(filename);
     pos = text.get();
@@ -31,26 +33,26 @@ void Reader::move()
     iterate();
 }
 
-string_view Reader::slice(size_t begin)
+std::string_view Reader::slice(size_t begin)
 {
     auto end = get_index();
     if (begin < end) {
         auto c_str = reinterpret_cast<char*>(text.get());
-        return string_view(c_str + begin, end - begin);
+        return std::string_view(c_str + begin, end - begin);
     }
-    return string_view();
+    return std::string_view();
 }
 
-void Reader::read_text(string filename)
+void Reader::read_text(std::string filename)
 {
-    ifstream file;
-    file.exceptions(ifstream::failbit | ifstream::badbit);
+    std::ifstream file;
+    file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
 
     auto utf8_c_str = reinterpret_cast<const char8_t*>(filename.c_str());
-    file.open(filesystem::path(utf8_c_str), ios::binary | ios::in);
+    file.open(std::filesystem::path(utf8_c_str), std::ios::binary | std::ios::in);
 
     auto begin = file.tellg();
-    file.seekg(0, ios::end);
+    file.seekg(0, std::ios::end);
     auto end = file.tellg();
     file.seekg(0);
 

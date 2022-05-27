@@ -1,10 +1,12 @@
 ﻿#include "scanner.h"
-#include "../compilation_error.h"
+
 #include <map>
+
+#include "../compilation_error.h"
 
 namespace quirk {
 
-map<string, Token, less<>> keywords = {
+std::map<std::string, Token, std::less<>> keywords = {
     {"and", Token::KwAnd},       {"break", Token::KwBreak},   {"continue", Token::KwContinue},
     {"def", Token::KwDef},       {"elif", Token::KwElif},     {"else", Token::KwElse},
     {"False", Token::KwFalse},   {"if", Token::KwIf},         {"None", Token::KwNone},
@@ -13,7 +15,7 @@ map<string, Token, less<>> keywords = {
     {"while", Token::KwWhile},
 };
 
-Scanner::Scanner(string filename) : reader(filename)
+Scanner::Scanner(std::string filename) : reader(filename)
 {
     indentation.push(0);
     move();

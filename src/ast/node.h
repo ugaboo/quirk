@@ -1,14 +1,10 @@
 #pragma once
 
 #include "../scanner/context.h"
-#include "visitor.h"
-#include <memory>
-#include <string>
-#include <vector>
 
 namespace quirk::ast {
 
-using namespace std;
+class Visitor;
 
 class Node {
     uint64_t id;

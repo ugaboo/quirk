@@ -29,10 +29,11 @@ enum class BinaryOpKind {
 
 class BinaryExpr : public Expr {
     BinaryOpKind kind;
-    unique_ptr<Expr> left, right;
+    std::unique_ptr<Expr> left, right;
 
 public:
-    BinaryExpr(Context context, BinaryOpKind kind, unique_ptr<Expr>& left, unique_ptr<Expr>& right)
+    BinaryExpr(Context context, BinaryOpKind kind, std::unique_ptr<Expr>& left,
+               std::unique_ptr<Expr>& right)
         : Expr(context), kind(kind), left(move(left)), right(move(right))
     {
     }
@@ -41,7 +42,7 @@ public:
     auto get_left() { return left.get(); }
     auto get_right() { return right.get(); }
 
-    void accept(Visitor* visitor) override { visitor->visit(this); }
+    void accept(Visitor* visitor) override;
 };
 
 } // namespace quirk::ast

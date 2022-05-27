@@ -5,19 +5,17 @@
 
 namespace quirk::scopes {
 
-using namespace ast;
-
 class Function : public Scope, public Declaration {
-    FuncDefStmt* def = nullptr;
+    ast::FuncDefStmt* def = nullptr;
 
 public:
-    Function() = delete;
-    Function(Function&) = delete;
-    Function(Function&&) = delete;
+    // Function() = delete;
+    // Function(Function&) = delete;
+    // Function(Function&&) = delete;
 
-    Function(FuncDefStmt* def, Scope* parent) : Scope(parent), def(def) {}
+    Function(ast::FuncDefStmt* def, Scope* parent) : Scope(parent), def(def) {}
 
-    string_view get_name() override { return def->get_name()->get_value(); }
+    std::string_view get_name() override { return def->get_name()->get_value(); }
 
     auto get_def() { return def; }
 };

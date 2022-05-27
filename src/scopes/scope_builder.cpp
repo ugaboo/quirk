@@ -3,8 +3,8 @@
 
 namespace quirk::scopes {
 
-ScopeBuilder::ScopeBuilder(TranslationUnit* tu, Module* mod,
-                           unordered_map<NameLiteral*, Declaration*>& bindings)
+ScopeBuilder::ScopeBuilder(ast::TranslationUnit* tu, Module* mod,
+                           std::unordered_map<ast::NameLiteral*, Declaration*>& bindings)
     : scope(mod), bindings(bindings)
 {
     add_builtins();
@@ -23,7 +23,7 @@ void ScopeBuilder::visit(ast::AsgStmt* node)
         node->get_rvalue()->accept(this);
     }
     // lvalue goes last to prevent incorrect handling of cases such as `a = a + 1`
-    auto name = dynamic_cast<NameLiteral*>(node->get_lvalue());
+    auto name = dynamic_cast<ast::NameLiteral*>(node->get_lvalue());
     if (name == nullptr) {
         node->get_lvalue()->accept(this);
         return;
@@ -41,20 +41,20 @@ void ScopeBuilder::visit(ast::AsgStmt* node)
     }
 }
 
-void ScopeBuilder::visit(FieldDefStmt* node)
+void ScopeBuilder::visit(ast::FieldDefStmt* node)
 {
-    auto field = make_unique<Field>(node);
+    auto field = std::make_unique<Field>(node);
     bindings.insert({node->get_name(), field.get()});
     if (!scopes.back()->add(move(field))) {
         throw CompilationError::Redefinition;
     }
 }
 
-void ScopeBuilder::visit(FuncDefStmt* node)
+void ScopeBuilder::visit(ast::FuncDefStmt* node)
 {
     node->get_ret_type_expr()->accept(this);
 
-    auto func = make_unique<Function>(node);
+    auto func = std::make_unique<Function>(node);
     auto ptr = func.get();
     bindings.insert({node->get_name(), ptr});
     if (!scopes.back()->add(move(func))) {
@@ -70,7 +70,7 @@ void ScopeBuilder::visit(FuncDefStmt* node)
     }
 }
 
-void ScopeBuilder::visit(NameLiteral* node)
+void ScopeBuilder::visit(ast::NameLiteral* node)
 {
     auto decl = lookup(node->get_value());
     if (decl == nullptr) {
@@ -79,9 +79,9 @@ void ScopeBuilder::visit(NameLiteral* node)
     bindings.insert({node, decl});
 }
 
-void ScopeBuilder::visit(ParamDefExpr* node)
+void ScopeBuilder::visit(ast::ParamDefExpr* node)
 {
-    auto param = make_unique<Parameter>(node);
+    auto param = std::make_unique<Parameter>(node);
     bindings.insert({node->get_name(), param.get()});
     if (!scopes.back()->add(move(param))) {
         throw CompilationError::Redefinition;
@@ -90,9 +90,9 @@ void ScopeBuilder::visit(ParamDefExpr* node)
     node->get_type()->accept(this);
 }
 
-void ScopeBuilder::visit(StructDefStmt* node)
+void ScopeBuilder::visit(ast::StructDefStmt* node)
 {
-    auto st = make_unique<Structure>(node);
+    auto st = std::make_unique<Structure>(node);
     auto ptr = st.get();
     bindings.insert({node->get_name(), st.get()});
     if (!scopes.back()->add(move(st))) {
@@ -105,7 +105,7 @@ void ScopeBuilder::visit(StructDefStmt* node)
     }
 }
 
-Declaration* ScopeBuilder::lookup(string_view name)
+Declaration* ScopeBuilder::lookup(std::string_view name)
 {
     for (auto it = scopes.rbegin(); it != scopes.rend(); it++) {
         auto decl = (*it)->find(string(name));

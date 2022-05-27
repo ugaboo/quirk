@@ -15,13 +15,13 @@ private:
     BasicTypeKind kind;
 
 public:
-    BasicType() = delete;
-    BasicType(BasicType&) = delete;
-    BasicType(BasicType&&) = delete;
+    // BasicType() = delete;
+    // BasicType(BasicType&) = delete;
+    // BasicType(BasicType&&) = delete;
 
     BasicType(BasicTypeKind kind) : kind(kind) {}
 
-    string_view get_name() override { return magic_enum::enum_name(kind); }
+    std::string_view get_name() override { return magic_enum::enum_name(kind); }
 
     BasicTypeKind get_kind() { return kind; }
 };

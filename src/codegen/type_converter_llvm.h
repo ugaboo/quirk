@@ -5,7 +5,7 @@
 
 // namespace quirk {
 
-// using std::vector;
+// using std::std::vector;
 
 // // TypeConverterLLVM is a helper visitor that converts ast::Decl into llvm::Type
 // class TypeConverterLLVM : public Visitor {
@@ -23,7 +23,7 @@
 //     void visit(ast::Function* node) override {
 //         auto def = node->get_def();
 
-//         vector<llvm::Type*> param_types;
+//         std::vector<llvm::Type*> param_types;
 //         param_types.reserve(def->count_params());
 //         for (size_t i = 0; i < def->count_params(); i++) {
 //             TypeInference ti(def->get_param(i)->get_type());

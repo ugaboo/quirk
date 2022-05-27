@@ -8,7 +8,7 @@ class ContinueStmt : public Stmt {
 public:
     ContinueStmt(Context context) : Stmt(context) {}
 
-    void accept(Visitor* visitor) override { visitor->visit(this); }
+    void accept(Visitor* visitor) override;
 };
 
 } // namespace quirk::ast

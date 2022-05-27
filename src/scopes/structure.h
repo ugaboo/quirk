@@ -5,19 +5,17 @@
 
 namespace quirk::scopes {
 
-using namespace ast;
-
 class Structure : public Scope, public Declaration {
-    StructDefStmt* def;
+    ast::StructDefStmt* def;
 
 public:
-    Structure() = delete;
-    Structure(Structure&) = delete;
-    Structure(Structure&&) = delete;
+    // Structure() = delete;
+    // Structure(Structure&) = delete;
+    // Structure(Structure&&) = delete;
 
-    Structure(StructDefStmt* def, Scope* parent) : Scope(parent), def(def) {}
+    Structure(ast::StructDefStmt* def, Scope* parent) : Scope(parent), def(def) {}
 
-    string_view get_name() override { return def->get_name()->get_value(); }
+    std::string_view get_name() override { return def->get_name()->get_value(); }
 
     auto get_def() { return def; }
 

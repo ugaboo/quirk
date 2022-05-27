@@ -11,12 +11,13 @@
 
 // using std::make_unique;
 // using std::string;
-// using std::vector;
+// using std::std::vector;
 
 // void DeclGen::visit(ast::Function* node) {
 //     TypeConverterLLVM conv(context, node);
 //     auto func_type = static_cast<llvm::FunctionType*>(conv.get_type());
-//     auto func = llvm::Function::Create(func_type, llvm::Function::ExternalLinkage, string(node->get_name()), module);
+//     auto func = llvm::Function::Create(func_type, llvm::Function::ExternalLinkage,
+//     string(node->get_name()), module);
 
 //     llvm::BasicBlock::Create(context, "", func);
 

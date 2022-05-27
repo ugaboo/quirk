@@ -1,47 +1,45 @@
 #pragma once
 
-#include "../ast/translation_unit.h"
+#include <ostream>
+
+#include "../ast/visitor.h"
 #include "fmt/ostream.h"
 #include "indent_guard.h"
-#include <ostream>
 
 namespace quirk::util {
 
-using namespace std;
-using namespace ast;
-
-class AstPrinter : public Visitor {
-    ostream& out;
+class AstPrinter : public ast::Visitor {
+    std::ostream& out;
     int indent = 0;
 
 public:
-    AstPrinter(ostream& out, TranslationUnit* tu);
+    AstPrinter(std::ostream& out, ast::TranslationUnit* tu);
 
-    virtual void visit(AsgStmt* node) override;
-    virtual void visit(BinaryExpr* node) override;
-    virtual void visit(BoolLiteral* node) override;
-    virtual void visit(BreakStmt* node) override;
-    virtual void visit(CallExpr* node) override;
-    virtual void visit(CallStmt* node) override;
-    virtual void visit(ContinueStmt* node) override;
-    virtual void visit(FieldDefStmt* node) override;
-    virtual void visit(FloatLiteral* node) override;
-    virtual void visit(FuncDefStmt* node) override;
-    virtual void visit(IfStmt* node) override;
-    virtual void visit(IntLiteral* node) override;
-    virtual void visit(ListLiteral* node) override;
-    virtual void visit(MemberAccessExpr* node) override;
-    virtual void visit(NameLiteral* node) override;
-    virtual void visit(NoneLiteral* node) override;
-    virtual void visit(ParamDefExpr* node) override;
-    virtual void visit(ReturnStmt* node) override;
-    virtual void visit(StructDefStmt* node) override;
-    virtual void visit(SubscriptExpr* node) override;
-    virtual void visit(UnaryExpr* node) override;
-    virtual void visit(WhileStmt* node) override;
+    virtual void visit(ast::AsgStmt* node) override;
+    virtual void visit(ast::BinaryExpr* node) override;
+    virtual void visit(ast::BoolLiteral* node) override;
+    virtual void visit(ast::BreakStmt* node) override;
+    virtual void visit(ast::CallExpr* node) override;
+    virtual void visit(ast::CallStmt* node) override;
+    virtual void visit(ast::ContinueStmt* node) override;
+    virtual void visit(ast::FieldDefStmt* node) override;
+    virtual void visit(ast::FloatLiteral* node) override;
+    virtual void visit(ast::FuncDefStmt* node) override;
+    virtual void visit(ast::IfStmt* node) override;
+    virtual void visit(ast::IntLiteral* node) override;
+    virtual void visit(ast::ListLiteral* node) override;
+    virtual void visit(ast::MemberAccessExpr* node) override;
+    virtual void visit(ast::NameLiteral* node) override;
+    virtual void visit(ast::NoneLiteral* node) override;
+    virtual void visit(ast::ParamDefExpr* node) override;
+    virtual void visit(ast::ReturnStmt* node) override;
+    virtual void visit(ast::StructDefStmt* node) override;
+    virtual void visit(ast::SubscriptExpr* node) override;
+    virtual void visit(ast::UnaryExpr* node) override;
+    virtual void visit(ast::WhileStmt* node) override;
 
 private:
-    void print_call(CallExpr* node);
+    void print_call(ast::CallExpr* node);
 
     template <typename S, typename... Args> void print(const S& format_str, Args&&... args)
     {

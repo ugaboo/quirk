@@ -1,16 +1,17 @@
 #pragma once
 
+#include <stack>
+
 #include "../reader/reader.h"
 #include "context.h"
 #include "token.h"
-#include <stack>
 
 namespace quirk {
 
 class Scanner {
     Reader reader;
 
-    stack<uint64_t> indentation;
+    std::stack<uint64_t> indentation;
     uint64_t indent;
     bool update_indent = true;
 
@@ -22,7 +23,7 @@ class Scanner {
     int64_t ignore_new_line = 0;
 
 public:
-    Scanner(string filename);
+    Scanner(std::string filename);
 
     void move();
 

@@ -5,17 +5,15 @@
 
 namespace quirk::scopes {
 
-using namespace ast;
-
 class Parameter : public Declaration {
-    ParamDefExpr* def;
+    ast::ParamDefExpr* def;
 
 public:
-    Parameter(ParamDefExpr* def) : def(def) {}
+    Parameter(ast::ParamDefExpr* def) : def(def) {}
 
     auto get_def() { return def; }
 
-    string_view get_name() override { return def->get_name()->get_value(); }
+    std::string_view get_name() override { return def->get_name()->get_value(); }
 
     // void accept(Visitor* visitor) override;
 };

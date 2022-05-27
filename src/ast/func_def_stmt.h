@@ -1,22 +1,19 @@
 #pragma once
 
-#include "node.h"
 #include "param_def_expr.h"
 
 namespace quirk::ast {
 
-class Function;
-
 class FuncDefStmt : public Stmt {
-    unique_ptr<NameLiteral> name;
-    vector<unique_ptr<ParamDefExpr>> params;
-    unique_ptr<Expr> ret_type_expr;
-    vector<unique_ptr<Stmt>> stmts;
+    std::unique_ptr<NameLiteral> name;
+    std::vector<std::unique_ptr<ParamDefExpr>> params;
+    std::unique_ptr<Expr> ret_type_expr;
+    std::vector<std::unique_ptr<Stmt>> stmts;
 
 public:
-    FuncDefStmt(Context context, unique_ptr<NameLiteral>& name,
-                vector<unique_ptr<ParamDefExpr>>& params, unique_ptr<Expr>& ret_type_expr,
-                vector<unique_ptr<Stmt>>& stmts)
+    FuncDefStmt(Context context, std::unique_ptr<NameLiteral>& name,
+                std::vector<std::unique_ptr<ParamDefExpr>>& params,
+                std::unique_ptr<Expr>& ret_type_expr, std::vector<std::unique_ptr<Stmt>>& stmts)
         : Stmt(context), name(move(name)), ret_type_expr(move(ret_type_expr))
     {
         for (auto& param : params) {
@@ -34,7 +31,7 @@ public:
     auto count_stmts() { return stmts.size(); }
     auto get_stmt(size_t index) { return stmts[index].get(); }
 
-    void accept(Visitor* visitor) override { visitor->visit(this); }
+    void accept(Visitor* visitor) override;
 };
 
 } // namespace quirk::ast

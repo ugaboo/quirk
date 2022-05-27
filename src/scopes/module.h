@@ -6,7 +6,7 @@
 namespace quirk::scopes {
 
 class Module : public Scope {
-    ast::TranslationUnit* def = nullptr;
+    ast::TranslationUnit* def;
 
 public:
     Module(ast::TranslationUnit* def) : def(def) {}

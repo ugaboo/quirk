@@ -1,64 +1,62 @@
 #pragma once
 
-#include "../ast/translation_unit.h"
-#include "../scanner/scanner.h"
-#include <functional>
 #include <memory>
 #include <vector>
 
-namespace quirk {
+#include "../ast/visitor.h"
+#include "../scanner/scanner.h"
 
-using namespace ast;
+namespace quirk {
 
 class Parser {
     Scanner scanner;
 
 public:
-    Parser(string filename);
+    Parser(std::string filename);
 
-    bool parse(unique_ptr<TranslationUnit>& result);
+    bool parse(std::unique_ptr<ast::TranslationUnit>& result);
 
 private:
-    bool are_expressions(vector<unique_ptr<Expr>>& result);
-    bool are_fields(vector<unique_ptr<FieldDefStmt>>& result);
-    bool are_parameters(vector<unique_ptr<ParamDefExpr>>& result);
-    bool are_statements(vector<unique_ptr<Stmt>>& result);
-    bool is_and(unique_ptr<Expr>& result);
-    bool is_arith(unique_ptr<Expr>& result);
-    bool is_atom(unique_ptr<Expr>& result);
-    bool is_band(unique_ptr<Expr>& result);
-    bool is_bor(unique_ptr<Expr>& result);
-    bool is_bxor(unique_ptr<Expr>& result);
-    bool is_call_or_asg(unique_ptr<Stmt>& result);
-    bool is_comparison(unique_ptr<Expr>& result);
-    bool is_compound(unique_ptr<Stmt>& result);
-    bool is_definition(unique_ptr<Stmt>& result);
-    bool is_designator(unique_ptr<Expr>& result);
-    bool is_expression(unique_ptr<Expr>& result);
-    bool is_factor(unique_ptr<Expr>& result);
-    bool is_field_col(vector<unique_ptr<FieldDefStmt>>& result);
-    bool is_field_row(vector<unique_ptr<FieldDefStmt>>& result);
-    bool is_field(unique_ptr<FieldDefStmt>& result);
-    bool is_function(unique_ptr<Stmt>& result);
-    bool is_if(unique_ptr<Stmt>& result);
-    bool is_list(unique_ptr<Expr>& result);
-    bool is_module(vector<unique_ptr<Stmt>>& stmts);
-    bool is_not(unique_ptr<Expr>& result);
-    bool is_or(unique_ptr<Expr>& result);
-    bool is_parameter(unique_ptr<ParamDefExpr>& result);
-    bool is_power(unique_ptr<Expr>& result);
-    bool is_relation(BinaryOpKind& result, Context& context);
-    bool is_return(unique_ptr<Stmt>& result);
-    bool is_selector(unique_ptr<Expr>& result);
-    bool is_shift(unique_ptr<Expr>& result);
-    bool is_small(unique_ptr<Stmt>& result);
-    bool is_stmt_col(vector<unique_ptr<Stmt>>& result);
-    bool is_stmt_row(vector<unique_ptr<Stmt>>& result);
-    bool is_structure(unique_ptr<Stmt>& result);
-    bool is_suite(vector<unique_ptr<Stmt>>& result);
-    bool is_term(unique_ptr<Expr>& result);
-    bool is_type(unique_ptr<Expr>& result);
-    bool is_while(unique_ptr<Stmt>& result);
+    bool are_expressions(std::vector<std::unique_ptr<ast::Expr>>& result);
+    bool are_fields(std::vector<std::unique_ptr<ast::FieldDefStmt>>& result);
+    bool are_parameters(std::vector<std::unique_ptr<ast::ParamDefExpr>>& result);
+    bool are_statements(std::vector<std::unique_ptr<ast::Stmt>>& result);
+    bool is_and(std::unique_ptr<ast::Expr>& result);
+    bool is_arith(std::unique_ptr<ast::Expr>& result);
+    bool is_atom(std::unique_ptr<ast::Expr>& result);
+    bool is_band(std::unique_ptr<ast::Expr>& result);
+    bool is_bor(std::unique_ptr<ast::Expr>& result);
+    bool is_bxor(std::unique_ptr<ast::Expr>& result);
+    bool is_call_or_asg(std::unique_ptr<ast::Stmt>& result);
+    bool is_comparison(std::unique_ptr<ast::Expr>& result);
+    bool is_compound(std::unique_ptr<ast::Stmt>& result);
+    bool is_definition(std::unique_ptr<ast::Stmt>& result);
+    bool is_designator(std::unique_ptr<ast::Expr>& result);
+    bool is_expression(std::unique_ptr<ast::Expr>& result);
+    bool is_factor(std::unique_ptr<ast::Expr>& result);
+    bool is_field_col(std::vector<std::unique_ptr<ast::FieldDefStmt>>& result);
+    bool is_field_row(std::vector<std::unique_ptr<ast::FieldDefStmt>>& result);
+    bool is_field(std::unique_ptr<ast::FieldDefStmt>& result);
+    bool is_function(std::unique_ptr<ast::Stmt>& result);
+    bool is_if(std::unique_ptr<ast::Stmt>& result);
+    bool is_list(std::unique_ptr<ast::Expr>& result);
+    bool is_module(std::vector<std::unique_ptr<ast::Stmt>>& stmts);
+    bool is_not(std::unique_ptr<ast::Expr>& result);
+    bool is_or(std::unique_ptr<ast::Expr>& result);
+    bool is_parameter(std::unique_ptr<ast::ParamDefExpr>& result);
+    bool is_power(std::unique_ptr<ast::Expr>& result);
+    bool is_relation(ast::BinaryOpKind& result, Context& context);
+    bool is_return(std::unique_ptr<ast::Stmt>& result);
+    bool is_selector(std::unique_ptr<ast::Expr>& result);
+    bool is_shift(std::unique_ptr<ast::Expr>& result);
+    bool is_small(std::unique_ptr<ast::Stmt>& result);
+    bool is_stmt_col(std::vector<std::unique_ptr<ast::Stmt>>& result);
+    bool is_stmt_row(std::vector<std::unique_ptr<ast::Stmt>>& result);
+    bool is_structure(std::unique_ptr<ast::Stmt>& result);
+    bool is_suite(std::vector<std::unique_ptr<ast::Stmt>>& result);
+    bool is_term(std::unique_ptr<ast::Expr>& result);
+    bool is_type(std::unique_ptr<ast::Expr>& result);
+    bool is_while(std::unique_ptr<ast::Stmt>& result);
 };
 
 } // namespace quirk

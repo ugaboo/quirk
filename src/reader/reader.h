@@ -5,12 +5,10 @@
 
 namespace quirk {
 
-using namespace std;
-
 class Reader {
     inline static int tab = 4; // tab size
 
-    unique_ptr<uint8_t[]> text; // utf-8 encoded text, C-style string to use with the utf8proc
+    std::unique_ptr<uint8_t[]> text; // utf-8 encoded text, C-style string to use with the utf8proc
 
     uint8_t* pos;
     uint8_t* prev_pos;
@@ -21,7 +19,7 @@ class Reader {
     size_t column = 1;
 
 public:
-    Reader(string filename);
+    Reader(std::string filename);
 
     void move();
 
@@ -30,10 +28,10 @@ public:
     size_t get_column() { return column; }
     size_t get_index() { return prev_pos - text.get(); }
 
-    string_view slice(size_t begin);
+    std::string_view slice(size_t begin);
 
 private:
-    void read_text(string filename);
+    void read_text(std::string filename);
     int32_t iterate();
 };
 

@@ -1,18 +1,16 @@
 #pragma once
-#include "field_def.h"
-#include "node.h"
+
+#include "field_def_stmt.h"
 
 namespace quirk::ast {
 
-class Structure;
-
 class StructDefStmt : public Stmt {
-    unique_ptr<NameLiteral> name;
-    vector<unique_ptr<FieldDefStmt>> fields;
+    std::unique_ptr<NameLiteral> name;
+    std::vector<std::unique_ptr<FieldDefStmt>> fields;
 
 public:
-    StructDefStmt(Context context, unique_ptr<NameLiteral>& name,
-                  vector<unique_ptr<FieldDefStmt>>& fields)
+    StructDefStmt(Context context, std::unique_ptr<NameLiteral>& name,
+                  std::vector<std::unique_ptr<FieldDefStmt>>& fields)
         : Stmt(context), name(move(name))
     {
         for (auto& field : fields) {
@@ -24,7 +22,7 @@ public:
     auto count_fields() { return fields.size(); }
     auto get_field(size_t index) { return fields[index].get(); }
 
-    void accept(Visitor* visitor) override { visitor->visit(this); }
+    void accept(Visitor* visitor) override;
 };
 
 } // namespace quirk::ast

@@ -6,20 +6,18 @@
 
 namespace quirk::scopes {
 
-using namespace ast;
-
 class Variable : public Declaration {
-    AsgStmt* def;
+    ast::AsgStmt* def;
     bool global = false;
 
 public:
-    Variable(AsgStmt* def) : def(def) {}
+    Variable(ast::AsgStmt* def) : def(def) {}
 
     auto get_def() { return def; }
 
-    string_view get_name() override
+    std::string_view get_name() override
     {
-        return static_cast<NameLiteral*>(def->get_lvalue())->get_value();
+        return static_cast<ast::NameLiteral*>(def->get_lvalue())->get_value();
     }
 
     auto make_global() { global = true; }

@@ -8,7 +8,6 @@ enum class CompilationError {
     ExpectedAnIndentedBlock,
     DedentDoesntMatch,
     TabError,
-    ConstantTooLarge,
     NotAStatement,
     ItemNotFound,
     Redefinition,

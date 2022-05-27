@@ -6,14 +6,14 @@ namespace quirk::util {
 
 using fmt::print;
 
-AstPrinter::AstPrinter(std::ostream& out, TranslationUnit* tu) : out(out)
+AstPrinter::AstPrinter(std::ostream& out, ast::TranslationUnit* tu) : out(out)
 {
     for (size_t i = 0; i < tu->count_stmts(); i++) {
         tu->get_stmt(i)->accept(this);
     }
 }
 
-void AstPrinter::visit(AsgStmt* node)
+void AstPrinter::visit(ast::AsgStmt* node)
 {
     print("AsgStmt:\n");
     IndentGuard inc(indent);
@@ -40,7 +40,7 @@ void AstPrinter::visit(AsgStmt* node)
     }
 }
 
-void AstPrinter::visit(BinaryExpr* node)
+void AstPrinter::visit(ast::BinaryExpr* node)
 {
     print("BinaryExpr: {}\n", magic_enum::enum_name(node->get_kind()));
     IndentGuard inc(indent);
@@ -50,17 +50,17 @@ void AstPrinter::visit(BinaryExpr* node)
     }
 }
 
-void AstPrinter::visit(BoolLiteral* node)
+void AstPrinter::visit(ast::BoolLiteral* node)
 {
-    print("BoolLiteral: {}\n", node->get_value());
+    print("BoolLiteral: {}\n", node->to_bool());
 }
 
-void AstPrinter::visit(BreakStmt*)
+void AstPrinter::visit(ast::BreakStmt*)
 {
     print("BreakStmt\n");
 }
 
-void AstPrinter::visit(CallExpr* node)
+void AstPrinter::visit(ast::CallExpr* node)
 {
     print("CallExpr:\n");
     IndentGuard inc(indent);
@@ -69,7 +69,7 @@ void AstPrinter::visit(CallExpr* node)
     }
 }
 
-void AstPrinter::visit(CallStmt* node)
+void AstPrinter::visit(ast::CallStmt* node)
 {
     print("CallStmt:\n");
     IndentGuard inc(indent);
@@ -78,12 +78,12 @@ void AstPrinter::visit(CallStmt* node)
     }
 }
 
-void AstPrinter::visit(ContinueStmt*)
+void AstPrinter::visit(ast::ContinueStmt*)
 {
     print("ContinueStmt\n");
 }
 
-void AstPrinter::visit(FieldDefStmt* node)
+void AstPrinter::visit(ast::FieldDefStmt* node)
 {
     print("FieldDef: '{}'\n", node->get_name()->get_value());
     IndentGuard inc(indent);
@@ -105,12 +105,12 @@ void AstPrinter::visit(FieldDefStmt* node)
     }
 }
 
-void AstPrinter::visit(FloatLiteral* node)
+void AstPrinter::visit(ast::FloatLiteral* node)
 {
-    print("FloatLiteral: {}\n", node->get_value());
+    print("FloatLiteral: {}\n", node->to_double());
 }
 
-void AstPrinter::visit(FuncDefStmt* node)
+void AstPrinter::visit(ast::FuncDefStmt* node)
 {
     print("FuncDefStmt: '{}'\n", node->get_name()->get_value());
     IndentGuard inc(indent);
@@ -145,7 +145,7 @@ void AstPrinter::visit(FuncDefStmt* node)
     }
 }
 
-void AstPrinter::visit(IfStmt* node)
+void AstPrinter::visit(ast::IfStmt* node)
 {
     print("IfStmt:\n");
     IndentGuard inc(indent);
@@ -182,12 +182,12 @@ void AstPrinter::visit(IfStmt* node)
     }
 }
 
-void AstPrinter::visit(IntLiteral* node)
+void AstPrinter::visit(ast::IntLiteral* node)
 {
-    print("IntLiteral: {}\n", node->get_value());
+    print("IntLiteral: {}\n", node->to_uint64());
 }
 
-void AstPrinter::visit(ListLiteral* node)
+void AstPrinter::visit(ast::ListLiteral* node)
 {
     if (node->count_exprs() > 0) {
         print("ListLiteral:\n");
@@ -202,7 +202,7 @@ void AstPrinter::visit(ListLiteral* node)
     }
 }
 
-void AstPrinter::visit(MemberAccessExpr* node)
+void AstPrinter::visit(ast::MemberAccessExpr* node)
 {
     print("MemberAccessExpr:\n");
     IndentGuard inc(indent);
@@ -220,17 +220,17 @@ void AstPrinter::visit(MemberAccessExpr* node)
     }
 }
 
-void AstPrinter::visit(NameLiteral* node)
+void AstPrinter::visit(ast::NameLiteral* node)
 {
     print("NameLiteral: '{}'\n", node->get_value());
 }
 
-void AstPrinter::visit(NoneLiteral*)
+void AstPrinter::visit(ast::NoneLiteral*)
 {
     print("NoneLiteral\n");
 }
 
-void AstPrinter::visit(ParamDefExpr* node)
+void AstPrinter::visit(ast::ParamDefExpr* node)
 {
     print("ParameterDef: '{}'\n", node->get_name()->get_value());
     IndentGuard inc(indent);
@@ -243,7 +243,7 @@ void AstPrinter::visit(ParamDefExpr* node)
     }
 }
 
-void AstPrinter::visit(ReturnStmt* node)
+void AstPrinter::visit(ast::ReturnStmt* node)
 {
     print("ReturnStmt\n");
     IndentGuard inc(indent);
@@ -252,7 +252,7 @@ void AstPrinter::visit(ReturnStmt* node)
     }
 }
 
-void AstPrinter::visit(StructDefStmt* node)
+void AstPrinter::visit(ast::StructDefStmt* node)
 {
     print("StructDefStmt: '{}'\n", node->get_name()->get_value());
     IndentGuard inc(indent);
@@ -271,7 +271,7 @@ void AstPrinter::visit(StructDefStmt* node)
     }
 }
 
-void AstPrinter::visit(SubscriptExpr* node)
+void AstPrinter::visit(ast::SubscriptExpr* node)
 {
     print("SubscriptExpr:\n");
     IndentGuard inc(indent);
@@ -291,7 +291,7 @@ void AstPrinter::visit(SubscriptExpr* node)
     }
 }
 
-void AstPrinter::visit(UnaryExpr* node)
+void AstPrinter::visit(ast::UnaryExpr* node)
 {
     print("UnaryExpr: {}\n", magic_enum::enum_name(node->get_kind()));
     IndentGuard inc(indent);
@@ -300,7 +300,7 @@ void AstPrinter::visit(UnaryExpr* node)
     }
 }
 
-void AstPrinter::visit(WhileStmt* node)
+void AstPrinter::visit(ast::WhileStmt* node)
 {
     print("WhileStmt:\n");
     IndentGuard inc(indent);
@@ -324,7 +324,7 @@ void AstPrinter::visit(WhileStmt* node)
     }
 }
 
-void AstPrinter::print_call(CallExpr* node)
+void AstPrinter::print_call(ast::CallExpr* node)
 {
     print("designator:\n");
     IndentGuard inc(indent);

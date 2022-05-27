@@ -10,7 +10,7 @@ public:
 
     bool to_bool() { return get_context().value == "True"; }
 
-    void accept(Visitor* visitor) override { visitor->visit(this); }
+    void accept(Visitor* visitor) override;
 };
 
 } // namespace quirk::ast

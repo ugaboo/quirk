@@ -1,14 +1,16 @@
 #pragma once
+
 #include "node.h"
 
 namespace quirk::ast {
 
 class SubscriptExpr : public Expr {
-    unique_ptr<Expr> designator;
-    vector<unique_ptr<Expr>> keys;
+    std::unique_ptr<Expr> designator;
+    std::vector<std::unique_ptr<Expr>> keys;
 
 public:
-    SubscriptExpr(Context context, unique_ptr<Expr>& designator, vector<unique_ptr<Expr>>& keys)
+    SubscriptExpr(Context context, std::unique_ptr<Expr>& designator,
+                  std::vector<std::unique_ptr<Expr>>& keys)
         : Expr(context), designator(move(designator))
     {
         for (auto& key : keys) {
@@ -20,7 +22,7 @@ public:
     auto count_keys() { return keys.size(); }
     auto get_key(size_t index) { return keys[index].get(); }
 
-    void accept(Visitor* visitor) override { visitor->visit(this); }
+    void accept(Visitor* visitor) override;
 };
 
 } // namespace quirk::ast
