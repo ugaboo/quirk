@@ -1,6 +1,8 @@
 #pragma once
 
 #include "../ast/visitor.h"
+#include "../compilation_error.h"
+
 #include "field.h"
 #include "function.h"
 #include "module.h"
@@ -13,14 +15,19 @@ namespace quirk::scopes {
 class ScopeBuilder : public ast::Visitor {
     std::unordered_map<ast::NameLiteral*, Declaration*>& bindings;
 
-    Scope* scope;
-    std::vector<ScopeBuilder> builders;
+    Scope& scope;
+    ast::Node* node;
+    std::vector<std::unique_ptr<ScopeBuilder>> builders;
 
 public:
-    // ScopeBuilder(std::vector<ast::TranslationUnit*> tus) {}
+    ScopeBuilder() = delete;
+    ScopeBuilder(ScopeBuilder&) = delete;
+    // ScopeBuilder(ScopeBuilder&&) = delete;
 
-    ScopeBuilder(ast::TranslationUnit* tu, Module* mod,
+    ScopeBuilder(ast::Node* node, Scope& scope,
                  std::unordered_map<ast::NameLiteral*, Declaration*>& bindings);
+
+    void process();
 
     virtual void visit(ast::AsgStmt* node) override;
     virtual void visit(ast::FieldDefStmt* node) override;
@@ -28,10 +35,7 @@ public:
     virtual void visit(ast::NameLiteral* node) override;
     virtual void visit(ast::ParamDefExpr* node) override;
     virtual void visit(ast::StructDefStmt* node) override;
-
-private:
-    Declaration* lookup(std::string_view name);
-    void add_builtins();
+    virtual void visit(ast::TranslationUnit* node) override;
 };
 
 // class ScopeBuilder : public Visitor {

@@ -12,25 +12,23 @@ class Scope {
     Scope* parent;
 
 public:
-    Scope(Scope&) = delete;
     Scope(Scope&&) = delete;
 
     Scope() : parent(nullptr) {}
-    Scope(Scope* parent) : parent(parent) {}
+    Scope(Scope& parent) : parent(&parent) {}
 
     virtual ~Scope() {}
 
-    bool add(std::unique_ptr<Declaration> decl)
-    {
-        auto [_, success] = decls.insert({decl->get_name(), move(decl)});
-        return success;
-    }
+    void insert(std::unique_ptr<Declaration> decl) { decls.insert({decl->get_name(), move(decl)}); }
 
     Declaration* find(std::string_view name)
     {
         auto search = decls.find(name);
         if (search != decls.end()) {
             return search->second.get();
+        }
+        if (parent != nullptr) {
+            return parent->find(name);
         }
         return nullptr;
     }

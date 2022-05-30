@@ -120,6 +120,13 @@ void Visitor::visit(SubscriptExpr* node)
     }
 }
 
+void Visitor::visit(TranslationUnit* node)
+{
+    for (size_t i = 0; i < node->count_stmts(); i++) {
+        node->get_stmt(i)->accept(this);
+    }
+}
+
 void Visitor::visit(UnaryExpr* node)
 {
     node->get_expr()->accept(this);

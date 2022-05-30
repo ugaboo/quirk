@@ -2,7 +2,7 @@
 
 namespace quirk::ast {
 
-void NoneLiteral::accept(Visitor* visitor)
+void TranslationUnit::accept(Visitor* visitor)
 {
     visitor->visit(this);
 }

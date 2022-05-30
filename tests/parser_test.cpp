@@ -1,4 +1,6 @@
+#include "../src/compilation_error.h"
 #include "../src/parser/parser.h"
+
 #include "fmt/core.h"
 #include "utils.h"
 #include <fstream>
@@ -13,7 +15,7 @@ auto empty()
 {
     Parser parser(TEST_DIR "/parser/empty.qk");
 
-    unique_ptr<TranslationUnit> tu;
+    unique_ptr<ast::TranslationUnit> tu;
     return parser.parse(tu) && tu->count_stmts() == 0;
 }
 
@@ -21,7 +23,7 @@ auto all_rules()
 {
     Parser parser(TEST_DIR "parser/ast.qk");
 
-    unique_ptr<TranslationUnit> tu;
+    unique_ptr<ast::TranslationUnit> tu;
     if (!parser.parse(tu)) {
         return false;
     }
@@ -38,7 +40,7 @@ auto test_error(string filename, CompilationError expected)
 {
     Parser parser(filename);
 
-    unique_ptr<TranslationUnit> tu;
+    unique_ptr<ast::TranslationUnit> tu;
     try {
         parser.parse(tu);
     } catch (CompilationError err) {

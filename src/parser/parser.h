@@ -10,6 +10,7 @@ namespace quirk {
 
 class Parser {
     Scanner scanner;
+    std::string filename;
 
 public:
     Parser(std::string filename);

@@ -18,12 +18,14 @@ bool test()
     for (auto name : names) {
         Parser parser(folder + name + ".qk");
 
-        unique_ptr<TranslationUnit> tu;
+        unique_ptr<ast::TranslationUnit> tu;
         if (!parser.parse(tu)) {
             return 1;
         }
 
-        scopes::ScopeBuilder builder(tu.get());
+        std::unordered_map<ast::NameLiteral*, scopes::Declaration*> bindings;
+        scopes::Scope global_scope;
+        scopes::ScopeBuilder builder(tu.get(), global_scope, bindings);
 
         stringstream output;
         util::AstPrinter printer(output, tu.get());
@@ -45,13 +47,15 @@ bool test_errors()
     for (auto name : names) {
         Parser parser(folder + name + ".qk");
 
-        unique_ptr<TranslationUnit> tu;
+        unique_ptr<ast::TranslationUnit> tu;
         if (!parser.parse(tu)) {
             return 1;
         }
 
         try {
-            scopes::ScopeBuilder builder(tu.get());
+            std::unordered_map<ast::NameLiteral*, scopes::Declaration*> bindings;
+            scopes::Scope global_scope;
+            scopes::ScopeBuilder builder(tu.get(), global_scope, bindings);
         } catch (CompilationError exc) {
             if (exc == CompilationError::ItemNotFound) {
                 continue;

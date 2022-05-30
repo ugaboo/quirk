@@ -20,10 +20,9 @@
 #include "return_stmt.h"
 #include "struct_def_stmt.h"
 #include "subscript_expr.h"
+#include "translation_unit.h"
 #include "unary_expr.h"
 #include "while_stmt.h"
-
-#include "translation_unit.h"
 
 namespace quirk::ast {
 
@@ -49,6 +48,7 @@ public:
     virtual void visit(ReturnStmt* node);
     virtual void visit(StructDefStmt* node);
     virtual void visit(SubscriptExpr* node);
+    virtual void visit(TranslationUnit* node);
     virtual void visit(UnaryExpr* node);
     virtual void visit(WhileStmt* node);
 };

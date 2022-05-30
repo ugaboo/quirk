@@ -3,14 +3,18 @@
 
 namespace quirk::scopes {
 
-ScopeBuilder::ScopeBuilder(ast::TranslationUnit* tu, Module* mod,
+ScopeBuilder::ScopeBuilder(ast::Node* node, Scope& scope,
                            std::unordered_map<ast::NameLiteral*, Declaration*>& bindings)
-    : scope(mod), bindings(bindings)
+    : node(node), scope(scope), bindings(bindings)
 {
-    add_builtins();
+}
 
-    for (size_t i = 0; i < tu->count_stmts(); i++) {
-        tu->get_stmt(i)->accept(this);
+void ScopeBuilder::process()
+{
+    node->accept(this);
+
+    for (auto& b : builders) {
+        b->process();
     }
 }
 
@@ -28,14 +32,14 @@ void ScopeBuilder::visit(ast::AsgStmt* node)
         node->get_lvalue()->accept(this);
         return;
     }
-    auto decl = lookup(name->get_value());
+    auto decl = scope.find(name->get_value());
     if (decl == nullptr) {
-        auto var = make_unique<Variable>(node);
-        if (scopes.size() == 1) { // module level
-            var->make_global();
-        }
+        auto var = std::make_unique<Variable>(node);
+        // if (scopes.size() == 1) { // module level
+        //     var->make_global();
+        // }
         bindings.insert({name, var.get()});
-        scopes.back()->add(move(var));
+        scope.insert(move(var));
     } else {
         bindings.insert({name, decl});
     }
@@ -45,34 +49,26 @@ void ScopeBuilder::visit(ast::FieldDefStmt* node)
 {
     auto field = std::make_unique<Field>(node);
     bindings.insert({node->get_name(), field.get()});
-    if (!scopes.back()->add(move(field))) {
-        throw CompilationError::Redefinition;
-    }
+    scope.insert(move(field));
 }
 
 void ScopeBuilder::visit(ast::FuncDefStmt* node)
 {
-    node->get_ret_type_expr()->accept(this);
+    if (node == ScopeBuilder::node) {
+        Visitor::visit(node);
+        return;
+    }
 
-    auto func = std::make_unique<Function>(node);
-    auto ptr = func.get();
-    bindings.insert({node->get_name(), ptr});
-    if (!scopes.back()->add(move(func))) {
-        throw CompilationError::Redefinition;
-    }
-    scopes.push_back(ptr);
-
-    for (size_t i = 0; i < node->count_params(); i++) {
-        node->get_param(i)->accept(this);
-    }
-    for (size_t i = 0; i < node->count_stmts(); i++) {
-        node->get_stmt(i)->accept(this);
-    }
+    auto func = std::make_unique<Function>(node, scope);
+    bindings.insert({node->get_name(), func.get()});
+    auto builder = std::make_unique<ScopeBuilder>(node, func->get_scope(), bindings);
+    builders.push_back(move(builder));
+    scope.insert(move(func));
 }
 
 void ScopeBuilder::visit(ast::NameLiteral* node)
 {
-    auto decl = lookup(node->get_value());
+    auto decl = scope.find(node->get_value());
     if (decl == nullptr) {
         throw CompilationError::ItemNotFound;
     }
@@ -83,40 +79,32 @@ void ScopeBuilder::visit(ast::ParamDefExpr* node)
 {
     auto param = std::make_unique<Parameter>(node);
     bindings.insert({node->get_name(), param.get()});
-    if (!scopes.back()->add(move(param))) {
-        throw CompilationError::Redefinition;
-    }
+    scope.insert(move(param));
 
     node->get_type()->accept(this);
 }
 
 void ScopeBuilder::visit(ast::StructDefStmt* node)
 {
-    auto st = std::make_unique<Structure>(node);
-    auto ptr = st.get();
+    if (node == ScopeBuilder::node) {
+        Visitor::visit(node);
+        return;
+    }
+
+    auto st = std::make_unique<Structure>(node, scope);
     bindings.insert({node->get_name(), st.get()});
-    if (!scopes.back()->add(move(st))) {
-        throw CompilationError::Redefinition;
-    }
-    scopes.push_back(ptr);
-
-    for (size_t i = 0; i < node->count_fields(); i++) {
-        node->get_field(i)->accept(this);
-    }
+    auto builder = std::make_unique<ScopeBuilder>(node, st->get_scope(), bindings);
+    builders.push_back(move(builder));
+    scope.insert(move(st));
 }
 
-Declaration* ScopeBuilder::lookup(std::string_view name)
+void ScopeBuilder::visit(ast::TranslationUnit* node)
 {
-    for (auto it = scopes.rbegin(); it != scopes.rend(); it++) {
-        auto decl = (*it)->find(string(name));
-        if (decl != nullptr) {
-            return decl;
-        }
-    }
-    return nullptr;
-}
+    auto mod = std::make_unique<Module>(node, scope);
+    scope.insert(move(mod));
 
-void ScopeBuilder::add_builtins() {}
+    Visitor::visit(node);
+}
 
 // void ScopeBuilder::visit(ast::Module* node) {
 //     name_tables.emplace_back();

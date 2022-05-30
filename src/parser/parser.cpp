@@ -5,7 +5,7 @@
 
 namespace quirk {
 
-Parser::Parser(std::string filename) : scanner(filename) {}
+Parser::Parser(std::string filename) : scanner(filename), filename(filename) {}
 
 bool Parser::parse(std::unique_ptr<ast::TranslationUnit>& result)
 {
@@ -25,7 +25,7 @@ L0:
     }
     throw CompilationError::InvalidSyntax;
 END:
-    result = std::make_unique<ast::TranslationUnit>(stmts);
+    result = std::make_unique<ast::TranslationUnit>(filename, stmts);
     return true;
 }
 

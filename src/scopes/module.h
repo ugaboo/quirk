@@ -5,13 +5,24 @@
 
 namespace quirk::scopes {
 
-class Module : public Scope {
+class Module : public Declaration {
     ast::TranslationUnit* def;
+    Scope scope;
 
 public:
-    Module(ast::TranslationUnit* def) : def(def) {}
+    Module(Module&) = delete;
+
+    Module(ast::TranslationUnit* def, Scope& global_scope) : def(def), scope(global_scope) {}
+
+    std::string_view get_name() override
+    {
+        // TODO: extract module name from filename
+        return def->get_filename();
+    }
 
     auto get_def() { return def; }
+
+    Scope& get_scope() { return scope; }
 };
 
 } // namespace quirk::scopes
