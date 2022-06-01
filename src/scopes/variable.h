@@ -8,7 +8,6 @@ namespace quirk::scopes {
 
 class Variable : public Declaration {
     ast::AsgStmt* def;
-    // bool global = false;
 
 public:
     Variable(ast::AsgStmt* def) : def(def) {}
@@ -20,8 +19,7 @@ public:
         return static_cast<ast::NameLiteral*>(def->get_lvalue())->get_value();
     }
 
-    // auto make_global() { global = true; }
-    // auto is_global() { return global; }
+    void accept(Visitor* visitor) override;
 };
 
 } // namespace quirk::scopes

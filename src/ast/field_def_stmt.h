@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "name_literal.h"
 
 namespace quirk::ast {

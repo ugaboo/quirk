@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "node.h"
 
 namespace quirk::ast {

@@ -10,8 +10,6 @@ class Module : public Declaration {
     Scope scope;
 
 public:
-    Module(Module&) = delete;
-
     Module(ast::TranslationUnit* def, Scope& global_scope) : def(def), scope(global_scope) {}
 
     std::string_view get_name() override
@@ -21,8 +19,9 @@ public:
     }
 
     auto get_def() { return def; }
-
     Scope& get_scope() { return scope; }
+
+    void accept(Visitor* visitor) override;
 };
 
 } // namespace quirk::scopes

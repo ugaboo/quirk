@@ -13,10 +13,10 @@ public:
     Structure(ast::StructDefStmt* def, Scope& parent_scope) : def(def), scope(parent_scope) {}
 
     std::string_view get_name() override { return def->get_name()->get_value(); }
-
     auto get_def() { return def; }
-
     Scope& get_scope() { return scope; }
+
+    void accept(Visitor* visitor) override;
 };
 
 } // namespace quirk::scopes

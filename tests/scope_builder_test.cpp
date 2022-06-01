@@ -1,5 +1,7 @@
+#include "../src/compilation_error.h"
 #include "../src/parser/parser.h"
 #include "../src/scopes/scope_builder.h"
+#include "../src/util/operator_table.h"
 #include "fmt/core.h"
 #include "utils.h"
 #include <fstream>
@@ -23,9 +25,13 @@ bool test()
             return 1;
         }
 
-        std::unordered_map<ast::NameLiteral*, scopes::Declaration*> bindings;
         scopes::Scope global_scope;
+        OperatorTable op_table;
+        op_table.fill_scope(global_scope);
+
+        unordered_map<ast::NameLiteral*, scopes::Declaration*> bindings;
         scopes::ScopeBuilder builder(tu.get(), global_scope, bindings);
+        builder.process();
 
         stringstream output;
         util::AstPrinter printer(output, tu.get());
@@ -53,9 +59,13 @@ bool test_errors()
         }
 
         try {
-            std::unordered_map<ast::NameLiteral*, scopes::Declaration*> bindings;
             scopes::Scope global_scope;
+            OperatorTable op_table;
+            op_table.fill_scope(global_scope);
+
+            unordered_map<ast::NameLiteral*, scopes::Declaration*> bindings;
             scopes::ScopeBuilder builder(tu.get(), global_scope, bindings);
+            builder.process();
         } catch (CompilationError exc) {
             if (exc == CompilationError::ItemNotFound) {
                 continue;

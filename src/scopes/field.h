@@ -12,8 +12,9 @@ public:
     Field(ast::FieldDefStmt* def) : def(def) {}
 
     auto get_def() { return def; }
-
     std::string_view get_name() override { return def->get_name()->get_value(); }
+
+    void accept(Visitor* visitor) override;
 };
 
 } // namespace quirk::scopes

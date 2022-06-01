@@ -50,7 +50,9 @@ void Visitor::visit(FloatLiteral* node) {}
 void Visitor::visit(FuncDefStmt* node)
 {
     node->get_name()->accept(this);
-    node->get_ret_type_expr()->accept(this);
+    if (node->get_ret_type_expr() != nullptr) {
+        node->get_ret_type_expr()->accept(this);
+    }
     for (size_t i = 0; i < node->count_params(); i++) {
         node->get_param(i)->accept(this);
     }

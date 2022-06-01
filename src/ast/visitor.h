@@ -28,6 +28,8 @@ namespace quirk::ast {
 
 class Visitor {
 public:
+    virtual ~Visitor() {}
+
     virtual void visit(AsgStmt* node);
     virtual void visit(BinaryExpr* node);
     virtual void visit(BoolLiteral* node);

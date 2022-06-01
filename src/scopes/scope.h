@@ -19,16 +19,20 @@ public:
 
     virtual ~Scope() {}
 
-    void insert(std::unique_ptr<Declaration> decl) { decls.insert({decl->get_name(), move(decl)}); }
-
-    Declaration* find(std::string_view name)
+    bool insert(std::unique_ptr<Declaration> decl)
     {
-        auto search = decls.find(name);
-        if (search != decls.end()) {
-            return search->second.get();
+        auto [_, success] = decls.insert({decl->get_name(), move(decl)});
+        return success;
+    }
+
+    Declaration* lookup(std::string_view name)
+    {
+        auto it = decls.find(name);
+        if (it != decls.end()) {
+            return it->second.get();
         }
         if (parent != nullptr) {
-            return parent->find(name);
+            return parent->lookup(name);
         }
         return nullptr;
     }

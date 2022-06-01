@@ -11,10 +11,6 @@ class Node {
     Context context;
 
 public:
-    Node() = delete;
-    Node(Node&) = delete;
-    Node(Node&&) = delete;
-
     Node(Context context) : context(context)
     {
         static uint64_t last_id = 0;

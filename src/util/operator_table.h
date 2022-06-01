@@ -1,79 +1,82 @@
-// #pragma once
-// #include <optional>
-// #include <unordered_map>
-// #include "ast/basic_type.h"
-// #include "ast/binary_expr.h"
-// #include "ast/unary_expr.h"
-// #include "util/hash_combine.h"
+#pragma once
 
-// namespace quirk {
+#include <optional>
+#include <unordered_map>
 
-// using namespace ast;
-// using std::optional;
-// using std::unordered_map;
+#include "../ast/binary_expr.h"
+#include "../ast/unary_expr.h"
+#include "../scopes/basic_type.h"
+#include "../scopes/scope.h"
+#include "hash_combine.h"
 
-// struct BinaryOpKey {
-//     BinaryExpr::Kind kind;
-//     BasicType::Kind  left_type;
-//     BasicType::Kind  right_type;
-// };
+namespace quirk {
 
-// inline bool operator==(const BinaryOpKey& a, const BinaryOpKey& b) {
-//     return a.kind == b.kind && a.left_type == b.left_type && a.right_type == b.right_type;
-// }
+struct BinaryOpKey {
+    ast::BinaryOpKind kind;
+    scopes::BasicTypeKind left_type;
+    scopes::BasicTypeKind right_type;
+};
 
-// struct BinaryOpHash {
-//     size_t operator()(const BinaryOpKey& key) const noexcept {
-//         size_t seed = 0;
-//         hash_combine(seed, key.kind);
-//         hash_combine(seed, key.left_type);
-//         hash_combine(seed, key.right_type);
-//         return seed;
-//     }
-// };
+inline bool operator==(const BinaryOpKey& a, const BinaryOpKey& b)
+{
+    return a.kind == b.kind && a.left_type == b.left_type && a.right_type == b.right_type;
+}
 
-// struct BinaryOpInfo {
-//     optional<BasicType::Kind> convert_left_to;
-//     optional<BasicType::Kind> convert_right_to;
-//     BasicType::Kind           result_type;
-// };
+struct BinaryOpHash {
+    size_t operator()(const BinaryOpKey& key) const noexcept
+    {
+        size_t seed = 0;
+        hash_combine(seed, key.kind);
+        hash_combine(seed, key.left_type);
+        hash_combine(seed, key.right_type);
+        return seed;
+    }
+};
 
-// struct UnaryOpKey {
-//     UnaryExpr::Kind kind;
-//     BasicType::Kind arg_type;
-// };
+struct BinaryOpInfo {
+    std::optional<scopes::BasicTypeKind> convert_left_to;
+    std::optional<scopes::BasicTypeKind> convert_right_to;
+    scopes::BasicTypeKind result_type;
+};
 
-// inline bool operator==(const UnaryOpKey& a, const UnaryOpKey& b) {
-//     return a.kind == b.kind && a.arg_type == b.arg_type;
-// }
+struct UnaryOpKey {
+    ast::UnaryOpKind kind;
+    scopes::BasicTypeKind arg_type;
+};
 
-// struct UnaryOpHash {
-//     size_t operator()(UnaryOpKey const& key) const noexcept {
-//         size_t seed = 0;
-//         hash_combine(seed, key.kind);
-//         hash_combine(seed, key.arg_type);
-//         return seed;
-//     }
-// };
+inline bool operator==(const UnaryOpKey& a, const UnaryOpKey& b)
+{
+    return a.kind == b.kind && a.arg_type == b.arg_type;
+}
 
-// struct UnaryOpInfo {
-//     optional<BasicType::Kind> convert_arg_to;
-//     BasicType::Kind           result_type;
-// };
+struct UnaryOpHash {
+    size_t operator()(UnaryOpKey const& key) const noexcept
+    {
+        size_t seed = 0;
+        hash_combine(seed, key.kind);
+        hash_combine(seed, key.arg_type);
+        return seed;
+    }
+};
 
-// class OperatorTable {
-//     unordered_map<BinaryOpKey, BinaryOpInfo, BinaryOpHash> binary_ops;
-//     unordered_map<UnaryOpKey, UnaryOpInfo, UnaryOpHash>    unary_ops;
+struct UnaryOpInfo {
+    std::optional<scopes::BasicTypeKind> convert_arg_to;
+    scopes::BasicTypeKind result_type;
+};
 
-// public:
-//     OperatorTable();
-//     ~OperatorTable() = default;
+class OperatorTable {
+    std::unordered_map<BinaryOpKey, BinaryOpInfo, BinaryOpHash> binary_ops;
+    std::unordered_map<UnaryOpKey, UnaryOpInfo, UnaryOpHash> unary_ops;
 
-//     const BinaryOpInfo* Find(BinaryExpr::Kind kind,
-//                              BasicType::Kind  left_type,
-//                              BasicType::Kind  right_type);
+public:
+    OperatorTable();
 
-//     const UnaryOpInfo* Find(UnaryExpr::Kind kind, BasicType::Kind arg_type);
-// };
+    void fill_scope(scopes::Scope& scope);
 
-// }  // namespace quirk
+    const BinaryOpInfo* find(ast::BinaryOpKind kind, scopes::BasicTypeKind left_type,
+                             scopes::BasicTypeKind right_type);
+
+    const UnaryOpInfo* find(ast::UnaryOpKind kind, scopes::BasicTypeKind arg_type);
+};
+
+} // namespace quirk

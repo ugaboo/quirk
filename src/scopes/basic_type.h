@@ -6,8 +6,8 @@
 namespace quirk::scopes {
 
 enum class BasicTypeKind {
-    Int64,
-    Float64,
+    Int,
+    Float,
 };
 
 class BasicType : public Declaration {
@@ -20,6 +20,8 @@ public:
     std::string_view get_name() override { return magic_enum::enum_name(kind); }
 
     BasicTypeKind get_kind() { return kind; }
+
+    void accept(Visitor* visitor) override;
 };
 
 } // namespace quirk::scopes

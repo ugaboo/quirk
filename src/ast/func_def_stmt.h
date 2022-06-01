@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include "param_def_expr.h"
 
 namespace quirk::ast {
