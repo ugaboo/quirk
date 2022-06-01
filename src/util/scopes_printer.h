@@ -1,39 +1,34 @@
 #pragma once
 
-// void AstPrinter::visit(Variable* node)
-// {
-//     if (node->is_global()) {
-//         print(out, "Global ");
-//     }
-//     print(out, "Variable {}", node->get_id());
-// }
+#include "fmt/ostream.h"
 
-// void AstPrinter::visit(Parameter* node)
-// {
-//     print(out, "Parameter {}", node->get_id());
-// }
+#include "../scopes/visitor.h"
 
-// void AstPrinter::visit(Function* node)
-// {
-//     print(out, "Function {}", node->get_id());
-// }
+namespace quirk::util {
 
-// void AstPrinter::visit(Structure* node)
-// {
-//     print(out, "Structure {}", node->get_id());
-// }
+class ScopesPrinter : scopes::Visitor {
+    std::ostream& out;
+    int indent = 0;
 
-// void AstPrinter::visit(Field* node)
-// {
-//     print(out, "Field {}", node->get_id());
-// }
+public:
+    ScopesPrinter(std::ostream& out, scopes::Scope& global_scope);
 
-// void AstPrinter::visit(Int64Type*)
-// {
-//     print(out, "Int64Type");
-// }
+    void visit(scopes::BasicType* decl) override;
+    void visit(scopes::Field* decl) override;
+    void visit(scopes::Function* decl) override;
+    void visit(scopes::Module* decl) override;
+    void visit(scopes::Parameter* decl) override;
+    void visit(scopes::Structure* decl) override;
+    void visit(scopes::Variable* decl) override;
 
-// void AstPrinter::visit(Float64Type*)
-// {
-//     print(out, "Float64Type");
-// }
+private:
+    template <typename S, typename... Args> void print(const S& format_str, Args&&... args)
+    {
+        for (auto i = 0; i < indent; i++) {
+            fmt::print(out, "    ");
+        }
+        fmt::print(out, format_str, args...);
+    }
+};
+
+} // namespace quirk::util

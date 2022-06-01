@@ -4,8 +4,6 @@
 
 namespace quirk::util {
 
-using fmt::print;
-
 AstPrinter::AstPrinter(std::ostream& out, ast::TranslationUnit* tu) : out(out)
 {
     for (size_t i = 0; i < tu->count_stmts(); i++) {
