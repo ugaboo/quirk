@@ -1,16 +1,5 @@
-FuncDefStmt: 'foo' -> Function 64
-    body: 
-        CallExprStmt:
-            designator:
-                NameLiteral: 'bar' -> Function 65
-            args: <empty>
-CallExprStmt:
-    designator:
-        NameLiteral: 'foo' -> Function 64
-    args: <empty>
-FuncDefStmt: 'bar' -> Function 65
-    body: <empty>
-CallExprStmt:
-    designator:
-        NameLiteral: 'foo' -> Function 64
-    args: <empty>
+/home/igor/git/quirk/tests/scope_builder/funcs.qk: Module
+    bar: Function
+    foo: Function
+Float: BasicType
+Int: BasicType

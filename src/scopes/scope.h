@@ -3,6 +3,7 @@
 #include <memory>
 #include <unordered_map>
 
+#include "../util/ptr_iterator.h"
 #include "declaration.h"
 
 namespace quirk::scopes {
@@ -12,8 +13,6 @@ class Scope {
     Scope* parent;
 
 public:
-    Scope(Scope&&) = delete;
-
     Scope() : parent(nullptr) {}
     Scope(Scope& parent) : parent(&parent) {}
 
@@ -36,6 +35,10 @@ public:
         }
         return nullptr;
     }
+
+    auto begin() { return util::PtrIterator(decls.begin()); }
+
+    auto end() { return util::PtrIterator(decls.end()); }
 };
 
 } // namespace quirk::scopes

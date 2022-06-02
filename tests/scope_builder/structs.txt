@@ -1,30 +1,13 @@
-StructDefStmt: 'Empty' -> Structure 88
-    fields: <empty>
-StructDefStmt: 'Vec2' -> Structure 89
-    fields: 
-        FieldDef: 'x' -> Field 92
-            type:
-                NameLiteral: 'Float'
-        FieldDef: 'y' -> Field 93
-            type:
-                NameLiteral: 'Float'
-StructDefStmt: 'Rect' -> Structure 90
-    fields: 
-        FieldDef: 'w' -> Field 94
-            init:
-                IntLiteral: 0
-        FieldDef: 'h' -> Field 95
-            init:
-                IntLiteral: 0
-StructDefStmt: 'Point' -> Structure 91
-    fields: 
-        FieldDef: 'x' -> Field 96
-            type:
-                NameLiteral: 'Int'
-            init:
-                IntLiteral: 0
-        FieldDef: 'y' -> Field 97
-            type:
-                NameLiteral: 'Int'
-            init:
-                IntLiteral: 0
+/home/igor/git/quirk/tests/scope_builder/structs.qk: Module
+    Point: Structure
+        y: Field
+        x: Field
+    Rect: Structure
+        h: Field
+        w: Field
+    Vec2: Structure
+        y: Field
+        x: Field
+    Empty: Structure
+Float: BasicType
+Int: BasicType

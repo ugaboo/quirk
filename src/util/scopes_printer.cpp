@@ -1,59 +1,62 @@
 #include "scopes_printer.h"
+#include "indent_guard.h"
 
 namespace quirk::util {
 
-ScopesPrinter::ScopesPrinter(std::ostream& out, scopes::Scope& global_scope) : out(out) {}
+auto offset(auto indent)
+{
+    return std::string(indent, ' ');
+}
 
-void ScopesPrinter::visit(scopes::BasicType* decl) {}
+ScopesPrinter::ScopesPrinter(std::ostream& out, scopes::Scope& global_scope) : out(out)
+{
+    for (auto decl : global_scope) {
+        decl->accept(this);
+    }
+}
 
-void ScopesPrinter::visit(scopes::Field* decl) {}
+void ScopesPrinter::visit(scopes::BasicType* decl)
+{
+    fmt::print(out, "{}{}: BasicType\n", offset(indent), decl->get_name());
+}
 
-void ScopesPrinter::visit(scopes::Function* decl) {}
+void ScopesPrinter::visit(scopes::Field* decl)
+{
+    fmt::print(out, "{}{}: Field\n", offset(indent), decl->get_name());
+}
 
-void ScopesPrinter::visit(scopes::Module* decl) {}
+void ScopesPrinter::visit(scopes::Function* decl)
+{
+    fmt::print(out, "{}{}: Function\n", offset(indent), decl->get_name());
 
-void ScopesPrinter::visit(scopes::Parameter* decl) {}
+    IndentGuard inc(indent);
+    scopes::Visitor::visit(decl);
+}
 
-void ScopesPrinter::visit(scopes::Structure* decl) {}
+void ScopesPrinter::visit(scopes::Module* decl)
+{
+    fmt::print(out, "{}{}: Module\n", offset(indent), decl->get_name());
 
-void ScopesPrinter::visit(scopes::Variable* decl) {}
+    IndentGuard inc(indent);
+    scopes::Visitor::visit(decl);
+}
+
+void ScopesPrinter::visit(scopes::Parameter* decl)
+{
+    fmt::print(out, "{}{}: Parameter\n", offset(indent), decl->get_name());
+}
+
+void ScopesPrinter::visit(scopes::Structure* decl)
+{
+    fmt::print(out, "{}{}: Structure\n", offset(indent), decl->get_name());
+
+    IndentGuard inc(indent);
+    scopes::Visitor::visit(decl);
+}
+
+void ScopesPrinter::visit(scopes::Variable* decl)
+{
+    fmt::print(out, "{}{}: Variable\n", offset(indent), decl->get_name());
+}
 
 } // namespace quirk::util
-
-// void AstPrinter::visit(Variable* node)
-// {
-//     if (node->is_global()) {
-//         print(out, "Global ");
-//     }
-//     print(out, "Variable {}", node->get_id());
-// }
-
-// void AstPrinter::visit(Parameter* node)
-// {
-//     print(out, "Parameter {}", node->get_id());
-// }
-
-// void AstPrinter::visit(Function* node)
-// {
-//     print(out, "Function {}", node->get_id());
-// }
-
-// void AstPrinter::visit(Structure* node)
-// {
-//     print(out, "Structure {}", node->get_id());
-// }
-
-// void AstPrinter::visit(Field* node)
-// {
-//     print(out, "Field {}", node->get_id());
-// }
-
-// void AstPrinter::visit(Int64Type*)
-// {
-//     print(out, "Int64Type");
-// }
-
-// void AstPrinter::visit(Float64Type*)
-// {
-//     print(out, "Float64Type");
-// }

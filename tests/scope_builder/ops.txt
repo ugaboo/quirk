@@ -1,53 +1,11 @@
-AsgStmt:
-    lvalue:
-        NameLiteral: 'x' -> Global Variable 41
-    rvalue:
-        IntLiteral: 0
-AsgStmt:
-    lvalue:
-        NameLiteral: 'y' -> Global Variable 42
-    rvalue:
-        NameLiteral: 'x' -> Global Variable 41
-AsgStmt:
-    lvalue:
-        NameLiteral: 'z' -> Global Variable 43
-    rvalue:
-        BinaryExpr: Add
-            NameLiteral: 'x' -> Global Variable 41
-            NameLiteral: 'y' -> Global Variable 42
-AsgStmt:
-    lvalue:
-        NameLiteral: 'w' -> Global Variable 44
-    rvalue:
-        UnaryExpr: Minus
-            NameLiteral: 'z' -> Global Variable 43
-AsgStmt:
-    lvalue:
-        NameLiteral: 'vec' -> Global Variable 45
-    rvalue:
-        ListLiteral:
-            NameLiteral: 'x' -> Global Variable 41
-            NameLiteral: 'y' -> Global Variable 42
-            NameLiteral: 'z' -> Global Variable 43
-AsgStmt:
-    lvalue:
-        NameLiteral: 'a' -> Global Variable 46
-    rvalue:
-        SubscriptExpr:
-            designator:
-                NameLiteral: 'vec' -> Global Variable 45
-            keys:
-                NameLiteral: 'x' -> Global Variable 41
-FuncDefStmt: 'sqrt' -> Function 47
-    params:
-        ParameterDef: 'x' -> Parameter 48
-            type:
-                NameLiteral: 'Float' -> Float64Type
-    body: 
-        ReturnStmt
-            NameLiteral: 'x' -> Parameter 48
-CallExprStmt:
-    designator:
-        NameLiteral: 'sqrt' -> Function 47
-    args:
-        IntLiteral: 1
+/home/igor/git/quirk/tests/scope_builder/ops.qk: Module
+    sqrt: Function
+        x: Parameter
+    a: Variable
+    vec: Variable
+    w: Variable
+    z: Variable
+    y: Variable
+    x: Variable
+Float: BasicType
+Int: BasicType

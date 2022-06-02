@@ -4,6 +4,11 @@
 
 namespace quirk::util {
 
+auto offset(auto indent)
+{
+    return std::string(indent, ' ');
+}
+
 AstPrinter::AstPrinter(std::ostream& out, ast::TranslationUnit* tu) : out(out)
 {
     for (size_t i = 0; i < tu->count_stmts(); i++) {
@@ -13,23 +18,23 @@ AstPrinter::AstPrinter(std::ostream& out, ast::TranslationUnit* tu) : out(out)
 
 void AstPrinter::visit(ast::AsgStmt* node)
 {
-    print("AsgStmt:\n");
+    fmt::print(out, "{}AsgStmt:\n", offset(indent));
     IndentGuard inc(indent);
     {
-        print("lvalue:\n");
+        fmt::print(out, "{}lvalue:\n", offset(indent));
         IndentGuard inc(indent);
         {
             node->get_lvalue()->accept(this);
         }
         if (node->get_type_expr() != nullptr) {
-            print("type:\n");
+            fmt::print(out, "{}type:\n", offset(indent));
             IndentGuard inc(indent);
             {
                 node->get_type_expr()->accept(this);
             }
         }
         if (node->get_rvalue() != nullptr) {
-            print("rvalue:\n");
+            fmt::print(out, "{}rvalue:\n", offset(indent));
             IndentGuard inc(indent);
             {
                 node->get_rvalue()->accept(this);
@@ -40,7 +45,7 @@ void AstPrinter::visit(ast::AsgStmt* node)
 
 void AstPrinter::visit(ast::BinaryExpr* node)
 {
-    print("BinaryExpr: {}\n", magic_enum::enum_name(node->get_kind()));
+    fmt::print(out, "{}BinaryExpr: {}\n", offset(indent), magic_enum::enum_name(node->get_kind()));
     IndentGuard inc(indent);
     {
         node->get_left()->accept(this);
@@ -50,17 +55,17 @@ void AstPrinter::visit(ast::BinaryExpr* node)
 
 void AstPrinter::visit(ast::BoolLiteral* node)
 {
-    print("BoolLiteral: {}\n", node->to_bool());
+    fmt::print(out, "{}BoolLiteral: {}\n", offset(indent), node->to_bool());
 }
 
 void AstPrinter::visit(ast::BreakStmt*)
 {
-    print("BreakStmt\n");
+    fmt::print(out, "{}BreakStmt\n", offset(indent));
 }
 
 void AstPrinter::visit(ast::CallExpr* node)
 {
-    print("CallExpr:\n");
+    fmt::print(out, "{}CallExpr:\n", offset(indent));
     IndentGuard inc(indent);
     {
         print_call(node);
@@ -69,7 +74,7 @@ void AstPrinter::visit(ast::CallExpr* node)
 
 void AstPrinter::visit(ast::CallStmt* node)
 {
-    print("CallStmt:\n");
+    fmt::print(out, "{}CallStmt:\n", offset(indent));
     IndentGuard inc(indent);
     {
         print_call(node->get_expr());
@@ -78,23 +83,23 @@ void AstPrinter::visit(ast::CallStmt* node)
 
 void AstPrinter::visit(ast::ContinueStmt*)
 {
-    print("ContinueStmt\n");
+    fmt::print(out, "{}ContinueStmt\n", offset(indent));
 }
 
 void AstPrinter::visit(ast::FieldDefStmt* node)
 {
-    print("FieldDef: '{}'\n", node->get_name()->get_value());
+    fmt::print(out, "{}FieldDef: '{}'\n", offset(indent), node->get_name()->get_value());
     IndentGuard inc(indent);
     {
         if (node->get_type() != nullptr) {
-            print("type:\n");
+            fmt::print(out, "{}type:\n", offset(indent));
             IndentGuard inc(indent);
             {
                 node->get_type()->accept(this);
             }
         }
         if (node->get_init_expr() != nullptr) {
-            print("init:\n");
+            fmt::print(out, "{}init:\n", offset(indent));
             IndentGuard inc(indent);
             {
                 node->get_init_expr()->accept(this);
@@ -105,16 +110,16 @@ void AstPrinter::visit(ast::FieldDefStmt* node)
 
 void AstPrinter::visit(ast::FloatLiteral* node)
 {
-    print("FloatLiteral: {}\n", node->to_double());
+    fmt::print(out, "{}FloatLiteral: {}\n", offset(indent), node->to_double());
 }
 
 void AstPrinter::visit(ast::FuncDefStmt* node)
 {
-    print("FuncDefStmt: '{}'\n", node->get_name()->get_value());
+    fmt::print(out, "{}FuncDefStmt: '{}'\n", offset(indent), node->get_name()->get_value());
     IndentGuard inc(indent);
     {
         if (node->count_params() > 0) {
-            print("params:\n");
+            fmt::print(out, "{}params:\n", offset(indent));
             IndentGuard inc(indent);
             {
                 for (size_t i = 0; i < node->count_params(); i++) {
@@ -123,14 +128,14 @@ void AstPrinter::visit(ast::FuncDefStmt* node)
             }
         }
         if (node->get_ret_type_expr() != nullptr) {
-            print("ret:\n");
+            fmt::print(out, "{}ret:\n", offset(indent));
             IndentGuard inc(indent);
             {
                 node->get_ret_type_expr()->accept(this);
             }
         }
         if (node->count_stmts() > 0) {
-            print("body:\n");
+            fmt::print(out, "{}body:\n", offset(indent));
             IndentGuard inc(indent);
             {
                 for (size_t i = 0; i < node->count_stmts(); i++) {
@@ -138,24 +143,24 @@ void AstPrinter::visit(ast::FuncDefStmt* node)
                 }
             }
         } else {
-            print("body: <empty>\n");
+            fmt::print(out, "{}body: <empty>\n", offset(indent));
         }
     }
 }
 
 void AstPrinter::visit(ast::IfStmt* node)
 {
-    print("IfStmt:\n");
+    fmt::print(out, "{}IfStmt:\n", offset(indent));
     IndentGuard inc(indent);
     {
         for (size_t i = 0; i < node->count_branches(); i++) {
-            print("condition:\n");
+            fmt::print(out, "{}condition:\n", offset(indent));
             IndentGuard inc(indent);
             {
                 node->get_condition(i)->accept(this);
             }
             if (node->count_branch_stmts(i) > 0) {
-                print("body:\n");
+                fmt::print(out, "{}body:\n", offset(indent));
                 IndentGuard inc(indent);
                 {
                     for (size_t j = 0; j < node->count_branch_stmts(i); j++) {
@@ -163,11 +168,11 @@ void AstPrinter::visit(ast::IfStmt* node)
                     }
                 }
             } else {
-                print("body: <empty>\n");
+                fmt::print(out, "{}body: <empty>\n", offset(indent));
             }
         }
         if (node->count_else_stmts() > 0) {
-            print("else:\n");
+            fmt::print(out, "{}else:\n", offset(indent));
             IndentGuard inc(indent);
             {
                 for (size_t i = 0; i < node->count_else_stmts(); i++) {
@@ -175,20 +180,20 @@ void AstPrinter::visit(ast::IfStmt* node)
                 }
             }
         } else {
-            print("selse: <empty>\n");
+            fmt::print(out, "{}selse: <empty>\n", offset(indent));
         }
     }
 }
 
 void AstPrinter::visit(ast::IntLiteral* node)
 {
-    print("IntLiteral: {}\n", node->to_uint64());
+    fmt::print(out, "{}IntLiteral: {}\n", offset(indent), node->to_uint64());
 }
 
 void AstPrinter::visit(ast::ListLiteral* node)
 {
     if (node->count_exprs() > 0) {
-        print("ListLiteral:\n");
+        fmt::print(out, "{}ListLiteral:\n", offset(indent));
         IndentGuard inc(indent);
         {
             for (size_t i = 0; i < node->count_exprs(); i++) {
@@ -196,21 +201,21 @@ void AstPrinter::visit(ast::ListLiteral* node)
             }
         }
     } else {
-        print("ListLiteral: <empty>\n");
+        fmt::print(out, "{}ListLiteral: <empty>\n", offset(indent));
     }
 }
 
 void AstPrinter::visit(ast::MemberAccessExpr* node)
 {
-    print("MemberAccessExpr:\n");
+    fmt::print(out, "{}MemberAccessExpr:\n", offset(indent));
     IndentGuard inc(indent);
     {
-        print("designator:\n");
+        fmt::print(out, "{}designator:\n", offset(indent));
         {
             IndentGuard inc(indent);
             node->get_designator()->accept(this);
         }
-        print("selector:\n");
+        fmt::print(out, "{}selector:\n", offset(indent));
         {
             IndentGuard inc(indent);
             node->get_selector()->accept(this);
@@ -220,20 +225,20 @@ void AstPrinter::visit(ast::MemberAccessExpr* node)
 
 void AstPrinter::visit(ast::NameLiteral* node)
 {
-    print("NameLiteral: '{}'\n", node->get_value());
+    fmt::print(out, "{}NameLiteral: '{}'\n", offset(indent), node->get_value());
 }
 
 void AstPrinter::visit(ast::NoneLiteral*)
 {
-    print("NoneLiteral\n");
+    fmt::print(out, "{}NoneLiteral\n", offset(indent));
 }
 
 void AstPrinter::visit(ast::ParamDefExpr* node)
 {
-    print("ParameterDef: '{}'\n", node->get_name()->get_value());
+    fmt::print(out, "{}ParameterDef: '{}'\n", offset(indent), node->get_name()->get_value());
     IndentGuard inc(indent);
     {
-        print("type:\n");
+        fmt::print(out, "{}type:\n", offset(indent));
         IndentGuard inc(indent);
         {
             node->get_type()->accept(this);
@@ -243,7 +248,7 @@ void AstPrinter::visit(ast::ParamDefExpr* node)
 
 void AstPrinter::visit(ast::ReturnStmt* node)
 {
-    print("ReturnStmt\n");
+    fmt::print(out, "{}ReturnStmt\n", offset(indent));
     IndentGuard inc(indent);
     {
         node->get_expr()->accept(this);
@@ -252,11 +257,11 @@ void AstPrinter::visit(ast::ReturnStmt* node)
 
 void AstPrinter::visit(ast::StructDefStmt* node)
 {
-    print("StructDefStmt: '{}'\n", node->get_name()->get_value());
+    fmt::print(out, "{}StructDefStmt: '{}'\n", offset(indent), node->get_name()->get_value());
     IndentGuard inc(indent);
     {
         if (node->count_fields() > 0) {
-            print("fields:\n");
+            fmt::print(out, "{}fields:\n", offset(indent));
             IndentGuard inc(indent);
             {
                 for (size_t i = 0; i < node->count_fields(); i++) {
@@ -264,22 +269,22 @@ void AstPrinter::visit(ast::StructDefStmt* node)
                 }
             }
         } else {
-            print("fields: <empty>\n");
+            fmt::print(out, "{}fields: <empty>\n", offset(indent));
         }
     }
 }
 
 void AstPrinter::visit(ast::SubscriptExpr* node)
 {
-    print("SubscriptExpr:\n");
+    fmt::print(out, "{}SubscriptExpr:\n", offset(indent));
     IndentGuard inc(indent);
     {
-        print("designator:\n");
+        fmt::print(out, "{}designator:\n", offset(indent));
         {
             IndentGuard inc(indent);
             node->get_designator()->accept(this);
         }
-        print("keys:\n");
+        fmt::print(out, "{}keys:\n", offset(indent));
         {
             IndentGuard inc(indent);
             for (size_t i = 0; i < node->count_keys(); i++) {
@@ -291,7 +296,8 @@ void AstPrinter::visit(ast::SubscriptExpr* node)
 
 void AstPrinter::visit(ast::UnaryExpr* node)
 {
-    print("UnaryExpr: {}\n", magic_enum::enum_name(node->get_kind()));
+    fmt::print(out, "{}UnaryExpr: {}\n", "", offset(indent),
+               magic_enum::enum_name(node->get_kind()));
     IndentGuard inc(indent);
     {
         node->get_expr()->accept(this);
@@ -300,16 +306,16 @@ void AstPrinter::visit(ast::UnaryExpr* node)
 
 void AstPrinter::visit(ast::WhileStmt* node)
 {
-    print("WhileStmt:\n");
+    fmt::print(out, "{}WhileStmt:\n", offset(indent));
     IndentGuard inc(indent);
     {
-        print("condition:\n");
+        fmt::print(out, "{}condition:\n", offset(indent));
         IndentGuard inc(indent);
         {
             node->get_condition()->accept(this);
         }
         if (node->count_stmts() > 0) {
-            print("body:\n");
+            fmt::print(out, "{}body:\n", offset(indent));
             IndentGuard inc(indent);
             {
                 for (size_t i = 0; i < node->count_stmts(); i++) {
@@ -317,20 +323,20 @@ void AstPrinter::visit(ast::WhileStmt* node)
                 }
             }
         } else {
-            print("body: <empty>\n");
+            fmt::print(out, "{}body: <empty>\n", offset(indent));
         }
     }
 }
 
 void AstPrinter::print_call(ast::CallExpr* node)
 {
-    print("designator:\n");
+    fmt::print(out, "{}designator:\n", offset(indent));
     IndentGuard inc(indent);
     {
         node->get_designator()->accept(this);
     }
     if (node->count_args() > 0) {
-        print("args:\n");
+        fmt::print(out, "{}args:\n", offset(indent));
         IndentGuard inc(indent);
         {
             for (size_t i = 0; i < node->count_args(); i++) {
@@ -338,7 +344,7 @@ void AstPrinter::print_call(ast::CallExpr* node)
             }
         }
     } else {
-        print("args: <empty>\n");
+        fmt::print(out, "{}args: <empty>\n", offset(indent));
     }
 }
 

@@ -10,7 +10,7 @@ namespace quirk::util {
 
 class AstPrinter : public ast::Visitor {
     std::ostream& out;
-    int indent = 0;
+    uint64_t indent = 0;
 
 public:
     AstPrinter(std::ostream& out, ast::TranslationUnit* tu);
@@ -40,14 +40,6 @@ public:
 
 private:
     void print_call(ast::CallExpr* node);
-
-    template <typename S, typename... Args> void print(const S& format_str, Args&&... args)
-    {
-        for (auto i = 0; i < indent; i++) {
-            fmt::print(out, "    ");
-        }
-        fmt::print(out, format_str, args...);
-    }
 };
 
 } // namespace quirk::util

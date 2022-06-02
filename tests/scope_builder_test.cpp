@@ -2,6 +2,7 @@
 #include "../src/parser/parser.h"
 #include "../src/scopes/scope_builder.h"
 #include "../src/util/operator_table.h"
+#include "../src/util/scopes_printer.h"
 #include "fmt/core.h"
 #include "utils.h"
 #include <fstream>
@@ -34,7 +35,7 @@ bool test()
         builder.process();
 
         stringstream output;
-        util::AstPrinter printer(output, tu.get());
+        util::ScopesPrinter printer(output, global_scope);
 
         ifstream file(folder + name + ".txt");
 
