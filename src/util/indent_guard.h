@@ -11,4 +11,9 @@ public:
     ~IndentGuard() { indent -= by; }
 };
 
+inline auto offset(auto indent)
+{
+    return std::string(indent, ' ');
+}
+
 } // namespace quirk::util

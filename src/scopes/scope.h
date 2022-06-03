@@ -3,13 +3,33 @@
 #include <memory>
 #include <unordered_map>
 
-#include "../util/ptr_iterator.h"
 #include "declaration.h"
 
 namespace quirk::scopes {
 
 class Scope {
-    std::unordered_map<std::string_view, std::unique_ptr<Declaration>> decls;
+    using Table = std::unordered_map<std::string_view, std::unique_ptr<Declaration>>;
+
+public:
+    class Iterator {
+        Table::iterator it;
+
+    public:
+        Iterator(Table::iterator it) : it(it) {}
+
+        Iterator operator++()
+        {
+            it++;
+            return *this;
+        }
+
+        bool operator==(Iterator other) const { return it == other.it; }
+        bool operator!=(Iterator other) const { return !(*this == other); }
+        auto operator*() const { return it->second.get(); }
+    };
+
+private:
+    Table decls;
     Scope* parent;
 
 public:
@@ -36,9 +56,9 @@ public:
         return nullptr;
     }
 
-    auto begin() { return util::PtrIterator(decls.begin()); }
+    auto begin() { return Iterator(decls.begin()); }
 
-    auto end() { return util::PtrIterator(decls.end()); }
+    auto end() { return Iterator(decls.end()); }
 };
 
 } // namespace quirk::scopes

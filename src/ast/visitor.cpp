@@ -33,7 +33,12 @@ void Visitor::visit(CallExpr* node)
 
 void Visitor::visit(CallStmt* node)
 {
-    node->get_expr()->accept(this);
+    auto expr = node->get_expr();
+
+    expr->get_designator()->accept(this);
+    for (size_t i = 0; i < expr->count_args(); i++) {
+        expr->get_arg(i)->accept(this);
+    }
 }
 
 void Visitor::visit(ContinueStmt* node) {}
@@ -53,11 +58,11 @@ void Visitor::visit(FuncDefStmt* node)
     if (node->get_ret_type_expr() != nullptr) {
         node->get_ret_type_expr()->accept(this);
     }
-    for (size_t i = 0; i < node->count_params(); i++) {
-        node->get_param(i)->accept(this);
+    for (auto param : node->get_params()) {
+        param->accept(this);
     }
-    for (size_t i = 0; i < node->count_stmts(); i++) {
-        node->get_stmt(i)->accept(this);
+    for (auto stmt : node->get_stmts()) {
+        stmt->accept(this);
     }
 }
 

@@ -3,11 +3,6 @@
 
 namespace quirk::util {
 
-auto offset(auto indent)
-{
-    return std::string(indent, ' ');
-}
-
 ScopesPrinter::ScopesPrinter(std::ostream& out, scopes::Scope& global_scope) : out(out)
 {
     for (auto decl : global_scope) {

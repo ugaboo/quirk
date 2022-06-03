@@ -4,7 +4,6 @@
 
 #include "../ast/visitor.h"
 #include "fmt/ostream.h"
-#include "indent_guard.h"
 
 namespace quirk::util {
 

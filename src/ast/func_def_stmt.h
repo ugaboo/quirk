@@ -2,15 +2,16 @@
 
 #include <vector>
 
+#include "../util/ptr_list.h"
 #include "param_def_expr.h"
 
 namespace quirk::ast {
 
 class FuncDefStmt : public Stmt {
     std::unique_ptr<NameLiteral> name;
-    std::vector<std::unique_ptr<ParamDefExpr>> params;
+    util::PtrList<ParamDefExpr> params;
     std::unique_ptr<Expr> ret_type_expr;
-    std::vector<std::unique_ptr<Stmt>> stmts;
+    util::PtrList<Stmt> stmts;
 
 public:
     FuncDefStmt(Context context, std::unique_ptr<NameLiteral>& name,
@@ -27,11 +28,9 @@ public:
     }
 
     auto get_name() { return name.get(); }
-    auto count_params() { return params.size(); }
-    auto get_param(size_t index) { return params[index].get(); }
+    auto& get_params() { return params; }
     auto get_ret_type_expr() { return ret_type_expr.get(); }
-    auto count_stmts() { return stmts.size(); }
-    auto get_stmt(size_t index) { return stmts[index].get(); }
+    auto& get_stmts() { return stmts; }
 
     void accept(Visitor* visitor) override;
 };

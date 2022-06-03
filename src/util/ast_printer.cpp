@@ -1,13 +1,9 @@
 #include "ast_printer.h"
 #include "fmt/ostream.h"
+#include "indent_guard.h"
 #include "magic_enum.hpp"
 
 namespace quirk::util {
-
-auto offset(auto indent)
-{
-    return std::string(indent, ' ');
-}
 
 AstPrinter::AstPrinter(std::ostream& out, ast::TranslationUnit* tu) : out(out)
 {
@@ -118,12 +114,13 @@ void AstPrinter::visit(ast::FuncDefStmt* node)
     fmt::print(out, "{}FuncDefStmt: '{}'\n", offset(indent), node->get_name()->get_value());
     IndentGuard inc(indent);
     {
-        if (node->count_params() > 0) {
+        auto& params = node->get_params();
+        if (params.begin() != params.end()) {
             fmt::print(out, "{}params:\n", offset(indent));
             IndentGuard inc(indent);
             {
-                for (size_t i = 0; i < node->count_params(); i++) {
-                    node->get_param(i)->accept(this);
+                for (auto param : params) {
+                    param->accept(this);
                 }
             }
         }
@@ -134,12 +131,13 @@ void AstPrinter::visit(ast::FuncDefStmt* node)
                 node->get_ret_type_expr()->accept(this);
             }
         }
-        if (node->count_stmts() > 0) {
+        auto& stmts = node->get_stmts();
+        if (stmts.begin() != stmts.end()) {
             fmt::print(out, "{}body:\n", offset(indent));
             IndentGuard inc(indent);
             {
-                for (size_t i = 0; i < node->count_stmts(); i++) {
-                    node->get_stmt(i)->accept(this);
+                for (auto stmt : stmts) {
+                    stmt->accept(this);
                 }
             }
         } else {
