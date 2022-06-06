@@ -6,7 +6,7 @@ namespace quirk::ast {
 
 class WhileStmt : public Stmt {
     std::unique_ptr<Expr> condition;
-    std::vector<std::unique_ptr<Stmt>> stmts;
+    util::PtrList<Stmt> stmts;
 
 public:
     WhileStmt(Context context, std::unique_ptr<Expr>& condition,
@@ -19,8 +19,7 @@ public:
     }
 
     auto get_condition() { return condition.get(); }
-    auto count_stmts() { return stmts.size(); }
-    auto get_stmt(size_t index) { return stmts[index].get(); }
+    auto& get_stmts() { return stmts; }
 
     void accept(Visitor* visitor) override;
 };

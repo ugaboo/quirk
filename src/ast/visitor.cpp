@@ -26,8 +26,8 @@ void Visitor::visit(BreakStmt* node) {}
 void Visitor::visit(CallExpr* node)
 {
     node->get_designator()->accept(this);
-    for (size_t i = 0; i < node->count_args(); i++) {
-        node->get_arg(i)->accept(this);
+    for (auto arg : node->get_args()) {
+        arg->accept(this);
     }
 }
 
@@ -36,8 +36,8 @@ void Visitor::visit(CallStmt* node)
     auto expr = node->get_expr();
 
     expr->get_designator()->accept(this);
-    for (size_t i = 0; i < expr->count_args(); i++) {
-        expr->get_arg(i)->accept(this);
+    for (auto arg : expr->get_args()) {
+        arg->accept(this);
     }
 }
 
@@ -68,14 +68,14 @@ void Visitor::visit(FuncDefStmt* node)
 
 void Visitor::visit(IfStmt* node)
 {
-    for (size_t i = 0; i < node->count_branches(); i++) {
-        node->get_condition(i)->accept(this);
-        for (size_t j = 0; j < node->count_branch_stmts(i); j++) {
-            node->get_branch_stmt(i, j)->accept(this);
+    for (auto branch : node->get_branches()) {
+        branch->get_condition()->accept(this);
+        for (auto stmt : branch->get_stmts()) {
+            stmt->accept(this);
         }
     }
-    for (size_t i = 0; i < node->count_else_stmts(); i++) {
-        node->get_else_stmt(i)->accept(this);
+    for (auto stmt : node->get_else_stmts()) {
+        stmt->accept(this);
     }
 }
 
@@ -83,8 +83,8 @@ void Visitor::visit(IntLiteral* node) {}
 
 void Visitor::visit(ListLiteral* node)
 {
-    for (size_t i = 0; i < node->count_exprs(); i++) {
-        node->get_expr(i)->accept(this);
+    for (auto expr : node->get_exprs()) {
+        expr->accept(this);
     }
 }
 
@@ -114,23 +114,23 @@ void Visitor::visit(ReturnStmt* node)
 void Visitor::visit(StructDefStmt* node)
 {
     node->get_name()->accept(this);
-    for (size_t i = 0; i < node->count_fields(); i++) {
-        node->get_field(i)->accept(this);
+    for (auto field : node->get_fields()) {
+        field->accept(this);
     }
 }
 
 void Visitor::visit(SubscriptExpr* node)
 {
     node->get_designator()->accept(this);
-    for (size_t i = 0; i < node->count_keys(); i++) {
-        node->get_key(i)->accept(this);
+    for (auto key : node->get_keys()) {
+        key->accept(this);
     }
 }
 
 void Visitor::visit(TranslationUnit* node)
 {
-    for (size_t i = 0; i < node->count_stmts(); i++) {
-        node->get_stmt(i)->accept(this);
+    for (auto stmt : node->get_stmts()) {
+        stmt->accept(this);
     }
 }
 
@@ -142,8 +142,8 @@ void Visitor::visit(UnaryExpr* node)
 void Visitor::visit(WhileStmt* node)
 {
     node->get_condition()->accept(this);
-    for (size_t i = 0; i < node->count_stmts(); i++) {
-        node->get_stmt(i)->accept(this);
+    for (auto stmt : node->get_stmts()) {
+        stmt->accept(this);
     }
 }
 

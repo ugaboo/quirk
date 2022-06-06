@@ -10,7 +10,7 @@ namespace quirk::ast {
 
 class TranslationUnit : public Node {
     std::string filename;
-    std::vector<std::unique_ptr<Stmt>> stmts;
+    util::PtrList<Stmt> stmts;
 
 public:
     TranslationUnit(std::string filename, std::vector<std::unique_ptr<Stmt>>& stmts)
@@ -23,8 +23,7 @@ public:
 
     auto get_filename() { return std::string_view(filename); }
 
-    auto count_stmts() { return stmts.size(); }
-    auto get_stmt(size_t index) { return stmts[index].get(); }
+    auto& get_stmts() { return stmts; }
 
     void accept(Visitor* visitor) override;
 };

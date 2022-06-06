@@ -36,11 +36,11 @@ AsgStmt:
         NameLiteral: 'z'
     type:
         NameLiteral: 'Float'
-CallExprStmt:
+CallStmt:
     designator:
         NameLiteral: 'foo'
     args: <empty>
-CallExprStmt:
+CallStmt:
     designator:
         NameLiteral: 'bar'
     args:
@@ -157,7 +157,7 @@ IfStmt:
         BinaryExpr: Equal
             NameLiteral: 'x'
             IntLiteral: 0
-    body: 
+    body:
         AsgStmt:
             lvalue:
                 NameLiteral: 'x'
@@ -169,7 +169,7 @@ IfStmt:
         BinaryExpr: Equal
             NameLiteral: 'x'
             IntLiteral: 1
-    body: 
+    body:
         AsgStmt:
             lvalue:
                 NameLiteral: 'x'
@@ -182,7 +182,7 @@ IfStmt:
             NameLiteral: 'x'
             UnaryExpr: Minus
                 IntLiteral: 1
-    body: 
+    body:
         AsgStmt:
             lvalue:
                 NameLiteral: 'x'
@@ -190,7 +190,7 @@ IfStmt:
                 BinaryExpr: Add
                     NameLiteral: 'x'
                     IntLiteral: 1
-    else: 
+    else:
         AsgStmt:
             lvalue:
                 NameLiteral: 'x'
@@ -202,7 +202,7 @@ WhileStmt:
         BinaryExpr: Greater
             NameLiteral: 'x'
             IntLiteral: 0
-    body: 
+    body:
         AsgStmt:
             lvalue:
                 NameLiteral: 'x'
@@ -215,21 +215,27 @@ FuncDefStmt: 'foo'
     body: <empty>
 FuncDefStmt: 'bar'
     params:
-        ParameterDef: 'x'
+        ParameterDef:
+            name:
+                NameLiteral: 'x'
             type:
                 NameLiteral: 'Int'
-        ParameterDef: 'y'
+        ParameterDef:
+            name:
+                NameLiteral: 'y'
             type:
                 NameLiteral: 'Float'
     body: <empty>
 FuncDefStmt: 'baz'
     params:
-        ParameterDef: 'x'
+        ParameterDef:
+            name:
+                NameLiteral: 'x'
             type:
                 NameLiteral: 'Int'
     ret:
         NameLiteral: 'Int'
-    body: 
+    body:
         AsgStmt:
             lvalue:
                 NameLiteral: 'x'
@@ -244,15 +250,21 @@ FuncDefStmt: 'baz'
 StructDefStmt: 'S'
     fields: <empty>
 StructDefStmt: 'Vec2'
-    fields: 
-        FieldDef: 'x'
+    fields:
+        FieldDef:
+            name:
+                NameLiteral: 'x'
             type:
                 NameLiteral: 'Float'
-        FieldDef: 'y'
+        FieldDef:
+            name:
+                NameLiteral: 'y'
             type:
                 NameLiteral: 'Float'
 StructDefStmt: 'Zero'
-    fields: 
-        FieldDef: 'value'
+    fields:
+        FieldDef:
+            name:
+                NameLiteral: 'value'
             init:
                 FloatLiteral: 0

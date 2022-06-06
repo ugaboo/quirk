@@ -1,43 +1,48 @@
 #pragma once
 
+#include "../util/ptr_list.h"
 #include "node.h"
 
 namespace quirk::ast {
 
 class IfStmt : public Stmt {
-    using Condition = std::unique_ptr<ast::Expr>;
-    using Statements = std::vector<std::unique_ptr<ast::Stmt>>;
-    using Branch = std::pair<Condition, Statements>;
+public:
+    class Branch {
+        std::unique_ptr<Expr> condition;
+        util::PtrList<Stmt> stmts;
 
-    std::vector<Branch> branches;
-    Statements else_stmts;
+    public:
+        Branch(std::unique_ptr<Expr>& condition, std::vector<std::unique_ptr<Stmt>>& stmts)
+            : condition(move(condition))
+        {
+            for (auto& stmt : stmts) {
+                Branch::stmts.push_back(move(stmt));
+            }
+        }
+
+        auto get_condition() { return condition.get(); }
+        auto& get_stmts() { return stmts; }
+    };
+
+private:
+    util::PtrList<Branch> branches;
+    util::PtrList<Stmt> else_stmts;
 
 public:
-    IfStmt(Context context, std::vector<Branch>& branches,
+    IfStmt(Context context, std::vector<std::unique_ptr<Branch>>& branches,
            std::vector<std::unique_ptr<Stmt>>& else_stmts)
         : Stmt(context)
     {
         for (auto& branch : branches) {
-            IfStmt::branches.emplace_back();
-            IfStmt::branches.back().first = move(branch.first);
-            for (auto& stmt : branch.second) {
-                IfStmt::branches.back().second.push_back(move(stmt));
-            }
+            IfStmt::branches.push_back(move(branch));
         }
         for (auto& stmt : else_stmts) {
             IfStmt::else_stmts.push_back(move(stmt));
         }
     }
 
-    auto count_branches() { return branches.size(); }
-    auto get_condition(size_t branch_index) { return branches[branch_index].first.get(); }
-    auto count_branch_stmts(size_t branch_index) { return branches[branch_index].second.size(); }
-    auto get_branch_stmt(size_t branch_index, size_t stmt_index)
-    {
-        return branches[branch_index].second[stmt_index].get();
-    }
-    auto count_else_stmts() { return else_stmts.size(); }
-    auto get_else_stmt(size_t index) { return else_stmts[index].get(); }
+    auto& get_branches() { return branches; }
+    auto& get_else_stmts() { return else_stmts; }
 
     void accept(Visitor* visitor) override;
 };

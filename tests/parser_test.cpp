@@ -16,7 +16,10 @@ auto empty()
     Parser parser(TEST_DIR "/parser/empty.qk");
 
     unique_ptr<ast::TranslationUnit> tu;
-    return parser.parse(tu) && tu->count_stmts() == 0;
+    bool success = parser.parse(tu);
+
+    auto& stmts = tu->get_stmts();
+    return success && stmts.begin() == stmts.end();
 }
 
 auto all_rules()

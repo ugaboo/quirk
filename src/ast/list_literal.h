@@ -5,7 +5,7 @@
 namespace quirk::ast {
 
 class ListLiteral : public Expr {
-    std::vector<std::unique_ptr<Expr>> exprs;
+    util::PtrList<Expr> exprs;
 
 public:
     ListLiteral(Context context, std::vector<std::unique_ptr<Expr>>& exprs) : Expr(context)
@@ -15,8 +15,7 @@ public:
         }
     }
 
-    auto count_exprs() { return exprs.size(); }
-    auto get_expr(size_t index) { return exprs[index].get(); }
+    auto& get_exprs() { return exprs; }
 
     void accept(Visitor* visitor) override;
 };

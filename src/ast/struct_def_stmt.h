@@ -6,7 +6,7 @@ namespace quirk::ast {
 
 class StructDefStmt : public Stmt {
     std::unique_ptr<NameLiteral> name;
-    std::vector<std::unique_ptr<FieldDefStmt>> fields;
+    util::PtrList<FieldDefStmt> fields;
 
 public:
     StructDefStmt(Context context, std::unique_ptr<NameLiteral>& name,
@@ -19,8 +19,7 @@ public:
     }
 
     auto get_name() { return name.get(); }
-    auto count_fields() { return fields.size(); }
-    auto get_field(size_t index) { return fields[index].get(); }
+    auto& get_fields() { return fields; }
 
     void accept(Visitor* visitor) override;
 };

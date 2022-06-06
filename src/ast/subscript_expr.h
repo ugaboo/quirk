@@ -6,7 +6,7 @@ namespace quirk::ast {
 
 class SubscriptExpr : public Expr {
     std::unique_ptr<Expr> designator;
-    std::vector<std::unique_ptr<Expr>> keys;
+    util::PtrList<Expr> keys;
 
 public:
     SubscriptExpr(Context context, std::unique_ptr<Expr>& designator,
@@ -19,8 +19,7 @@ public:
     }
 
     auto get_designator() { return designator.get(); }
-    auto count_keys() { return keys.size(); }
-    auto get_key(size_t index) { return keys[index].get(); }
+    auto& get_keys() { return keys; }
 
     void accept(Visitor* visitor) override;
 };

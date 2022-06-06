@@ -31,7 +31,8 @@ enum class BinaryOpKind {
 
 class BinaryExpr : public Expr {
     BinaryOpKind kind;
-    std::unique_ptr<Expr> left, right;
+    std::unique_ptr<Expr> left;
+    std::unique_ptr<Expr> right;
 
 public:
     BinaryExpr(Context context, BinaryOpKind kind, std::unique_ptr<Expr>& left,

@@ -3,13 +3,14 @@
 #include <memory>
 #include <vector>
 
+#include "../util/ptr_list.h"
 #include "node.h"
 
 namespace quirk::ast {
 
 class CallExpr : public Expr {
     std::unique_ptr<Expr> designator;
-    std::vector<std::unique_ptr<Expr>> args;
+    util::PtrList<Expr> args;
 
 public:
     CallExpr(Context context, std::unique_ptr<Expr>& designator,
@@ -22,8 +23,7 @@ public:
     }
 
     auto get_designator() { return designator.get(); }
-    auto count_args() { return args.size(); }
-    auto get_arg(size_t index) { return args[index].get(); }
+    auto& get_args() { return args; }
 
     void accept(Visitor* visitor) override;
 };

@@ -949,23 +949,21 @@ END:
 
 bool Parser::is_if(std::unique_ptr<ast::Stmt>& result)
 {
-    using Condition = std::unique_ptr<ast::Expr>;
-    using Statements = std::vector<std::unique_ptr<ast::Stmt>>;
-    using Branch = std::pair<Condition, Statements>;
-
     Context context;
-    std::vector<Branch> branches;
-    Statements else_stmts;
+    std::vector<std::unique_ptr<ast::IfStmt::Branch>> branches;
+    std::vector<std::unique_ptr<ast::Stmt>> else_stmts;
+
+    std::unique_ptr<ast::Expr> condition;
+    std::vector<std::unique_ptr<ast::Stmt>> stmts;
 
     if (scanner.get_token() == Token::KwIf) {
         context = scanner.get_context();
-        branches.emplace_back();
         scanner.move();
         goto L1;
     }
     return false;
 L1:
-    if (is_expression(branches.back().first)) {
+    if (is_expression(condition)) {
         goto L2;
     }
     throw CompilationError::InvalidSyntax;
@@ -976,13 +974,14 @@ L2:
     }
     throw CompilationError::InvalidSyntax;
 L3:
-    if (is_suite(branches.back().second)) {
+    stmts.clear();
+    if (is_suite(stmts)) {
+        branches.push_back(std::make_unique<ast::IfStmt::Branch>(condition, stmts));
         goto L4;
     }
     throw CompilationError::InvalidSyntax;
 L4:
     if (scanner.get_token() == Token::KwElif) {
-        branches.emplace_back();
         scanner.move();
         goto L1;
     }
