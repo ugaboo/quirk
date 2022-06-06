@@ -1,4 +1,4 @@
-/home/igor/git/quirk/tests/scope_builder/structs.qk: Module
+structs: Module
     Point: Structure
         y: Field
         x: Field

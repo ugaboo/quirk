@@ -7,12 +7,6 @@
 using namespace std;
 using namespace quirk;
 
-void dump(string filename, ast::TranslationUnit* tu)
-{
-    ofstream out(filename, ios_base::binary | ios_base::out);
-    util::AstPrinter printer(out, tu);
-}
-
 template <class T, class V> bool diff(T& expected, V& received)
 {
     std::string expected_str, received_str;
