@@ -27,11 +27,11 @@ bool test()
         }
 
         scopes::Scope global_scope;
-        OperatorTable op_table;
+        util::OperatorTable op_table;
         op_table.fill_scope(global_scope);
 
-        unordered_map<ast::NameLiteral*, scopes::Declaration*> bindings;
-        scopes::ScopeBuilder builder(tu.get(), global_scope, bindings);
+        unordered_map<ast::NameLiteral*, scopes::Declaration*> name_table;
+        scopes::ScopeBuilder builder(tu.get(), global_scope, name_table);
         builder.process();
 
         stringstream output;
@@ -61,7 +61,7 @@ bool test_errors()
 
         try {
             scopes::Scope global_scope;
-            OperatorTable op_table;
+            util::OperatorTable op_table;
             op_table.fill_scope(global_scope);
 
             unordered_map<ast::NameLiteral*, scopes::Declaration*> bindings;

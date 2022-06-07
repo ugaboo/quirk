@@ -1,16 +1,16 @@
 #include "operator_table.h"
 
-namespace quirk {
+namespace quirk::util {
 
 OperatorTable::OperatorTable()
 {
     auto i64 = scopes::BasicTypeKind::Int;
     auto f64 = scopes::BasicTypeKind::Float;
 
-    binary_ops[{ast::BinaryOpKind::Add, i64, i64}] = {.result_type = i64};
-    binary_ops[{ast::BinaryOpKind::Add, i64, f64}] = {.convert_left_to = f64, .result_type = f64};
-    binary_ops[{ast::BinaryOpKind::Add, f64, i64}] = {.convert_right_to = f64, .result_type = f64};
-    binary_ops[{ast::BinaryOpKind::Add, f64, f64}] = {.result_type = f64};
+    // binary_ops[{ast::BinaryOpKind::Add, i64, i64}] = {.result_type = i64};
+    // binary_ops[{ast::BinaryOpKind::Add, i64, f64}] = {.convert_left_to = f64, .result_type =
+    // f64}; binary_ops[{ast::BinaryOpKind::Add, f64, i64}] = {.convert_right_to = f64, .result_type
+    // = f64}; binary_ops[{ast::BinaryOpKind::Add, f64, f64}] = {.result_type = f64};
 }
 
 void OperatorTable::fill_scope(scopes::Scope& scope)
@@ -35,8 +35,8 @@ void OperatorTable::fill_scope(scopes::Scope& scope)
     // }
 }
 
-const BinaryOpInfo* OperatorTable::find(ast::BinaryOpKind kind, scopes::BasicTypeKind left_type,
-                                        scopes::BasicTypeKind right_type)
+const BinaryOpInfo* OperatorTable::find(ast::BinaryOpKind kind, scopes::Declaration* left_type,
+                                        scopes::Declaration* right_type)
 {
     auto result = binary_ops.find({kind, left_type, right_type});
     if (result != binary_ops.end()) {
@@ -45,7 +45,7 @@ const BinaryOpInfo* OperatorTable::find(ast::BinaryOpKind kind, scopes::BasicTyp
     return nullptr;
 }
 
-const UnaryOpInfo* OperatorTable::find(ast::UnaryOpKind kind, scopes::BasicTypeKind arg_type)
+const UnaryOpInfo* OperatorTable::find(ast::UnaryOpKind kind, scopes::Declaration* arg_type)
 {
     auto result = unary_ops.find({kind, arg_type});
     if (result != unary_ops.end()) {
@@ -54,4 +54,4 @@ const UnaryOpInfo* OperatorTable::find(ast::UnaryOpKind kind, scopes::BasicTypeK
     return nullptr;
 }
 
-} // namespace quirk
+} // namespace quirk::util

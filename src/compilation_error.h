@@ -12,6 +12,7 @@ enum class CompilationError {
     ItemNotFound,
     Redefinition,
     NotCallable,
+    TypeInferenceFailed,
 };
 
 }
