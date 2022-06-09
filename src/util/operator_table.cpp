@@ -2,6 +2,33 @@
 
 namespace quirk::util {
 
+bool OperatorTable::BinaryOpKey::operator==(const BinaryOpKey& other) const
+{
+    return kind == other.kind && left_type == other.left_type && right_type == other.right_type;
+}
+
+size_t OperatorTable::BinaryOpKey::Hash::operator()(const BinaryOpKey& key) const noexcept
+{
+    size_t seed = 0;
+    hash_combine(seed, key.kind);
+    hash_combine(seed, key.left_type);
+    hash_combine(seed, key.right_type);
+    return seed;
+}
+
+bool OperatorTable::UnaryOpKey::operator==(const UnaryOpKey& other) const
+{
+    return kind == other.kind && arg_type == other.arg_type;
+}
+
+size_t OperatorTable::UnaryOpKey::Hash::operator()(UnaryOpKey const& key) const noexcept
+{
+    size_t seed = 0;
+    hash_combine(seed, key.kind);
+    hash_combine(seed, key.arg_type);
+    return seed;
+}
+
 OperatorTable::OperatorTable()
 {
     auto i64 = scopes::BasicTypeKind::Int;
@@ -38,7 +65,8 @@ void OperatorTable::fill_scope(scopes::Scope& scope)
 const BinaryOpInfo* OperatorTable::find(ast::BinaryOpKind kind, scopes::Declaration* left_type,
                                         scopes::Declaration* right_type)
 {
-    auto result = binary_ops.find({kind, left_type, right_type});
+    auto key = BinaryOpKey{.kind = kind, .left_type = left_type, .right_type = right_type};
+    auto result = binary_ops.find(key);
     if (result != binary_ops.end()) {
         return &result->second;
     }
