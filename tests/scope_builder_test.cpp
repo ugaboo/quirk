@@ -30,8 +30,8 @@ bool test()
         util::OperatorTable op_table;
         op_table.fill_scope(global_scope);
 
-        unordered_map<ast::NameLiteral*, scopes::Declaration*> name_table;
-        scopes::ScopeBuilder builder(tu.get(), global_scope, name_table);
+        unordered_map<ast::Node*, scopes::Declaration*> bindings;
+        scopes::ScopeBuilder builder(tu.get(), global_scope, bindings);
         builder.process();
 
         stringstream output;
@@ -64,7 +64,7 @@ bool test_errors()
             util::OperatorTable op_table;
             op_table.fill_scope(global_scope);
 
-            unordered_map<ast::NameLiteral*, scopes::Declaration*> bindings;
+            unordered_map<ast::Node*, scopes::Declaration*> bindings;
             scopes::ScopeBuilder builder(tu.get(), global_scope, bindings);
             builder.process();
         } catch (CompilationError exc) {

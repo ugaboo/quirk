@@ -3,9 +3,17 @@
 
 namespace quirk::scopes {
 
+std::unordered_map<ast::BinaryOpKind, std::string> binary_op_names = {
+    {ast::BinaryOpKind::Add, "__add__"},
+};
+
+std::unordered_map<ast::UnaryOpKind, std::string> unary_op_names = {
+    {ast::UnaryOpKind::Not, "__not__"},
+};
+
 ScopeBuilder::ScopeBuilder(ast::TranslationUnit* unit, Scope& global_scope,
-                           std::unordered_map<ast::NameLiteral*, Declaration*>& name_table)
-    : root_node(unit), name_table(name_table)
+                           std::unordered_map<ast::Node*, Declaration*>& bindings)
+    : root_node(unit), bindings(bindings)
 {
     auto m = std::make_unique<Module>(unit, global_scope);
     local_scope = &m->get_scope();
@@ -13,8 +21,8 @@ ScopeBuilder::ScopeBuilder(ast::TranslationUnit* unit, Scope& global_scope,
 }
 
 ScopeBuilder::ScopeBuilder(ast::Node* root_node, Scope* local_scope,
-                           std::unordered_map<ast::NameLiteral*, Declaration*>& name_table)
-    : root_node(root_node), local_scope(local_scope), name_table(name_table)
+                           std::unordered_map<ast::Node*, Declaration*>& bindings)
+    : root_node(root_node), local_scope(local_scope), bindings(bindings)
 {
 }
 
@@ -43,23 +51,32 @@ void ScopeBuilder::visit(ast::AsgStmt* node)
     }
     auto decl = local_scope->lookup(name->get_value());
     if (decl != nullptr) {
-        name_table.insert({name, decl});
+        bindings.insert({name, decl});
         return;
     }
     // not found
     auto var = std::make_unique<Variable>(node);
-    name_table.insert({name, var.get()});
+    bindings.insert({name, var.get()});
     local_scope->insert(move(var));
+}
+
+void ScopeBuilder::visit(ast::BinaryExpr* node)
+{
+    auto decl = local_scope->lookup(binary_op_names[node->get_kind()]);
+    if (decl == nullptr) {
+        throw CompilationError::ItemNotFound;
+    }
+    bindings.insert({node, decl});
+    Visitor::visit(node);
 }
 
 void ScopeBuilder::visit(ast::FieldDefStmt* node)
 {
     auto field = std::make_unique<Field>(node);
-    name_table.insert({node->get_name(), field.get()});
-
     if (!local_scope->insert(move(field))) {
         throw CompilationError::Redefinition;
     }
+    Visitor::visit(node);
 }
 
 void ScopeBuilder::visit(ast::FuncDefStmt* node)
@@ -70,9 +87,8 @@ void ScopeBuilder::visit(ast::FuncDefStmt* node)
     }
 
     auto f = std::make_unique<Function>(node, *local_scope);
-    name_table.insert({node->get_name(), f.get()});
 
-    future_work.push_back(ScopeBuilder(node, &f->get_scope(), name_table));
+    future_work.push_back(ScopeBuilder(node, &f->get_scope(), bindings));
 
     if (!local_scope->insert(move(f))) {
         throw CompilationError::Redefinition;
@@ -85,18 +101,16 @@ void ScopeBuilder::visit(ast::NameLiteral* node)
     if (decl == nullptr) {
         throw CompilationError::ItemNotFound;
     }
-    name_table.insert({node, decl});
+    bindings.insert({node, decl});
 }
 
 void ScopeBuilder::visit(ast::ParamDefExpr* node)
 {
     auto param = std::make_unique<Parameter>(node);
-    name_table.insert({node->get_name(), param.get()});
     if (!local_scope->insert(move(param))) {
         throw CompilationError::Redefinition;
     }
-
-    node->get_type()->accept(this);
+    Visitor::visit(node);
 }
 
 void ScopeBuilder::visit(ast::StructDefStmt* node)
@@ -107,13 +121,22 @@ void ScopeBuilder::visit(ast::StructDefStmt* node)
     }
 
     auto s = std::make_unique<Structure>(node, *local_scope);
-    name_table.insert({node->get_name(), s.get()});
 
-    future_work.push_back(ScopeBuilder(node, &s->get_scope(), name_table));
+    future_work.push_back(ScopeBuilder(node, &s->get_scope(), bindings));
 
     if (!local_scope->insert(move(s))) {
         throw CompilationError::Redefinition;
     }
+}
+
+void ScopeBuilder::visit(ast::UnaryExpr* node)
+{
+    auto decl = local_scope->lookup(unary_op_names[node->get_kind()]);
+    if (decl == nullptr) {
+        throw CompilationError::ItemNotFound;
+    }
+    bindings.insert({node, decl});
+    Visitor::visit(node);
 }
 
 } // namespace quirk::scopes
