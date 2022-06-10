@@ -27,9 +27,6 @@ bool test()
         }
 
         scopes::Scope global_scope;
-        util::OperatorTable op_table;
-        op_table.fill_scope(global_scope);
-
         unordered_map<ast::Node*, scopes::Declaration*> bindings;
         scopes::ScopeBuilder builder(tu.get(), global_scope, bindings);
         builder.process();
@@ -61,9 +58,6 @@ bool test_errors()
 
         try {
             scopes::Scope global_scope;
-            util::OperatorTable op_table;
-            op_table.fill_scope(global_scope);
-
             unordered_map<ast::Node*, scopes::Declaration*> bindings;
             scopes::ScopeBuilder builder(tu.get(), global_scope, bindings);
             builder.process();

@@ -40,28 +40,6 @@ OperatorTable::OperatorTable()
     // = f64}; binary_ops[{ast::BinaryOpKind::Add, f64, f64}] = {.result_type = f64};
 }
 
-void OperatorTable::fill_scope(scopes::Scope& scope)
-{
-    {
-        auto i64 = std::make_unique<scopes::BasicType>(scopes::BasicTypeKind::Int);
-        scope.insert(move(i64));
-
-        auto f64 = std::make_unique<scopes::BasicType>(scopes::BasicTypeKind::Float);
-        scope.insert(move(f64));
-    }
-
-    // for (auto [k, v] : binary_ops) {
-    //     switch (k.kind) {
-    //     case ast::BinaryOpKind::Add:
-    //         auto op_add = std::make_unique<scopes::BasicType>(
-    //         scope.insert(
-    //         break;
-    //     default:
-    //         throw std::logic_error("Not implemented");
-    //     }
-    // }
-}
-
 const BinaryOpInfo* OperatorTable::find(ast::BinaryOpKind kind, scopes::Declaration* left_type,
                                         scopes::Declaration* right_type)
 {

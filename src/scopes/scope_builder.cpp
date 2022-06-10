@@ -5,10 +5,23 @@ namespace quirk::scopes {
 
 std::unordered_map<ast::BinaryOpKind, std::string> binary_op_names = {
     {ast::BinaryOpKind::Add, "__add__"},
+    {ast::BinaryOpKind::Sub, "__sub__"},
+    {ast::BinaryOpKind::Mul, "__mul__"},
+    {ast::BinaryOpKind::Div, "__truediv__"},
+    {ast::BinaryOpKind::IntDiv, "__floordiv__"},
+    {ast::BinaryOpKind::Mod, "__mod__"},
+    {ast::BinaryOpKind::Power, "__pow__"},
+    {ast::BinaryOpKind::LeftShift, "__lshift__"},
+    {ast::BinaryOpKind::RightShift, "__rshift__"},
+    {ast::BinaryOpKind::BitAnd, "__and__"},
+    {ast::BinaryOpKind::BitOr, "__or__"},
+    {ast::BinaryOpKind::BitXor, "__xor__"},
 };
 
 std::unordered_map<ast::UnaryOpKind, std::string> unary_op_names = {
-    {ast::UnaryOpKind::Not, "__not__"},
+    {ast::UnaryOpKind::Minus, "__neg__"},
+    {ast::UnaryOpKind::Plus, "__pos__"},
+    {ast::UnaryOpKind::BitNot, "__invert__"},
 };
 
 ScopeBuilder::ScopeBuilder(ast::TranslationUnit* unit, Scope& global_scope,
@@ -56,17 +69,17 @@ void ScopeBuilder::visit(ast::AsgStmt* node)
     }
     // not found
     auto var = std::make_unique<Variable>(node);
-    bindings.insert({name, var.get()});
     local_scope->insert(move(var));
+    visit(name); // binding the name in uniform way
 }
 
+// looks for user-defined operator
 void ScopeBuilder::visit(ast::BinaryExpr* node)
 {
     auto decl = local_scope->lookup(binary_op_names[node->get_kind()]);
-    if (decl == nullptr) {
-        throw CompilationError::ItemNotFound;
+    if (decl != nullptr) {
+        bindings.insert({node, decl});
     }
-    bindings.insert({node, decl});
     Visitor::visit(node);
 }
 
@@ -129,13 +142,13 @@ void ScopeBuilder::visit(ast::StructDefStmt* node)
     }
 }
 
+// looks for user-defined operator
 void ScopeBuilder::visit(ast::UnaryExpr* node)
 {
     auto decl = local_scope->lookup(unary_op_names[node->get_kind()]);
-    if (decl == nullptr) {
-        throw CompilationError::ItemNotFound;
+    if (decl != nullptr) {
+        bindings.insert({node, decl});
     }
-    bindings.insert({node, decl});
     Visitor::visit(node);
 }
 

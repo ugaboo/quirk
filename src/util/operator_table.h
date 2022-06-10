@@ -52,8 +52,6 @@ class OperatorTable {
 public:
     OperatorTable();
 
-    void fill_scope(scopes::Scope& scope);
-
     const BinaryOpInfo* find(ast::BinaryOpKind kind, scopes::Declaration* left_type,
                              scopes::Declaration* right_type);
 

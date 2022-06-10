@@ -15,15 +15,12 @@ int main()
     }
 
     scopes::Scope global_scope;
-    util::OperatorTable op_table;
-    op_table.fill_scope(global_scope);
-
     std::unordered_map<ast::Node*, scopes::Declaration*> bindings;
     scopes::ScopeBuilder builder(tu.get(), global_scope, bindings);
     builder.process();
 
     std::unordered_map<scopes::Declaration*, scopes::Declaration*> type_table;
-    ti::TypeInference inferer(tu.get(), op_table, bindings, type_table);
+    ti::TypeInference inferer(tu.get(), bindings, type_table);
 
     return 0;
 }

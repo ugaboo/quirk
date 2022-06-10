@@ -6,25 +6,23 @@ namespace quirk::ti {
 void TypeInference::visit(ast::AsgStmt* node)
 {
     // TypeInference left_inferer(node->get_lvalue(), op_table, bindings, type_table);
-    TypeInference type_inferer(node->get_type_expr(), op_table, bindings, type_table);
-    TypeInference right_inferer(node->get_rvalue(), op_table, bindings, type_table);
+    TypeInference type_inferer(node->get_type_expr(), bindings, type_table);
+    TypeInference right_inferer(node->get_rvalue(), bindings, type_table);
 }
 
 void TypeInference::visit(ast::BinaryExpr* node)
 {
-    TypeInference left_inferer(node->get_left(), op_table, bindings, type_table);
+    TypeInference left_inferer(node->get_left(), bindings, type_table);
     auto left_type = left_inferer.get_type();
     if (left_type == nullptr) {
         throw CompilationError::TypeInferenceFailed;
     }
 
-    TypeInference right_inferer(node->get_right(), op_table, bindings, type_table);
+    TypeInference right_inferer(node->get_right(), bindings, type_table);
     auto right_type = right_inferer.get_type();
     if (right_type == nullptr) {
         throw CompilationError::TypeInferenceFailed;
     }
-
-    auto op_type = op_table.find(node->get_kind(), left_type, right_type);
 }
 
 // void TypeInference::visit(ast::Function* node)

@@ -12,16 +12,15 @@ namespace quirk::ti {
 
 class TypeInference : public ast::Visitor {
     std::unordered_map<ast::Node*, scopes::Declaration*>& bindings;
-    util::OperatorTable& op_table;
 
     std::unordered_map<scopes::Declaration*, scopes::Declaration*>& type_table;
     scopes::Declaration* cur_type = nullptr;
 
 public:
-    TypeInference(ast::Node* cur_node, util::OperatorTable& op_table,
+    TypeInference(ast::Node* cur_node,
                   std::unordered_map<ast::Node*, scopes::Declaration*>& bindings,
                   std::unordered_map<scopes::Declaration*, scopes::Declaration*>& type_table)
-        : op_table(op_table), bindings(bindings), type_table(type_table)
+        : bindings(bindings), type_table(type_table)
     {
         cur_node->accept(this);
     }
