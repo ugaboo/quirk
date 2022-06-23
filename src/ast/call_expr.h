@@ -15,11 +15,8 @@ class CallExpr : public Expr {
 public:
     CallExpr(Context context, std::unique_ptr<Expr>& designator,
              std::vector<std::unique_ptr<Expr>>& args)
-        : Expr(context), designator(move(designator))
+        : Expr(context), designator(move(designator)), args(args)
     {
-        for (auto& arg : args) {
-            CallExpr::args.push_back(move(arg));
-        }
     }
 
     auto get_designator() { return designator.get(); }

@@ -14,11 +14,8 @@ class TranslationUnit : public Node {
 
 public:
     TranslationUnit(std::string filename, std::vector<std::unique_ptr<Stmt>>& stmts)
-        : Node(Context{}), filename(filename)
+        : Node(Context{}), filename(filename), stmts(stmts)
     {
-        for (auto& s : stmts) {
-            TranslationUnit::stmts.push_back(move(s));
-        }
     }
 
     auto get_filename() { return std::string_view(filename); }

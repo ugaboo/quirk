@@ -10,6 +10,7 @@ enum class CompilationError {
     TabError,
     NotAStatement,
     ItemNotFound,
+    ReservedName,
     Redefinition,
     NotCallable,
     TypeInferenceFailed,

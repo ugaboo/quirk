@@ -3,17 +3,15 @@
 #include <memory>
 #include <unordered_map>
 
-#include "declaration.h"
+#include "prog_obj.h"
 
 namespace quirk::scopes {
 
 class Scope {
-    using Table = std::unordered_map<std::string_view, std::unique_ptr<Declaration>>;
+    using Table = std::unordered_map<std::string_view, std::unique_ptr<ProgObj>>;
 
 public:
     class Iterator {
-        Table::iterator it;
-
     public:
         Iterator(Table::iterator it) : it(it) {}
 
@@ -26,39 +24,47 @@ public:
         bool operator==(Iterator other) const { return it == other.it; }
         bool operator!=(Iterator other) const { return !(*this == other); }
         auto operator*() const { return it->second.get(); }
+
+    private:
+        Table::iterator it;
     };
 
-private:
-    Table decls;
-    Scope* parent;
-
 public:
-    Scope() : parent(nullptr) {}
-    Scope(Scope& parent) : parent(&parent) {}
+    Scope() {}
+
+    Scope(Scope& other) = delete;
+
+    Scope(Scope&& other)
+    {
+        for (auto& [k, v] : other.items) {
+            items[k] = move(v);
+        }
+        other.items.clear();
+    }
 
     virtual ~Scope() {}
 
-    bool insert(std::unique_ptr<Declaration> decl)
+    bool insert(std::string_view name, std::unique_ptr<ProgObj> item)
     {
-        auto [_, success] = decls.insert({decl->get_name(), move(decl)});
+        auto [_, success] = items.insert({name, std::move(item)});
         return success;
     }
 
-    Declaration* lookup(std::string_view name)
+    ProgObj* find(std::string_view name) const
     {
-        auto it = decls.find(name);
-        if (it != decls.end()) {
+        auto it = items.find(name);
+        if (it != items.end()) {
             return it->second.get();
-        }
-        if (parent != nullptr) {
-            return parent->lookup(name);
         }
         return nullptr;
     }
 
-    auto begin() { return Iterator(decls.begin()); }
+    auto begin() { return Iterator(items.begin()); }
 
-    auto end() { return Iterator(decls.end()); }
+    auto end() { return Iterator(items.end()); }
+
+private:
+    Table items;
 };
 
 } // namespace quirk::scopes

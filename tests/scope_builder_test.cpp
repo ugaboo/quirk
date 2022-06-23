@@ -1,6 +1,7 @@
+#include "../src/analysis/scope_builder.h"
+#include "../src/builtins/fill_global_scope.h"
 #include "../src/compilation_error.h"
 #include "../src/parser/parser.h"
-#include "../src/scopes/scope_builder.h"
 #include "../src/util/operator_table.h"
 #include "../src/util/scopes_printer.h"
 #include "fmt/core.h"
@@ -27,9 +28,11 @@ bool test()
         }
 
         scopes::Scope global_scope;
-        unordered_map<ast::Node*, scopes::Declaration*> bindings;
-        scopes::ScopeBuilder builder(tu.get(), global_scope, bindings);
-        builder.process();
+        builtins::fill_global_scope(global_scope);
+
+        unordered_map<ast::Node*, scopes::ProgObj*> bindings;
+        analysis::ScopeBuilder sb;
+        auto m = sb.build(tu.get());
 
         stringstream output;
         util::ScopesPrinter printer(output, global_scope);
@@ -58,9 +61,9 @@ bool test_errors()
 
         try {
             scopes::Scope global_scope;
-            unordered_map<ast::Node*, scopes::Declaration*> bindings;
-            scopes::ScopeBuilder builder(tu.get(), global_scope, bindings);
-            builder.process();
+            unordered_map<ast::Node*, scopes::ProgObj*> bindings;
+            analysis::ScopeBuilder sb;
+            sb.build(tu.get());
         } catch (CompilationError exc) {
             if (exc == CompilationError::ItemNotFound) {
                 continue;

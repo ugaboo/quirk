@@ -6,8 +6,12 @@ namespace quirk::ti {
 void TypeInference::visit(ast::AsgStmt* node)
 {
     // TypeInference left_inferer(node->get_lvalue(), op_table, bindings, type_table);
-    TypeInference type_inferer(node->get_type_expr(), bindings, type_table);
+    // TypeInference type_inferer(node->get_type_expr(), bindings, type_table);
     TypeInference right_inferer(node->get_rvalue(), bindings, type_table);
+    auto right_type = right_inferer.get_type();
+    if (right_type == nullptr) {
+        throw CompilationError::TypeInferenceFailed;
+    }
 }
 
 void TypeInference::visit(ast::BinaryExpr* node)
@@ -65,10 +69,10 @@ void TypeInference::visit(ast::BinaryExpr* node)
 //     node->get_decl()->accept(this);
 // }
 
-// void TypeInference::visit(ast::IntLiteral* node)
-// {
-//     type = ast::Int64Type::get_instance();
-// }
+void TypeInference::visit(ast::IntLiteral* node)
+{
+    // cur_type = scopes::BasicType::get_int();
+}
 
 // void TypeInference::visit(ast::ParameterDef* node)
 // {

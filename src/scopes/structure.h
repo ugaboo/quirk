@@ -5,18 +5,16 @@
 
 namespace quirk::scopes {
 
-class Structure : public Declaration {
-    ast::StructDefStmt* def;
-    Scope scope;
-
+class Structure : public ProgObj {
 public:
-    Structure(ast::StructDefStmt* def, Scope& parent_scope) : def(def), scope(parent_scope) {}
+    Structure(Scope&& scope) : scope(std::move(scope)) {}
 
-    std::string_view get_name() override { return def->get_name()->get_value(); }
-    auto get_def() { return def; }
     Scope& get_scope() { return scope; }
 
     void accept(Visitor* visitor) override;
+
+private:
+    Scope scope;
 };
 
 } // namespace quirk::scopes

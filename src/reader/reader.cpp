@@ -24,7 +24,7 @@ void Reader::move()
         column = 1;
         break;
     case '\t':
-        column = ((column - 1) / tab + 1) * tab + 1; // idiv
+        column = ((column - 1) / tab_size + 1) * tab_size + 1; // idiv
         break;
     default:
         column++;

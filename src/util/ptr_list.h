@@ -33,10 +33,15 @@ public:
     PtrList() = default;
     PtrList(PtrList&) = delete;
 
-    void push_back(std::unique_ptr<T> item) { data.push_back(move(item)); }
+    PtrList(std::vector<std::unique_ptr<T>>& vec)
+    {
+        data.reserve(vec.size());
+        for (auto& item : vec) {
+            data.push_back(move(item));
+        }
+    }
 
     auto begin() { return Iterator(data.begin()); }
-
     auto end() { return Iterator(data.end()); }
 };
 

@@ -5,21 +5,20 @@
 
 #include "../ast/visitor.h"
 #include "../compilation_error.h"
-#include "../scopes/declaration.h"
+#include "../scopes/prog_obj.h"
 #include "../util/operator_table.h"
 
 namespace quirk::ti {
 
 class TypeInference : public ast::Visitor {
-    std::unordered_map<ast::Node*, scopes::Declaration*>& bindings;
+    std::unordered_map<ast::Node*, scopes::ProgObj*>& bindings;
 
-    std::unordered_map<scopes::Declaration*, scopes::Declaration*>& type_table;
-    scopes::Declaration* cur_type = nullptr;
+    std::unordered_map<scopes::ProgObj*, scopes::ProgObj*>& type_table;
+    scopes::ProgObj* cur_type = nullptr;
 
 public:
-    TypeInference(ast::Node* cur_node,
-                  std::unordered_map<ast::Node*, scopes::Declaration*>& bindings,
-                  std::unordered_map<scopes::Declaration*, scopes::Declaration*>& type_table)
+    TypeInference(ast::Node* cur_node, std::unordered_map<ast::Node*, scopes::ProgObj*>& bindings,
+                  std::unordered_map<scopes::ProgObj*, scopes::ProgObj*>& type_table)
         : bindings(bindings), type_table(type_table)
     {
         cur_node->accept(this);
@@ -38,7 +37,7 @@ public:
     // virtual void visit(ast::FloatLiteral* node);
     // virtual void visit(ast::FuncDefStmt* node);
     // virtual void visit(ast::IfStmt* node);
-    // virtual void visit(ast::IntLiteral* node);
+    virtual void visit(ast::IntLiteral* node);
     // virtual void visit(ast::ListLiteral* node);
     // virtual void visit(ast::MemberAccessExpr* node);
     // virtual void visit(ast::NameLiteral* node);

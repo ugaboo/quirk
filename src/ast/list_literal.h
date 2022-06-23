@@ -8,11 +8,9 @@ class ListLiteral : public Expr {
     util::PtrList<Expr> exprs;
 
 public:
-    ListLiteral(Context context, std::vector<std::unique_ptr<Expr>>& exprs) : Expr(context)
+    ListLiteral(Context context, std::vector<std::unique_ptr<Expr>>& exprs)
+        : Expr(context), exprs(exprs)
     {
-        for (auto& expr : exprs) {
-            ListLiteral::exprs.push_back(move(expr));
-        }
     }
 
     auto& get_exprs() { return exprs; }

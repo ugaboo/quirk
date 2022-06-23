@@ -1,5 +1,5 @@
+#include "../src/analysis/scope_builder.h"
 #include "../src/parser/parser.h"
-#include "../src/scopes/scope_builder.h"
 #include "../src/ti/type_inference.h"
 #include "../src/util/operator_table.h"
 
@@ -15,12 +15,12 @@ int main()
     }
 
     scopes::Scope global_scope;
-    std::unordered_map<ast::Node*, scopes::Declaration*> bindings;
-    scopes::ScopeBuilder builder(tu.get(), global_scope, bindings);
-    builder.process();
+    std::unordered_map<ast::Node*, scopes::ProgObj*> bindings;
+    analysis::ScopeBuilder sb;
+    auto m = sb.build(tu.get());
 
-    std::unordered_map<scopes::Declaration*, scopes::Declaration*> type_table;
-    ti::TypeInference inferer(tu.get(), bindings, type_table);
+    // std::unordered_map<scopes::Declaration*, scopes::Declaration*> type_table;
+    // ti::TypeInference inferer(tu.get(), bindings, type_table);
 
     return 0;
 }

@@ -17,14 +17,9 @@ public:
     FuncDefStmt(Context context, std::unique_ptr<NameLiteral>& name,
                 std::vector<std::unique_ptr<ParamDefExpr>>& params,
                 std::unique_ptr<Expr>& ret_type_expr, std::vector<std::unique_ptr<Stmt>>& stmts)
-        : Stmt(context), name(move(name)), ret_type_expr(move(ret_type_expr))
+        : Stmt(context), name(move(name)), params(params), ret_type_expr(move(ret_type_expr)),
+          stmts(stmts)
     {
-        for (auto& param : params) {
-            FuncDefStmt::params.push_back(move(param));
-        }
-        for (auto& stmt : stmts) {
-            FuncDefStmt::stmts.push_back(move(stmt));
-        }
     }
 
     auto get_name() { return name.get(); }

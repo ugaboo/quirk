@@ -13,11 +13,8 @@ public:
 
     public:
         Branch(std::unique_ptr<Expr>& condition, std::vector<std::unique_ptr<Stmt>>& stmts)
-            : condition(move(condition))
+            : condition(move(condition)), stmts(stmts)
         {
-            for (auto& stmt : stmts) {
-                Branch::stmts.push_back(move(stmt));
-            }
         }
 
         auto get_condition() { return condition.get(); }
@@ -31,14 +28,8 @@ private:
 public:
     IfStmt(Context context, std::vector<std::unique_ptr<Branch>>& branches,
            std::vector<std::unique_ptr<Stmt>>& else_stmts)
-        : Stmt(context)
+        : Stmt(context), branches(branches), else_stmts(else_stmts)
     {
-        for (auto& branch : branches) {
-            IfStmt::branches.push_back(move(branch));
-        }
-        for (auto& stmt : else_stmts) {
-            IfStmt::else_stmts.push_back(move(stmt));
-        }
     }
 
     auto& get_branches() { return branches; }

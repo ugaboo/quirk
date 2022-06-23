@@ -6,17 +6,7 @@
 namespace quirk {
 
 class Reader {
-    inline static int tab = 4; // tab size
-
-    std::unique_ptr<uint8_t[]> text; // utf-8 encoded text, C-style string to use with the utf8proc
-
-    uint8_t* pos;
-    uint8_t* prev_pos;
-
-    int32_t letter;
-
-    size_t line = 1;
-    size_t column = 1;
+    inline static int tab_size = 4;
 
 public:
     Reader(std::string filename);
@@ -33,6 +23,16 @@ public:
 private:
     void read_text(std::string filename);
     int32_t iterate();
+
+    std::unique_ptr<uint8_t[]> text; // utf-8 encoded text, C-style string to use with the utf8proc
+
+    uint8_t* pos;
+    uint8_t* prev_pos;
+
+    int32_t letter;
+
+    size_t line = 1;
+    size_t column = 1;
 };
 
 } // namespace quirk

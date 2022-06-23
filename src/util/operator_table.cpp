@@ -40,8 +40,8 @@ OperatorTable::OperatorTable()
     // = f64}; binary_ops[{ast::BinaryOpKind::Add, f64, f64}] = {.result_type = f64};
 }
 
-const BinaryOpInfo* OperatorTable::find(ast::BinaryOpKind kind, scopes::Declaration* left_type,
-                                        scopes::Declaration* right_type)
+const BinaryOpInfo* OperatorTable::find(ast::BinaryOpKind kind, scopes::ProgObj* left_type,
+                                        scopes::ProgObj* right_type)
 {
     auto key = BinaryOpKey{.kind = kind, .left_type = left_type, .right_type = right_type};
     auto result = binary_ops.find(key);
@@ -51,7 +51,7 @@ const BinaryOpInfo* OperatorTable::find(ast::BinaryOpKind kind, scopes::Declarat
     return nullptr;
 }
 
-const UnaryOpInfo* OperatorTable::find(ast::UnaryOpKind kind, scopes::Declaration* arg_type)
+const UnaryOpInfo* OperatorTable::find(ast::UnaryOpKind kind, scopes::ProgObj* arg_type)
 {
     auto result = unary_ops.find({kind, arg_type});
     if (result != unary_ops.end()) {

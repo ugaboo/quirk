@@ -4,11 +4,13 @@ namespace quirk::ast {
 
 void Visitor::visit(AsgStmt* node)
 {
-    if (node->get_rvalue() != nullptr) {
-        node->get_rvalue()->accept(this);
+    auto rvalue = node->get_rvalue();
+    if (rvalue != nullptr) {
+        rvalue->accept(this);
     }
-    if (node->get_type_expr() != nullptr) {
-        node->get_type_expr()->accept(this);
+    auto type = node->get_type_expr();
+    if (type != nullptr) {
+        type->accept(this);
     }
     node->get_lvalue()->accept(this);
 }
@@ -45,8 +47,14 @@ void Visitor::visit(ContinueStmt* node) {}
 
 void Visitor::visit(FieldDefStmt* node)
 {
-    node->get_init_expr()->accept(this);
-    node->get_type()->accept(this);
+    auto init = node->get_init_expr();
+    if (init != nullptr) {
+        init->accept(this);
+    }
+    auto type = node->get_type();
+    if (type != nullptr) {
+        type->accept(this);
+    }
     node->get_name()->accept(this);
 }
 

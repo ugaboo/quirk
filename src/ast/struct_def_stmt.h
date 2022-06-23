@@ -11,11 +11,8 @@ class StructDefStmt : public Stmt {
 public:
     StructDefStmt(Context context, std::unique_ptr<NameLiteral>& name,
                   std::vector<std::unique_ptr<FieldDefStmt>>& fields)
-        : Stmt(context), name(move(name))
+        : Stmt(context), name(move(name)), fields(fields)
     {
-        for (auto& field : fields) {
-            StructDefStmt::fields.push_back(move(field));
-        }
     }
 
     auto get_name() { return name.get(); }

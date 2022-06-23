@@ -25,8 +25,8 @@ struct UnaryOpInfo {
 class OperatorTable {
     struct BinaryOpKey {
         ast::BinaryOpKind kind;
-        scopes::Declaration* left_type;
-        scopes::Declaration* right_type;
+        scopes::ProgObj* left_type;
+        scopes::ProgObj* right_type;
 
         bool operator==(const BinaryOpKey& other) const;
 
@@ -37,7 +37,7 @@ class OperatorTable {
 
     struct UnaryOpKey {
         ast::UnaryOpKind kind;
-        scopes::Declaration* arg_type;
+        scopes::ProgObj* arg_type;
 
         bool operator==(const UnaryOpKey& other) const;
 
@@ -52,10 +52,10 @@ class OperatorTable {
 public:
     OperatorTable();
 
-    const BinaryOpInfo* find(ast::BinaryOpKind kind, scopes::Declaration* left_type,
-                             scopes::Declaration* right_type);
+    const BinaryOpInfo* find(ast::BinaryOpKind kind, scopes::ProgObj* left_type,
+                             scopes::ProgObj* right_type);
 
-    const UnaryOpInfo* find(ast::UnaryOpKind kind, scopes::Declaration* arg_type);
+    const UnaryOpInfo* find(ast::UnaryOpKind kind, scopes::ProgObj* arg_type);
 };
 
 } // namespace quirk::util

@@ -1,18 +1,12 @@
 #pragma once
 
-#include "../ast/param_def_expr.h"
-#include "declaration.h"
+#include "prog_obj.h"
 
 namespace quirk::scopes {
 
-class Parameter : public Declaration {
-    ast::ParamDefExpr* def;
-
+class Parameter : public ProgObj {
 public:
-    Parameter(ast::ParamDefExpr* def) : def(def) {}
-
-    auto get_def() { return def; }
-    std::string_view get_name() override { return def->get_name()->get_value(); }
+    Parameter() {}
 
     void accept(Visitor* visitor) override;
 };

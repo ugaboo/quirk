@@ -11,11 +11,8 @@ class SubscriptExpr : public Expr {
 public:
     SubscriptExpr(Context context, std::unique_ptr<Expr>& designator,
                   std::vector<std::unique_ptr<Expr>>& keys)
-        : Expr(context), designator(move(designator))
+        : Expr(context), designator(move(designator)), keys(keys)
     {
-        for (auto& key : keys) {
-            SubscriptExpr::keys.push_back(move(key));
-        }
     }
 
     auto get_designator() { return designator.get(); }
