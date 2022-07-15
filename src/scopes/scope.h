@@ -23,7 +23,7 @@ public:
 
         bool operator==(Iterator other) const { return it == other.it; }
         bool operator!=(Iterator other) const { return !(*this == other); }
-        auto operator*() const { return it->second.get(); }
+        auto operator*() const { return std::make_pair(it->first, it->second.get()); }
 
     private:
         Table::iterator it;

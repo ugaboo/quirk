@@ -1,9 +1,9 @@
 'x': Variable
 'y': Variable
-'z': Variable
-'w': Variable
-'vec': Variable
-'a': Variable
+'Empty': Structure
+'Vec2': Structure
+    'x': Field
+    'y': Field
 'foo': Function
     'x': Parameter
     'y': Parameter

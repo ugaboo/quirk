@@ -3,55 +3,59 @@
 
 namespace quirk::util {
 
-ScopesPrinter::ScopesPrinter(std::ostream& out, scopes::Scope& global_scope) : out(out)
+ScopesPrinter::ScopesPrinter(std::ostream& out, scopes::Module* mod) : out(out)
 {
-    for (auto decl : global_scope) {
+    visit(mod);
+}
+
+void ScopesPrinter::visit(scopes::Module* m)
+{
+    for (auto [name, decl] : m->get_scope()) {
+        fmt::print(out, "{}'{}': ", offset(indent), name);
         decl->accept(this);
     }
 }
 
 void ScopesPrinter::visit(scopes::BasicType* decl)
 {
-    fmt::print(out, "{}{}: BasicType\n", offset(indent), ""); // decl->get_name());
+    fmt::print(out, "BasicType\n");
 }
 
 void ScopesPrinter::visit(scopes::Field* decl)
 {
-    fmt::print(out, "{}{}: Field\n", offset(indent), ""); // decl->get_name());
+    fmt::print(out, "Field\n");
 }
 
-void ScopesPrinter::visit(scopes::Function* decl)
+void ScopesPrinter::visit(scopes::Function* f)
 {
-    fmt::print(out, "{}{}: Function\n", offset(indent), ""); // decl->get_name());
+    fmt::print(out, "Function\n");
 
     IndentGuard inc(indent);
-    scopes::Visitor::visit(decl);
-}
-
-void ScopesPrinter::visit(scopes::Module* decl)
-{
-    fmt::print(out, "{}{}: Module\n", offset(indent), ""); // decl->get_name());
-
-    IndentGuard inc(indent);
-    scopes::Visitor::visit(decl);
+    for (auto [name, decl] : f->get_scope()) {
+        fmt::print(out, "{}'{}': ", offset(indent), name);
+        decl->accept(this);
+    }
 }
 
 void ScopesPrinter::visit(scopes::Parameter* decl)
 {
-    fmt::print(out, "{}{}: Parameter\n", offset(indent), ""); // decl->get_name());
+    fmt::print(out, "Parameter\n", offset(indent), "");
 }
 
-void ScopesPrinter::visit(scopes::Structure* decl)
+void ScopesPrinter::visit(scopes::Structure* s)
 {
-    fmt::print(out, "{}{}: Structure\n", offset(indent), ""); // decl->get_name());
+    fmt::print(out, "Structure\n", offset(indent), "");
 
     IndentGuard inc(indent);
-    scopes::Visitor::visit(decl);
+    for (auto [name, decl] : s->get_scope()) {
+        fmt::print(out, "{}'{}': ", offset(indent), name);
+        decl->accept(this);
+    }
 }
 
 void ScopesPrinter::visit(scopes::Variable* decl)
 {
-    fmt::print(out, "{}{}: Variable\n", offset(indent), ""); // decl->get_name());
+    fmt::print(out, "Variable\n");
 }
 
 } // namespace quirk::util

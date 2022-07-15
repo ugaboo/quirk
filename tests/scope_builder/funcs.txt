@@ -1,5 +1,2 @@
-funcs: Module
-    bar: Function
-    foo: Function
-Float: BasicType
-Int: BasicType
+'foo': Function
+'bar': Function

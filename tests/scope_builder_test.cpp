@@ -16,32 +16,24 @@ using namespace quirk;
 
 bool test()
 {
-    string folder = TEST_DIR "scope_builder/";
-    vector<string> names = {"ops", "funcs", "structs"};
+    std::string folder = TEST_DIR "scope_builder/";
+    Parser parser(folder + "scopes.qk");
 
-    for (auto name : names) {
-        Parser parser(folder + name + ".qk");
+    unique_ptr<ast::TranslationUnit> tu;
+    if (!parser.parse(tu)) {
+        return 1;
+    }
 
-        unique_ptr<ast::TranslationUnit> tu;
-        if (!parser.parse(tu)) {
-            return 1;
-        }
+    analysis::ScopeBuilder sb;
+    auto m = sb.build(tu.get());
 
-        scopes::Scope global_scope;
-        builtins::fill_global_scope(global_scope);
+    stringstream output;
+    util::ScopesPrinter printer(output, m.get());
 
-        unordered_map<ast::Node*, scopes::ProgObj*> bindings;
-        analysis::ScopeBuilder sb;
-        auto m = sb.build(tu.get());
+    ifstream file(folder + "scopes.txt");
 
-        stringstream output;
-        util::ScopesPrinter printer(output, global_scope);
-
-        ifstream file(folder + name + ".txt");
-
-        if (!diff(file, output)) {
-            return false;
-        }
+    if (!diff(file, output)) {
+        return false;
     }
     return true;
 }

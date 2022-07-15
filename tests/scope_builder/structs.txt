@@ -1,13 +1,10 @@
-structs: Module
-    Point: Structure
-        y: Field
-        x: Field
-    Rect: Structure
-        h: Field
-        w: Field
-    Vec2: Structure
-        y: Field
-        x: Field
-    Empty: Structure
-Float: BasicType
-Int: BasicType
+'Empty': Structure
+'Vec2': Structure
+    'x': Field
+    'y': Field
+'Rect': Structure
+    'w': Field
+    'h': Field
+'Point': Structure
+    'x': Field
+    'y': Field
